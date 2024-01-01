@@ -4,7 +4,8 @@
 target 'GameListingApp' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
-  pod 'Alamofire'
   # Pods for GameListingApp
+  pod 'Alamofire'
+  pod 'Kingfisher', '~> 7.0'
 
 end
