@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class UpcomingGameCollectionViewCell: UICollectionViewCell {
     static let identifier = "UpcomingGameCell"
@@ -16,7 +17,7 @@ class UpcomingGameCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         addSubview(imageView)
         
-        layer.cornerRadius = 20
+        layer.cornerRadius = 8
         layer.masksToBounds = true
         
         applyConstraints()
@@ -26,8 +27,8 @@ class UpcomingGameCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with color:UIColor){
-        backgroundColor = color
+    func configure(with imageUrl:URL){
+        imageView.kf.setImage(with: imageUrl)
     }
     
     func applyConstraints(){
