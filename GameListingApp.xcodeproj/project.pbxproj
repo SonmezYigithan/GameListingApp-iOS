@@ -12,6 +12,8 @@
 		C14597382B444235003D0262 /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14597372B444235003D0262 /* APIKeys.swift */; };
 		C145973A2B444253003D0262 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14597392B444253003D0262 /* NetworkManager.swift */; };
 		C145973E2B45DD51003D0262 /* GameDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C145973D2B45DD50003D0262 /* GameDetailsVC.swift */; };
+		C14597402B4620BB003D0262 /* Screenshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = C145973F2B4620BB003D0262 /* Screenshot.swift */; };
+		C14597422B462205003D0262 /* ScreenshotsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14597412B462205003D0262 /* ScreenshotsCollectionViewCell.swift */; };
 		C19141062B41A2C5009BD99E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19141052B41A2C5009BD99E /* AppDelegate.swift */; };
 		C19141082B41A2C5009BD99E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19141072B41A2C5009BD99E /* SceneDelegate.swift */; };
 		C191410A2B41A2C5009BD99E /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19141092B41A2C5009BD99E /* TabBarVC.swift */; };
@@ -32,6 +34,8 @@
 		C14597372B444235003D0262 /* APIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeys.swift; sourceTree = "<group>"; };
 		C14597392B444253003D0262 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		C145973D2B45DD50003D0262 /* GameDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDetailsVC.swift; sourceTree = "<group>"; };
+		C145973F2B4620BB003D0262 /* Screenshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Screenshot.swift; sourceTree = "<group>"; };
+		C14597412B462205003D0262 /* ScreenshotsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotsCollectionViewCell.swift; sourceTree = "<group>"; };
 		C19141022B41A2C5009BD99E /* GameListingApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GameListingApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C19141052B41A2C5009BD99E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C19141072B41A2C5009BD99E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -68,6 +72,7 @@
 			isa = PBXGroup;
 			children = (
 				C116F8352B43491900E5C19E /* Game.swift */,
+				C145973F2B4620BB003D0262 /* Screenshot.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -88,6 +93,7 @@
 			isa = PBXGroup;
 			children = (
 				C116F8392B434A3A00E5C19E /* UpcomingGameCollectionViewCell.swift */,
+				C14597412B462205003D0262 /* ScreenshotsCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -136,9 +142,9 @@
 			children = (
 				C19141092B41A2C5009BD99E /* TabBarVC.swift */,
 				C191411A2B41A4C3009BD99E /* HomeVC.swift */,
+				C145973D2B45DD50003D0262 /* GameDetailsVC.swift */,
 				C191411C2B41A512009BD99E /* SearchVC.swift */,
 				C191411E2B41A529009BD99E /* ProfileVC.swift */,
-				C145973D2B45DD50003D0262 /* GameDetailsVC.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -267,6 +273,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C145973E2B45DD51003D0262 /* GameDetailsVC.swift in Sources */,
+				C14597402B4620BB003D0262 /* Screenshot.swift in Sources */,
 				C116F83A2B434A3A00E5C19E /* UpcomingGameCollectionViewCell.swift in Sources */,
 				C191411F2B41A529009BD99E /* ProfileVC.swift in Sources */,
 				C145973A2B444253003D0262 /* NetworkManager.swift in Sources */,
@@ -274,6 +281,7 @@
 				C14597382B444235003D0262 /* APIKeys.swift in Sources */,
 				C116F8362B43491900E5C19E /* Game.swift in Sources */,
 				C191411D2B41A512009BD99E /* SearchVC.swift in Sources */,
+				C14597422B462205003D0262 /* ScreenshotsCollectionViewCell.swift in Sources */,
 				C19141062B41A2C5009BD99E /* AppDelegate.swift in Sources */,
 				C19141082B41A2C5009BD99E /* SceneDelegate.swift in Sources */,
 				C191411B2B41A4C3009BD99E /* HomeVC.swift in Sources */,

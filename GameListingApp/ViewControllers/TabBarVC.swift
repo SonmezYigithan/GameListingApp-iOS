@@ -12,19 +12,21 @@ class TabBarVC: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .systemYellow
+        view.backgroundColor = .systemBackground
         
         let homeVC = UINavigationController(rootViewController: HomeVC())
         let searchVC = UINavigationController(rootViewController: SearchVC())
         let profileVC = UINavigationController(rootViewController: ProfileVC())
         
-        homeVC.tabBarItem.image = UIImage(systemName: "house")
+        homeVC.tabBarItem.selectedImage = UIImage(systemName: "gamecontroller.fill")
+        homeVC.tabBarItem.image = UIImage(systemName: "gamecontroller")
         searchVC.tabBarItem.image = UIImage(systemName: "magnifyingglass")
-        profileVC.tabBarItem.image = UIImage(systemName: "person.crop.circle")
+        profileVC.tabBarItem.selectedImage = UIImage(systemName: "heart.fill")
+        profileVC.tabBarItem.image = UIImage(systemName: "heart")
         
-        homeVC.title = "Home"
+        homeVC.title = "Games"
         searchVC.title = "Search"
-        profileVC.title = "Profile"
+        profileVC.title = "Favorites"
         
         tabBar.tintColor = .label
         
