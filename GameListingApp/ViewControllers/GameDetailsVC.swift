@@ -73,7 +73,7 @@ final class GameDetailsVC: UIViewController {
         
         applyConstraints()
         
-        // MARK: Screenshot CollectionView
+        // MARK: - Collection View
         screenShotsCollectionView.register(ScreenshotsCollectionViewCell.self, forCellWithReuseIdentifier: ScreenshotsCollectionViewCell.identifier)
         screenShotsCollectionView.translatesAutoresizingMaskIntoConstraints = false
         screenShotsCollectionView.bounces = true
