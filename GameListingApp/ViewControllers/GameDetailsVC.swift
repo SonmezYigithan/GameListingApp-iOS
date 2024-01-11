@@ -73,22 +73,12 @@ final class GameDetailsVC: UIViewController {
         
         applyConstraints()
         
-        // MARK: - Collection View
         screenShotsCollectionView.register(ScreenshotsCollectionViewCell.self, forCellWithReuseIdentifier: ScreenshotsCollectionViewCell.identifier)
         screenShotsCollectionView.translatesAutoresizingMaskIntoConstraints = false
         screenShotsCollectionView.bounces = true
         screenShotsCollectionView.dataSource = self
         screenShotsCollectionView.delegate = self
         
-        NetworkManager.shared.fetchScreenshots(of: gameNameLabel.text!) { result in
-            switch result {
-            case .success(let screenshots):
-                self.screenshots.append(contentsOf: screenshots)
-                self.screenShotsCollectionView.reloadData()
-            case.failure(let error):
-                print(error)
-            }
-        }
     }
     
     func configure(with gameDetails:Game){
@@ -98,6 +88,16 @@ final class GameDetailsVC: UIViewController {
         gameDescriptionLabel.text = gameDetails.summary
         if let developer = gameDetails.developer {
             gameDeveloperLabel.text = developer[0].company?.name
+        }
+        
+        NetworkManager.shared.fetchScreenshots(of: gameDetails.id) { result in
+            switch result {
+            case .success(let screenshots):
+                self.screenshots.append(contentsOf: screenshots)
+                self.screenShotsCollectionView.reloadData()
+            case.failure(let error):
+                print(error)
+            }
         }
     }
     
