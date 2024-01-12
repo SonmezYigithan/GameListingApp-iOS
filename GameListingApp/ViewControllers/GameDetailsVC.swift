@@ -11,6 +11,8 @@ final class GameDetailsVC: UIViewController {
     
     private var screenshots = [Screenshot]()
     
+    private var gameDetails: Game?
+    
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -37,6 +39,16 @@ final class GameDetailsVC: UIViewController {
         label.font = UIFont.boldSystemFont(ofSize: 20.0)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    private let favouriteButton: UIButton = {
+        let button = UIButton()
+        button.layer.cornerRadius = 6
+        button.tintColor = .white
+        button.backgroundColor = .systemPink
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.text = "Add to Favourites"
+        return button
     }()
     
     private let gameDeveloperLabel: UILabel = {
@@ -66,10 +78,13 @@ final class GameDetailsVC: UIViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         contentView.addSubview(coverImage)
+        contentView.addSubview(favouriteButton)
         contentView.addSubview(gameNameLabel)
         contentView.addSubview(gameDescriptionLabel)
         contentView.addSubview(gameDeveloperLabel)
         contentView.addSubview(screenShotsCollectionView)
+        
+        favouriteButton.addTarget(self, action: #selector(favouriteButtonTapped(_:)), for: .touchUpInside)
         
         applyConstraints()
         
@@ -81,16 +96,17 @@ final class GameDetailsVC: UIViewController {
         
     }
     
-    func configure(with gameDetails:Game){
-        title = gameDetails.name
-        coverImage.kf.setImage(with: gameDetails.cover?.formattedURL)
-        gameNameLabel.text = gameDetails.name ?? ""
-        gameDescriptionLabel.text = gameDetails.summary
-        if let developer = gameDetails.developer {
+    func configure(with game:Game){
+        title = game.name
+        gameDetails = game
+        coverImage.kf.setImage(with: game.cover?.formattedURL)
+        gameNameLabel.text = game.name ?? ""
+        gameDescriptionLabel.text = game.summary
+        if let developer = game.developer {
             gameDeveloperLabel.text = developer[0].company?.name
         }
         
-        NetworkManager.shared.fetchScreenshots(of: gameDetails.id) { result in
+        NetworkManager.shared.fetchScreenshots(of: game.id) { result in
             switch result {
             case .success(let screenshots):
                 self.screenshots.append(contentsOf: screenshots)
@@ -101,7 +117,19 @@ final class GameDetailsVC: UIViewController {
         }
     }
     
-    func applyConstraints(){
+    @objc private func favouriteButtonTapped(_ sender: UIButton){
+        guard let game = gameDetails else {
+            return
+        }
+        
+        guard let coverURL = game.cover?.url else {
+            return
+        }
+        
+        FavouriteGameManager.shared.addGameToFavourites(gameId: Int64(game.id), screenshotURL: coverURL)
+    }
+    
+    private func applyConstraints(){
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -129,7 +157,14 @@ final class GameDetailsVC: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            gameNameLabel.topAnchor.constraint(equalTo: coverImage.bottomAnchor, constant: 15),
+            favouriteButton.topAnchor.constraint(equalTo: coverImage.bottomAnchor, constant: 15),
+            favouriteButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 15),
+            favouriteButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15),
+            favouriteButton.heightAnchor.constraint(equalToConstant: 150)
+        ])
+        
+        NSLayoutConstraint.activate([
+            gameNameLabel.topAnchor.constraint(equalTo: favouriteButton.bottomAnchor, constant: 15),
             gameNameLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 15),
             gameNameLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15),
         ])
@@ -173,10 +208,8 @@ extension GameDetailsVC: UICollectionViewDelegate, UICollectionViewDataSource, U
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ScreenshotsCollectionViewCell.identifier, for: indexPath) as! ScreenshotsCollectionViewCell
         
         if let screenshotURLs = screenshots[0].screenshots{
-            if var screenshotURL = screenshotURLs[indexPath.item].url{
-                screenshotURL.insert(contentsOf: "https:", at: screenshotURL.startIndex)
-                screenshotURL = screenshotURL.replacingOccurrences(of: "t_thumb", with: "t_original")
-                if let url = URL(string: screenshotURL){
+            if let screenshotURL = screenshotURLs[indexPath.item].url{
+                if let url = URL(string: screenshotURL.convertIgdbPathToURLString(replaceOccurrencesOf: "t_thumb", replaceWith: "t_original")) {
                     cell.configure(with: url)
                 }
             }

@@ -8,8 +8,8 @@
 import UIKit
 import Kingfisher
 
-class UpcomingGameCollectionViewCell: UICollectionViewCell {
-    static let identifier = "UpcomingGameCell"
+class CoverArtCollectionViewCell: UICollectionViewCell {
+    static let identifier = "CoverArtCollectionViewCell"
     
     private let imageView = UIImageView()
     
@@ -31,7 +31,7 @@ class UpcomingGameCollectionViewCell: UICollectionViewCell {
         imageView.kf.setImage(with: imageUrl)
     }
     
-    func applyConstraints(){
+    private func applyConstraints(){
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
         let gameImageViewConstraints = [

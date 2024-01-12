@@ -15,7 +15,7 @@ final class HomeVC: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(UpcomingGameCollectionViewCell.self, forCellWithReuseIdentifier: UpcomingGameCollectionViewCell.identifier)
+        collectionView.register(CoverArtCollectionViewCell.self, forCellWithReuseIdentifier: CoverArtCollectionViewCell.identifier)
         return collectionView
     }()
     
@@ -66,11 +66,10 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UpcomingGameCollectionViewCell.identifier, for: indexPath) as! UpcomingGameCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoverArtCollectionViewCell.identifier, for: indexPath) as! CoverArtCollectionViewCell
         
         if var imageURL = games[indexPath.item].cover?.url {
-            imageURL.insert(contentsOf: "https:", at: imageURL.startIndex)
-            imageURL = imageURL.replacingOccurrences(of: "t_thumb", with: "t_cover_big")
+            imageURL = imageURL.convertIgdbPathToURLString(replaceOccurrencesOf: "t_thumb", replaceWith: "t_cover_big")
             if let url = URL(string: imageURL){
                 cell.configure(with: url)
                 games[indexPath.item].cover?.formattedURL = url

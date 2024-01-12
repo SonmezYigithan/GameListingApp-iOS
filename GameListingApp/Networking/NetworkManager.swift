@@ -56,11 +56,11 @@ final class NetworkManager {
         """
         
         AF.request(url, method: .post, encoding: body, headers: igdbHeaders)
-            .response(completionHandler: { results in
-                if let data = results.data, let utf8Text = String(data: data, encoding: .utf8) {
-                        print("Data: \(utf8Text)")
-                }
-            })
+//            .response(completionHandler: { results in
+//                if let data = results.data, let utf8Text = String(data: data, encoding: .utf8) {
+//                        print("Data: \(utf8Text)")
+//                }
+//            })
             .validate()
             .responseDecodable(of: [Screenshot].self) { response in
                 switch response.result {
