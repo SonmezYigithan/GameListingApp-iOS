@@ -33,7 +33,6 @@ final class ProfileVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("viewWillAppear")
         getFavourites()
     }
     
@@ -60,7 +59,6 @@ final class ProfileVC: UIViewController {
 
 extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("Cell Count \(favouriteGames.count)")
         return favouriteGames.count
     }
     

@@ -44,8 +44,8 @@ extension SearchVC: UISearchResultsUpdating{
         
         resultsController.delegate = self
         
-        searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { [weak self] (timer) in
-            DispatchQueue.global(qos: .userInteractive).async { [weak self] in
+        searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { (timer) in
+            DispatchQueue.global(qos: .userInteractive).async {
                 DispatchQueue.main.async {
                     NetworkManager.shared.searchGames(by: text) { result in
                         switch result{
