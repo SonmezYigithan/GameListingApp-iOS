@@ -14,6 +14,4 @@ extension String {
         inputString = inputString.replacingOccurrences(of: replaceOccurrencesOf, with: replaceWith)
         return inputString
     }
-    
-    
 }
