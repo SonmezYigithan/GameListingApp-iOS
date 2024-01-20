@@ -6,13 +6,24 @@
 //
 
 import UIKit
+import Kingfisher
+
+protocol GameDetailsProtocol: AnyObject {
+    func reloadCollectionView()
+    func configureGameDetailUIElements(with arguments: GameDetailsArguments)
+}
+
+struct GameDetailsArguments {
+    let coverURL: String
+    let name: String
+    let description: String
+    let developers: [Developer]
+}
 
 final class GameDetailsVC: UIViewController {
+    private lazy var viewModel: GameDetailsViewModelProtocol = GameDetailsViewModel()
     
-    private var screenshots = [Screenshot]()
-    
-    private var gameDetails: Game?
-    
+    // MARK: - UI Element Declarations
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -66,70 +77,37 @@ final class GameDetailsVC: UIViewController {
         return label
     }()
     
-    private let screenShotsCollectionView: UICollectionView = {
+    private let screenshotsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
     
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        view.addSubview(scrollView)
-        scrollView.addSubview(contentView)
-        contentView.addSubview(coverImage)
-        contentView.addSubview(favouriteButton)
-        contentView.addSubview(gameNameLabel)
-        contentView.addSubview(gameDescriptionLabel)
-        contentView.addSubview(gameDeveloperLabel)
-        contentView.addSubview(screenShotsCollectionView)
+        prepareContentView()
+        prepareScreenshotCollectionView()
+        
+        viewModel.view = self
         
         favouriteButton.addTarget(self, action: #selector(favouriteButtonTapped(_:)), for: .touchUpInside)
         
         applyConstraints()
-        
-        screenShotsCollectionView.register(ScreenshotsCollectionViewCell.self, forCellWithReuseIdentifier: ScreenshotsCollectionViewCell.identifier)
-        screenShotsCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        screenShotsCollectionView.bounces = true
-        screenShotsCollectionView.dataSource = self
-        screenShotsCollectionView.delegate = self
-        
     }
     
-    func configure(with game:Game){
-        title = game.name
-        gameDetails = game
-        coverImage.kf.setImage(with: game.cover?.formattedURL)
-        gameNameLabel.text = game.name ?? ""
-        gameDescriptionLabel.text = game.summary
-        if let developer = game.developer {
-            gameDeveloperLabel.text = developer[0].company?.name
-        }
-        
-        NetworkManager.shared.fetchScreenshots(of: game.id) { result in
-            switch result {
-            case .success(let screenshots):
-                self.screenshots.append(contentsOf: screenshots)
-                self.screenShotsCollectionView.reloadData()
-            case.failure(let error):
-                print(error)
-            }
-        }
+    func configure(with gameId: Int){
+        viewModel.fetchGameDetails(with: gameId)
     }
     
     @objc private func favouriteButtonTapped(_ sender: UIButton){
-        guard let game = gameDetails else {
-            return
-        }
-        
-        guard let coverURL = game.cover?.url else {
-            return
-        }
-        
-        FavouriteGameManager.shared.addGameToFavourites(gameId: Int64(game.id), screenshotURL: coverURL)
+        print("Button Pressed")
+        viewModel.favouriteButtonTapped()
     }
     
-    private func applyConstraints(){
+    // MARK: - Constraints and Preparations
+    private func applyConstraints() {
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -181,47 +159,74 @@ final class GameDetailsVC: UIViewController {
             gameDescriptionLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15),
         ])
         
+        screenshotsCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
-            screenShotsCollectionView.topAnchor.constraint(equalTo: gameDescriptionLabel.bottomAnchor, constant: 15),
-            screenShotsCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
-            screenShotsCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            screenShotsCollectionView.widthAnchor.constraint(equalToConstant: 500),
-            screenShotsCollectionView.heightAnchor.constraint(equalToConstant: 200)
+            screenshotsCollectionView.topAnchor.constraint(equalTo: gameDescriptionLabel.bottomAnchor, constant: 15),
+            screenshotsCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
+            screenshotsCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            screenshotsCollectionView.widthAnchor.constraint(equalToConstant: 500),
+            screenshotsCollectionView.heightAnchor.constraint(equalToConstant: 200)
         ])
+    }
+    
+    private func prepareContentView() {
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        contentView.addSubview(coverImage)
+        contentView.addSubview(favouriteButton)
+        contentView.addSubview(gameNameLabel)
+        contentView.addSubview(gameDescriptionLabel)
+        contentView.addSubview(gameDeveloperLabel)
+        contentView.addSubview(screenshotsCollectionView)
+    }
+    
+    private func prepareScreenshotCollectionView() {
+        screenshotsCollectionView.register(ScreenshotsCollectionViewCell.self, forCellWithReuseIdentifier: ScreenshotsCollectionViewCell.identifier)
+        screenshotsCollectionView.bounces = true
+        screenshotsCollectionView.dataSource = self
+        screenshotsCollectionView.delegate = self
     }
 }
 
+// MARK: - Screenshots Collection View
 extension GameDetailsVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if screenshots.count == 0{
-            return 0
-        }
-        
-        if let screenshotsCount = screenshots[0].screenshots {
-            return screenshotsCount.count
-        }
-        
-        return 0
+        viewModel.getScreenshotCount()
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ScreenshotsCollectionViewCell.identifier, for: indexPath) as! ScreenshotsCollectionViewCell
         
-        if let screenshotURLs = screenshots[0].screenshots{
-            if let screenshotURL = screenshotURLs[indexPath.item].url{
-                if let url = URL(string: screenshotURL.convertIgdbPathToURLString(replaceOccurrencesOf: "t_thumb", replaceWith: "t_original")) {
-                    cell.configure(with: url)
-                }
-            }
-        }
+        let screenshotURL = viewModel.getFormattedScreenshotURL(of: indexPath.item)
+        cell.configure(with: screenshotURL)
+        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let cellSize = CGSize(width: view.frame.width - 75, height: 200)
-        //        print(cellSize)
-        return cellSize
+        return viewModel.calculateCellSize(using: view.frame.width)
+    }
+}
+
+extension GameDetailsVC: GameDetailsProtocol {
+    func reloadCollectionView() {
+        screenshotsCollectionView.reloadData()
     }
     
-    
+    func configureGameDetailUIElements(with arguments: GameDetailsArguments) {
+        title = arguments.name
+        
+        if let url = URL(string: arguments.coverURL){
+            coverImage.kf.setImage(with: url)
+        }
+        
+        gameNameLabel.text = arguments.name
+        gameDescriptionLabel.text = arguments.description
+        
+        // Todo: Handle Multiple Developers
+        if let developer = arguments.developers.first?.company {
+            gameDeveloperLabel.text = developer.name
+        }
+    }
 }

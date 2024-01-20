@@ -7,9 +7,13 @@
 
 import UIKit
 
+protocol ProfileVCProtocol: AnyObject {
+    func prepareCollectionView()
+    func reloadCollectionView()
+}
+
 final class ProfileVC: UIViewController {
-    
-    private var favouriteGames = [FavouriteGame]()
+    private lazy var viewModel: ProfileVMProtocol = ProfileVM()
     
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -18,31 +22,22 @@ final class ProfileVC: UIViewController {
         view.register(CoverArtCollectionViewCell.self, forCellWithReuseIdentifier: CoverArtCollectionViewCell.identifier)
         return view
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         title = "Favourites"
         
-        view.addSubview(collectionView)
-        collectionView.delegate = self
-        collectionView.dataSource = self
+        viewModel.view = self
+        viewModel.viewDidLoad()
         
         applyConstraints()
     }
     
+    // TODO: Optimize
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        getFavourites()
-    }
-    
-    private func getFavourites(){
-        guard let favourites = FavouriteGameManager.shared.getFavouriteGames() else {
-            return
-        }
-        
-        self.favouriteGames = favourites
-        collectionView.reloadData()
+        viewModel.fetchFavourites()
     }
     
     private func applyConstraints(){
@@ -59,19 +54,14 @@ final class ProfileVC: UIViewController {
 
 extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return favouriteGames.count
+        viewModel.getFavouriteGamesCount()
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoverArtCollectionViewCell.identifier, for: indexPath) as! CoverArtCollectionViewCell
         
-        guard let urlString = favouriteGames[indexPath.item].screenshotURL else {
-            return cell
-        }
-        
-        if let url = URL(string: urlString.convertIgdbPathToURLString(replaceOccurrencesOf: "t_thumb", replaceWith: "t_cover_big")) {
-            cell.configure(with: url)
-        }
+        let urlString = viewModel.getCoverArtURLString(of: indexPath.item)
+        cell.configure(with: urlString)
         
         return cell
     }
@@ -79,8 +69,19 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource{
 
 extension ProfileVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let cellSize = CGSize(width: view.frame.width/3 - 20, height: 150)
-        //        print(cellSize)
-        return cellSize
+        viewModel.getCellSize(viewWidth: view.frame.width)
     }
+}
+
+extension ProfileVC: ProfileVCProtocol {
+    func prepareCollectionView() {
+        view.addSubview(collectionView)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+    }
+    
+    func reloadCollectionView() {
+        collectionView.reloadData()
+    }
+    
 }

@@ -8,6 +8,11 @@
 import UIKit
 import Kingfisher
 
+struct SearchTabTableViewCellArguments {
+    let name: String
+    let coverURL: String
+}
+
 class SearchTabTableViewCell: UITableViewCell {
     
     static let identifier = "SearchTabTableViewCell"
@@ -39,15 +44,12 @@ class SearchTabTableViewCell: UITableViewCell {
         fatalError()
     }
     
-    func configure(with game:Game){
-        gameNameLabel.text = game.name
+    func configure(with arguments: SearchTabTableViewCellArguments){
+        gameNameLabel.text = arguments.name
         
-        if var imageURL = game.cover?.url {
-            imageURL.insert(contentsOf: "https:", at: imageURL.startIndex)
-            imageURL = imageURL.replacingOccurrences(of: "t_thumb", with: "t_cover_big")
-            if let url = URL(string: imageURL){
-                coverImage.kf.setImage(with: url)
-            }
+        let imageURL = arguments.coverURL.convertIgdbPathToURLString(replaceOccurrencesOf: "t_thumb", replaceWith: "t_cover_big")
+        if let url = URL(string: imageURL){
+            coverImage.kf.setImage(with: url)
         }
     }
     

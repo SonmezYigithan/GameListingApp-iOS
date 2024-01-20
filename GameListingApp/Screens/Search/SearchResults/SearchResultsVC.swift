@@ -7,14 +7,21 @@
 
 import UIKit
 
-protocol SearchResultsViewControllerDelegate: AnyObject {
+protocol SearchResultsVCDelegate: AnyObject {
     func searchResultsViewControllerDidTapCellItem(_ gameId: Int)
 }
 
-final class SearchResultsViewController: UIViewController {
-    private var searchResults = [Game]()
+protocol SearchResultsVCProtocol: AnyObject {
+    func prepareSearchResultsTableView()
+    func reloadResultsTableView()
+    func showEmptyResultView()
+    func hideEmptyResultView()
+}
+
+final class SearchResultsVC: UIViewController {
+    private lazy var viewModel: SearchResultsVMProtocol = SearchResultsVM()
     
-    public weak var delegate: SearchResultsViewControllerDelegate?
+    public weak var delegate: SearchResultsVCDelegate?
     
     private let searchResultsTableView: UITableView = {
         let tableView = UITableView()
@@ -59,25 +66,12 @@ final class SearchResultsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.addSubview(searchResultsTableView)
-        view.addSubview(searchEmptyResultView)
-        searchResultsTableView.delegate = self
-        searchResultsTableView.dataSource = self
-        
-        applyConstraints()
+        viewModel.view = self
+        viewModel.viewDidLoad()
     }
     
     func configure(with games: [Game]){
-        if(games.count > 0){
-            searchEmptyResultView.isHidden = true
-        }
-        else{
-            searchEmptyResultView.isHidden = false
-        }
-        
-        searchResults = games
-        searchResultsTableView.reloadData()
+        viewModel.configureSearchResults(with: games)
     }
     
     func applyConstraints(){
@@ -95,23 +89,44 @@ final class SearchResultsViewController: UIViewController {
     }
 }
 
-extension SearchResultsViewController: UITableViewDelegate, UITableViewDataSource{
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("SELECTED \(indexPath.item)")
-        self.delegate?.searchResultsViewControllerDidTapCellItem(searchResults[indexPath.item].id)
+extension SearchResultsVC: UITableViewDelegate, UITableViewDataSource{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        viewModel.getSearchResultCount()
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return searchResults.count
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.delegate?.searchResultsViewControllerDidTapCellItem(viewModel.getSearchResultGameId(by: indexPath.item))
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchTabTableViewCell.identifier, for: indexPath) as! SearchTabTableViewCell
-        cell.configure(with: searchResults[indexPath.item])
+        cell.configure(with: viewModel.configureCell(with: indexPath.row))
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 150
+        viewModel.getCellHeightForRow()
+    }
+}
+
+extension SearchResultsVC: SearchResultsVCProtocol {
+    func prepareSearchResultsTableView() {
+        view.addSubview(searchResultsTableView)
+        view.addSubview(searchEmptyResultView)
+        searchResultsTableView.delegate = self
+        searchResultsTableView.dataSource = self
+        applyConstraints()
+    }
+    
+    func reloadResultsTableView() {
+        searchResultsTableView.reloadData()
+    }
+    
+    func showEmptyResultView() {
+        searchEmptyResultView.isHidden = false
+    }
+    
+    func hideEmptyResultView() {
+        searchEmptyResultView.isHidden = true
     }
 }

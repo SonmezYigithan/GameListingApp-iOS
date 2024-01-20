@@ -8,6 +8,6 @@
 import Foundation
 
 enum APIKeys {
-    static let IGDBClientId = "your_api_key_here"
-    static let IGDBAuthorization = "bearer_access_token"
+    static let IGDBClientId = ""
+    static let IGDBAuthorization = ""
 }

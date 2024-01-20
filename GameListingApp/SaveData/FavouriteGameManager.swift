@@ -23,7 +23,7 @@ class FavouriteGameManager {
         }
     }
     
-    func addGameToFavourites(gameId: Int64, screenshotURL: String){
+    func addGameToFavourites(gameId: Int64, screenshotURL: String) {
         let newGame = FavouriteGame(context: context)
         newGame.gameId = gameId
         newGame.screenshotURL = screenshotURL
@@ -37,7 +37,7 @@ class FavouriteGameManager {
         }
     }
     
-    func checkIfGameIsFavourite(with gameId: Int64) -> Bool{
+    func checkIfGameIsFavourite(with gameId: Int64) -> Bool {
         do {
             let fetchRequest = FavouriteGame.fetchRequest()
             fetchRequest.predicate = NSPredicate(format: "gameId == \(gameId)")
@@ -50,7 +50,7 @@ class FavouriteGameManager {
         }
     }
     
-    func removeGameFromFavourites(game: FavouriteGame){
+    func removeGameFromFavourites(game: FavouriteGame) {
         context.delete(game)
         
         do {

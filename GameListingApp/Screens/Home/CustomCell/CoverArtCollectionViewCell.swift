@@ -27,8 +27,11 @@ class CoverArtCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with imageUrl:URL){
-        imageView.kf.setImage(with: imageUrl)
+    func configure(with imageUrl:String){
+        backgroundColor = .red
+        if let url = URL(string: imageUrl){
+            imageView.kf.setImage(with: url)
+        }
     }
     
     private func applyConstraints(){
