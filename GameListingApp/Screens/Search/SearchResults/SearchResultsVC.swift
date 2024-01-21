@@ -81,7 +81,15 @@ final class SearchResultsVC: UIViewController {
         viewModel.configureSearchResults(with: games)
     }
     
-    func applyConstraints(){
+    func showResultsView() {
+        view.isHidden = false
+    }
+    
+    func hideResultsView() {
+        view.isHidden = true
+    }
+    
+    private func applyConstraints(){
         NSLayoutConstraint.activate([
             searchResultsTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             searchResultsTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),

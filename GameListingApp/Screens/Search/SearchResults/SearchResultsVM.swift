@@ -26,7 +26,7 @@ class SearchResultsVM {
 
 extension SearchResultsVM: SearchResultsVMProtocol {
     func viewDidLoad() {
-        self.view?.prepareSearchResultsTableView()
+        view?.prepareSearchResultsTableView()
     }
     
     func configureSearchResults(with searchResults: [Game]) {

@@ -8,7 +8,7 @@
 import UIKit
 
 protocol ProfileVCProtocol: AnyObject {
-    func prepareCollectionView()
+    func prepareProfileVC()
     func reloadCollectionView()
 }
 
@@ -25,13 +25,8 @@ final class ProfileVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
-        title = "Favourites"
-        
         viewModel.view = self
         viewModel.viewDidLoad()
-        
-        applyConstraints()
     }
     
     // TODO: Optimize
@@ -46,8 +41,8 @@ final class ProfileVC: UIViewController {
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 10),
+            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10)
         ])
     }
 }
@@ -69,15 +64,20 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource{
 
 extension ProfileVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        viewModel.getCellSize(viewWidth: view.frame.width)
+        return viewModel.getCellSize(viewWidth: view.frame.width, viewHeight: view.frame.height)
     }
 }
 
 extension ProfileVC: ProfileVCProtocol {
-    func prepareCollectionView() {
+    func prepareProfileVC() {
+        view.backgroundColor = .systemBackground
+        title = "Favourites"
+        
         view.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self
+        
+        applyConstraints()
     }
     
     func reloadCollectionView() {

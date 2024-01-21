@@ -51,7 +51,15 @@ extension SearchVM: SearchVMProtocol {
             return
         }
         
+        if text.count == 0 {
+            self.view?.stopSpinnerAnimation()
+            resultsController.hideResultsView()
+            return
+        }
+        
         resultsController.delegate = view as? any SearchResultsVCDelegate
+        resultsController.hideResultsView()
+        view?.startSpinnerAnimation()
         
         searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { (timer) in
             DispatchQueue.global(qos: .userInteractive).async {
@@ -63,6 +71,9 @@ extension SearchVM: SearchVMProtocol {
                         case .failure(let error):
                             print(error)
                         }
+                        
+                        self.view?.stopSpinnerAnimation()
+                        resultsController.showResultsView()
                     }
                 }
             }
