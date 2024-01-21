@@ -21,7 +21,7 @@ struct GameDetailsArguments {
 }
 
 final class GameDetailsVC: UIViewController {
-    private lazy var viewModel: GameDetailsViewModelProtocol = GameDetailsViewModel()
+    private lazy var viewModel: GameDetailsVMProtocol = GameDetailsVM()
     
     // MARK: - UI Element Declarations
     private let scrollView: UIScrollView = {
@@ -56,7 +56,7 @@ final class GameDetailsVC: UIViewController {
         let button = UIButton()
         button.layer.cornerRadius = 6
         button.tintColor = .white
-        button.backgroundColor = .systemPink
+        button.backgroundColor = .systemBlue
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.text = "Add to Favourites"
         return button

@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol GameDetailsViewModelProtocol {
+protocol GameDetailsVMProtocol {
     var view: GameDetailsProtocol? { get set }
 //    var screenshots: [Screenshot] { get }
     
@@ -19,7 +19,7 @@ protocol GameDetailsViewModelProtocol {
     
 }
 
-class GameDetailsViewModel {
+class GameDetailsVM {
     internal weak var view: GameDetailsProtocol?
     internal var screenshots = [Screenshot]()
     
@@ -39,7 +39,7 @@ class GameDetailsViewModel {
     }
 }
 
-extension GameDetailsViewModel: GameDetailsViewModelProtocol {
+extension GameDetailsVM: GameDetailsVMProtocol {
     func favouriteButtonTapped() {
         guard let gameId = gameId else { return }
         
