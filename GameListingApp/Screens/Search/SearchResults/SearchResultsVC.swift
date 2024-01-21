@@ -34,31 +34,38 @@ final class SearchResultsVC: UIViewController {
         let view = UIView()
         let label = UILabel()
         let image = UIImageView()
+        let stack = UIStackView()
         
         label.text = "Oops! We couldn't find any games"
+        label.textAlignment = .center
+        label.tintColor = .systemGray
+
         image.image = UIImage(systemName: "multiply.circle")
         image.tintColor = .systemGray
-        label.tintColor = .systemGray
-        
+        image.contentMode = .scaleAspectFit
+                
+        stack.axis = .vertical
+        stack.distribution = .fillProportionally
+        stack.spacing = 0
+
         view.translatesAutoresizingMaskIntoConstraints = false
+        stack.translatesAutoresizingMaskIntoConstraints = false
         image.translatesAutoresizingMaskIntoConstraints = false
-        label.translatesAutoresizingMaskIntoConstraints = false
         
-        view.addSubview(image)
-        view.addSubview(label)
+        stack.addArrangedSubview(image)
+        stack.addArrangedSubview(label)
+        view.addSubview(stack)
         
         NSLayoutConstraint.activate([
-            image.topAnchor.constraint(equalTo: view.topAnchor),
-            image.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            image.widthAnchor.constraint(equalToConstant: 50),
-            image.heightAnchor.constraint(equalToConstant: 50)
+            image.widthAnchor.constraint(equalToConstant: 80),
+            image.heightAnchor.constraint(equalToConstant: 80)
         ])
         
         NSLayoutConstraint.activate([
-            label.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 15),
-            label.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            label.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            label.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            stack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            stack.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            stack.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            stack.trailingAnchor.constraint(equalTo: view.trailingAnchor),
         ])
         
         return view
@@ -83,8 +90,10 @@ final class SearchResultsVC: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            searchEmptyResultView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            searchEmptyResultView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            searchEmptyResultView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            searchEmptyResultView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
+            searchEmptyResultView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            searchEmptyResultView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
     }
 }
