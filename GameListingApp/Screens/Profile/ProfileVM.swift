@@ -25,7 +25,7 @@ class ProfileVM {
 
 extension ProfileVM: ProfileVMProtocol {
     func viewDidLoad() {
-        view?.prepareCollectionView()
+        view?.prepareProfileVC()
     }
     
     func fetchFavourites() {

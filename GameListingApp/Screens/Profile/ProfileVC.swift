@@ -64,7 +64,7 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource{
 
 extension ProfileVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return viewModel.getCellSize(viewWidth: view.frame.width, viewHeight: view.frame.height)
+        return viewModel.getCellSize(viewWidth: view.frame.width)
     }
 }
 
