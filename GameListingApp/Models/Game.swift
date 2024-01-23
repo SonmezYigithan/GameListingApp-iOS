@@ -15,6 +15,7 @@ struct Game: Codable {
     let firstReleaseDate: Int?
     let name: String?
     let platforms: [Platform]?
+    let videos: [Video]?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -24,6 +25,7 @@ struct Game: Codable {
         case developer = "involved_companies"
         case name
         case platforms
+        case videos
     }
 }
 
@@ -46,4 +48,9 @@ struct Company: Codable{
 struct Platform: Codable{
     let id: Int
     let name: String
+}
+
+struct Video: Codable {
+    let id: Int
+    let video_id: String?
 }

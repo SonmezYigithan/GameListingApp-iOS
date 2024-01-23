@@ -15,7 +15,7 @@ final class GameDetailsManager {
         
         let body: String = """
             fields name,id,first_release_date,platforms,cover.url,summary,platforms.name,involved_companies.company.name;
-            where platforms = (167) & first_release_date > \(Int(NSDate().timeIntervalSince1970)) & (category = 0 | category = 9 | category = 8);
+            where platforms = (167) & first_release_date > \(Int(NSDate().timeIntervalSince1970)) & (category = 0 | category = 9 | category = 8) & version_parent = null;
             sort first_release_date asc;
             limit 50;
         """
@@ -52,7 +52,7 @@ final class GameDetailsManager {
         let url = IGDBNetworkHelper.shared.baseURL + "games"
         
         let body: String = """
-            fields name,id,first_release_date,platforms,cover.url,summary,platforms.name,involved_companies.company.name;
+            fields name,id,first_release_date,platforms,cover.url,summary,platforms.name,involved_companies.company.name,videos.video_id;
             where id = \(gameId);
             limit 1;
         """

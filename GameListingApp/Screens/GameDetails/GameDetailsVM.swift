@@ -6,17 +6,17 @@
 //
 
 import Foundation
+import UIKit
 
 protocol GameDetailsVMProtocol {
     var view: GameDetailsProtocol? { get set }
-//    var screenshots: [Screenshot] { get }
     
     func favouriteButtonTapped()
+    func videoThumbnailButtonTapped()
     func getScreenshotCount() -> Int
     func getFormattedScreenshotURL(of index: Int) -> String
     func calculateCellSize(using frameWidth: CGFloat) -> CGSize
     func fetchGameDetails(with gameId: Int)
-    
 }
 
 class GameDetailsVM {
@@ -25,15 +25,28 @@ class GameDetailsVM {
     
     var gameId: Int?
     var coverURL: String?
+    var videoURL: String?
     
     func fetchScreenshots(of gameId: Int){
-        ScreenshotManager.shared.fetchScreenshots(of: gameId) { result in
+        ScreenshotManager.shared.fetchScreenshots(of: gameId) { [weak self] result in
             switch result {
             case .success(let screenshots):
-                self.screenshots.append(contentsOf: screenshots)
-                self.view?.reloadCollectionView()
+                self?.screenshots.append(contentsOf: screenshots)
+                self?.view?.reloadCollectionView()
+                self?.decideCoverBackground()
             case.failure(let error):
                 print(error)
+            }
+        }
+    }
+    
+    func decideCoverBackground() {
+        if screenshots.count > 0 {
+            let screenshotURL = getFormattedScreenshotURL(of: 0)
+            view?.configureCoverBackground(with: screenshotURL, isTranslucent: true)
+        } else {
+            if let coverURL = coverURL {
+                view?.configureCoverBackground(with: coverURL, isTranslucent: true)
             }
         }
     }
@@ -83,11 +96,33 @@ extension GameDetailsVM: GameDetailsVMProtocol {
                     self?.coverURL = coverURL
                 }
                 
+                var releaseDateString = ""
+                if let releaseDateEpoch = game.firstReleaseDate {
+                    let date = Date(timeIntervalSince1970: TimeInterval(releaseDateEpoch))
+                    
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "d MMMM yyyy"
+                    dateFormatter.locale = Locale(identifier: "en_US")
+                    
+                    releaseDateString = dateFormatter.string(from: date)
+                }
+                
+                var videoThumbnail: String? = nil
+                if let gameVideoId = game.videos?.first?.video_id {
+                    self?.videoURL = GameVideoManager.shared.getYoutubeUrl(with: gameVideoId)
+                    
+                    videoThumbnail = GameVideoManager.shared.getYoutubeThumbnailURL(with: gameVideoId)
+                }
+                
                 let gameDetailsArguments = GameDetailsArguments(
                     coverURL: coverURL,
                     name: game.name ?? "",
                     description: game.summary ?? "",
-                    developers: game.developer ?? []
+                    developers: game.developer ?? [],
+                    releaseDate: releaseDateString,
+                    platforms: game.platforms ?? [],
+                    videoThumbnail: videoThumbnail,
+                    isFavourite: FavouriteGameManager.shared.checkIfGameIsFavourite(with: Int64(game.id))
                 )
                 
                 self?.view?.configureGameDetailUIElements(with: gameDetailsArguments)
@@ -97,5 +132,18 @@ extension GameDetailsVM: GameDetailsVMProtocol {
         }
         
         fetchScreenshots(of: gameId)
+        
+    }
+    
+    func videoThumbnailButtonTapped() {
+        guard let videoURL = videoURL else {
+            return
+        }
+        
+        if let url = URL(string: videoURL), UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        } else {
+            print("Invalid URL or unable to open the URL")
+        }
     }
 }
