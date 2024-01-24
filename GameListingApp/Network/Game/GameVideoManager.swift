@@ -15,6 +15,6 @@ class GameVideoManager {
     }
     
     func getYoutubeThumbnailURL(with youtubeVideoId: String) -> String {
-        "https://img.youtube.com/vi/\(youtubeVideoId)/maxresdefault.jpg"
+        "https://img.youtube.com/vi/\(youtubeVideoId)/sddefault.jpg"
     }
 }
