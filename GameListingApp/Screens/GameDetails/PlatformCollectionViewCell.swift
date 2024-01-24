@@ -13,6 +13,7 @@ class PlatformCollectionViewCell: UICollectionViewCell {
     private let label: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
+        label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 17.0)
         return label
     }()
@@ -29,8 +30,8 @@ class PlatformCollectionViewCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             label.topAnchor.constraint(equalTo: topAnchor),
             label.bottomAnchor.constraint(equalTo: bottomAnchor),
-            label.leadingAnchor.constraint(equalTo: leadingAnchor,constant: 10),
-            label.trailingAnchor.constraint(equalTo: trailingAnchor,constant: -10),
+            label.leadingAnchor.constraint(equalTo: leadingAnchor),
+            label.trailingAnchor.constraint(equalTo: trailingAnchor),
         ])
     }
     

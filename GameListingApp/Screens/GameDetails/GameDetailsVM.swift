@@ -97,28 +97,14 @@ extension GameDetailsVM: GameDetailsVMProtocol {
     }
     
     func calculatePlatformCellSize(at index: Int, using frameWidth: CGFloat) -> CGSize {
-//        // calculate cell width by its string length
-//        let platformName = platforms[index].name
-//        
-//        // Calculate the size of the label based on the content
-//        let label = UILabel()
-//        label.text = platformName
-//        label.font = UIFont.systemFont(ofSize: 17.0)
-//        label.sizeToFit()
-//        
-//        let extraSpacing: CGFloat = 20.0
-//        
-//        // Return the size for the cell
-//        return CGSize(width: label.frame.width + extraSpacing, height: collectionView.bounds.height)
-        
-        let size = CGSize(width: 50, height: 50)
+        let size = CGSize(width: CGFloat.greatestFiniteMagnitude, height: 50)
         let attributes = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17)]
         
         let estimatedFrame = NSString(string: platforms[index].name).boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
         
-        print("Frame With: \(estimatedFrame.width)")
+        print("Frame With: \(estimatedFrame.width), for keyword: \(platforms[index].name)")
         
-        let cellSize = CGSize(width: estimatedFrame.width + 55, height: 50)
+        let cellSize = CGSize(width: estimatedFrame.width + 25, height: 50)
         return cellSize
     }
     

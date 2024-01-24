@@ -306,6 +306,8 @@ final class GameDetailsVC: UIViewController {
         screenshotsCollectionView.bounces = true
         screenshotsCollectionView.dataSource = self
         screenshotsCollectionView.delegate = self
+        
+        screenshotsCollectionView.showsHorizontalScrollIndicator = false
     }
     
     private func preparePlatformsCollectionView() {
@@ -314,6 +316,8 @@ final class GameDetailsVC: UIViewController {
         platformsCollectionView.bounces = true
         platformsCollectionView.dataSource = self
         platformsCollectionView.delegate = self
+        
+        platformsCollectionView.showsHorizontalScrollIndicator = false
     }
     
     func prepareView() {
