@@ -14,14 +14,18 @@ protocol GameDetailsVMProtocol {
     func favouriteButtonTapped()
     func videoThumbnailButtonTapped()
     func getScreenshotCount() -> Int
+    func getPlatformsCount() -> Int
     func getFormattedScreenshotURL(of index: Int) -> String
-    func calculateCellSize(using frameWidth: CGFloat) -> CGSize
+    func getPlatformName(of index: Int) -> String
+    func calculatePlatformCellSize(at index: Int, using frameWidth: CGFloat) -> CGSize
+    func calculateScreenshotCellSize(using frameWidth: CGFloat) -> CGSize
     func fetchGameDetails(with gameId: Int)
 }
 
 class GameDetailsVM {
     internal weak var view: GameDetailsProtocol?
     internal var screenshots = [Screenshot]()
+    internal var platforms = [Platform]()
     
     var gameId: Int?
     var coverURL: String?
@@ -32,7 +36,7 @@ class GameDetailsVM {
             switch result {
             case .success(let screenshots):
                 self?.screenshots.append(contentsOf: screenshots)
-                self?.view?.reloadCollectionView()
+                self?.view?.reloadScreenshotCollectionView()
                 self?.decideCoverBackground()
             case.failure(let error):
                 print(error)
@@ -69,6 +73,10 @@ extension GameDetailsVM: GameDetailsVMProtocol {
         return 0
     }
     
+    func getPlatformsCount() -> Int {
+        return platforms.count
+    }
+    
     func getFormattedScreenshotURL(of index: Int) -> String {
         if let screenshotURLs = screenshots.first?.screenshots{
             if let screenshotURL = screenshotURLs[index].url{
@@ -79,8 +87,38 @@ extension GameDetailsVM: GameDetailsVMProtocol {
         return ""
     }
     
-    func calculateCellSize(using frameWidth: CGFloat) -> CGSize {
+    func getPlatformName(of index: Int) -> String {
+        return platforms[index].name
+    }
+    
+    func calculateScreenshotCellSize(using frameWidth: CGFloat) -> CGSize {
         let cellSize = CGSize(width: frameWidth - 75, height: 200)
+        return cellSize
+    }
+    
+    func calculatePlatformCellSize(at index: Int, using frameWidth: CGFloat) -> CGSize {
+//        // calculate cell width by its string length
+//        let platformName = platforms[index].name
+//        
+//        // Calculate the size of the label based on the content
+//        let label = UILabel()
+//        label.text = platformName
+//        label.font = UIFont.systemFont(ofSize: 17.0)
+//        label.sizeToFit()
+//        
+//        let extraSpacing: CGFloat = 20.0
+//        
+//        // Return the size for the cell
+//        return CGSize(width: label.frame.width + extraSpacing, height: collectionView.bounds.height)
+        
+        let size = CGSize(width: 50, height: 50)
+        let attributes = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17)]
+        
+        let estimatedFrame = NSString(string: platforms[index].name).boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
+        
+        print("Frame With: \(estimatedFrame.width)")
+        
+        let cellSize = CGSize(width: estimatedFrame.width + 55, height: 50)
         return cellSize
     }
     
@@ -114,13 +152,18 @@ extension GameDetailsVM: GameDetailsVMProtocol {
                     videoThumbnail = GameVideoManager.shared.getYoutubeThumbnailURL(with: gameVideoId)
                 }
                 
+                if let platforms = game.platforms {
+                    print(platforms)
+                    self?.platforms = platforms
+                    self?.view?.reloadPlatformsCollectionView()
+                }
+                
                 let gameDetailsArguments = GameDetailsArguments(
                     coverURL: coverURL,
                     name: game.name ?? "",
                     description: game.summary ?? "",
                     developers: game.developer ?? [],
                     releaseDate: releaseDateString,
-                    platforms: game.platforms ?? [],
                     videoThumbnail: videoThumbnail,
                     isFavourite: FavouriteGameManager.shared.checkIfGameIsFavourite(with: Int64(game.id))
                 )
