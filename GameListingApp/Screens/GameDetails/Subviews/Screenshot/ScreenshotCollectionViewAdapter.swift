@@ -38,7 +38,7 @@ class ScreenshotCollectionViewAdapter: NSObject {
         collectionView.dataSource = self
     }
     
-    func retrieveData(_ data: [ScreenshotUIModel]) {
+    func reloadData(_ data: [ScreenshotUIModel]) {
         screenshots = data
         collectionView.reloadData()
     }

@@ -14,12 +14,6 @@ protocol GameDetailsVMProtocol {
     
     func favouriteButtonTapped()
     func videoThumbnailButtonTapped()
-//    func getScreenshotCount() -> Int
-    func getPlatformsCount() -> Int
-//    func getFormattedScreenshotURL(of index: Int) -> String
-    func getPlatformName(of index: Int) -> String
-    func calculatePlatformCellSize(at index: Int, using frameWidth: CGFloat) -> CGSize
-//    func calculateScreenshotCellSize(using frameWidth: CGFloat) -> CGSize
     func fetchGameDetails(with gameId: Int)
 }
 
@@ -78,37 +72,6 @@ extension GameDetailsVM: GameDetailsVMProtocol {
         FavouriteGameManager.shared.addGameToFavourites(gameId: Int64(gameId), screenshotURL: coverURL)
     }
     
-//    func getScreenshotCount() -> Int {
-//        if let screenshotsCount = screenshots.first?.screenshots {
-//            return screenshotsCount.count
-//        }
-//        
-//        return 0
-//    }
-    
-    func getPlatformsCount() -> Int {
-        return platforms.count
-    }
-    
-    func getPlatformName(of index: Int) -> String {
-        return platforms[index].name
-    }
-    
-//    func calculateScreenshotCellSize(using frameWidth: CGFloat) -> CGSize {
-//        let cellSize = CGSize(width: frameWidth - 75, height: 200)
-//        return cellSize
-//    }
-    
-    func calculatePlatformCellSize(at index: Int, using frameWidth: CGFloat) -> CGSize {
-        let size = CGSize(width: CGFloat.greatestFiniteMagnitude, height: 50)
-        let attributes = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17)]
-        
-        let estimatedFrame = NSString(string: platforms[index].name).boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
-        
-        let cellSize = CGSize(width: estimatedFrame.width + 25, height: 50)
-        return cellSize
-    }
-    
     func fetchGameDetails(with gameId: Int) {
         self.gameId = gameId
         
@@ -140,8 +103,12 @@ extension GameDetailsVM: GameDetailsVMProtocol {
                 }
                 
                 if let platforms = game.platforms {
+                    let platformUIModel = platforms
+                        .compactMap { PlatformsUIModel(name: $0.name) }
+                    
+                    self?.view?.configurePlatformsCollectionView(with: platformUIModel)
+                    
                     self?.platforms = platforms
-                    self?.view?.reloadPlatformsCollectionView()
                 }
                 
                 let gameDetailsArguments = GameDetailsArguments(

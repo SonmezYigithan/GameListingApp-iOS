@@ -14,18 +14,16 @@ protocol PlatformCollectionViewAdapterDelegate: AnyObject {
 class PlatformCollectionViewAdapter: NSObject {
     // MARK: - Typealias
     
-    typealias Cell = ScreenshotsCollectionViewCell
+    typealias Cell = PlatformCollectionViewCell
     
     // MARK: - Properties
     
-    weak var delegate: ScreenshotCollectionViewAdapterDelegate?
+    weak var delegate: PlatformCollectionViewAdapterDelegate?
     private var collectionView: UICollectionView
-    private var screenshots: [ScreenshotUIModel]?
-    private var viewFrameWidth: CGFloat
+    private var platforms: [PlatformsUIModel]?
     
-    init(collectionView: UICollectionView, viewFrameWidth: CGFloat) {
+    init(collectionView: UICollectionView) {
         self.collectionView = collectionView
-        self.viewFrameWidth = viewFrameWidth
         super.init()
         configureCollectionView()
     }
@@ -38,22 +36,36 @@ class PlatformCollectionViewAdapter: NSObject {
         collectionView.dataSource = self
     }
     
-    func retrieveData(_ data: [ScreenshotUIModel]) {
-        screenshots = data
+    func reloadData(_ data: [PlatformsUIModel]) {
+        platforms = data
         collectionView.reloadData()
+    }
+    
+    private func calculatePlatformCellSize(at index: Int, using frameWidth: CGFloat) -> CGSize {
+        guard let platforms = platforms else {
+            return CGSize(width: 0, height: 0)
+        }
+        
+        let size = CGSize(width: CGFloat.greatestFiniteMagnitude, height: 50)
+        let attributes = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17)]
+        
+        let estimatedFrame = NSString(string: platforms[index].shortenedName).boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
+        
+        let cellSize = CGSize(width: estimatedFrame.width + 25, height: 50)
+        return cellSize
     }
 }
 
 extension PlatformCollectionViewAdapter: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let screenshots = screenshots else {
+        guard let platforms = platforms else {
             return 0
         }
-        return screenshots.count
+        return platforms.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let screenshots = screenshots else {
+        guard let platforms = platforms else {
             return UICollectionViewCell()
         }
         
@@ -61,14 +73,12 @@ extension PlatformCollectionViewAdapter: UICollectionViewDelegate, UICollectionV
             return UICollectionViewCell()
         }
         
-        cell.configure(with: screenshots[indexPath.item].url)
+        cell.configure(with: platforms[indexPath.item].shortenedName)
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        //let cellSize = CGSize(width: viewFrameWidth - 75, height: 200)
-        let cellSize = CGSize(width: collectionView.bounds.width - 75, height: 200)
-        return cellSize
+        calculatePlatformCellSize(at: indexPath.item, using: collectionView.frame.width)
     }
 }
