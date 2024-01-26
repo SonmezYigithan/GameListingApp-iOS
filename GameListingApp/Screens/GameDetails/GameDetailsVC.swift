@@ -114,6 +114,7 @@ final class GameDetailsVC: UIViewController {
     private let platformsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
+        layout.sectionInset = .init(top: 0, left: 15, bottom: 0, right: 0)
         return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
     
@@ -129,6 +130,7 @@ final class GameDetailsVC: UIViewController {
     private let screenshotsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
+        layout.sectionInset = .init(top: 0, left: 15, bottom: 0, right: 0)
         return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
     
@@ -246,7 +248,7 @@ final class GameDetailsVC: UIViewController {
         
         NSLayoutConstraint.activate([
             platformsCollectionView.topAnchor.constraint(equalTo: whereToPlaySectionLabel.bottomAnchor, constant: 15),
-            platformsCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
+            platformsCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             platformsCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             platformsCollectionView.widthAnchor.constraint(equalToConstant: 500),
             platformsCollectionView.heightAnchor.constraint(equalToConstant: 50)
@@ -260,7 +262,7 @@ final class GameDetailsVC: UIViewController {
         
         NSLayoutConstraint.activate([
             screenshotsCollectionView.topAnchor.constraint(equalTo: screenshotsSectionLabel.bottomAnchor, constant: 15),
-            screenshotsCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
+            screenshotsCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             screenshotsCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             screenshotsCollectionView.widthAnchor.constraint(equalToConstant: 500),
             screenshotsCollectionView.heightAnchor.constraint(equalToConstant: 200)

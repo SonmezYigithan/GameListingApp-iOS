@@ -115,7 +115,7 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		C116F8372B43493600E5C19E /* Helper */ = {
+		C116F8372B43493600E5C19E /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
 				C19141052B41A2C5009BD99E /* AppDelegate.swift */,
@@ -124,7 +124,7 @@
 				C19141102B41A2C7009BD99E /* LaunchScreen.storyboard */,
 				C19141132B41A2C7009BD99E /* Info.plist */,
 			);
-			name = Helper;
+			name = SupportingFiles;
 			sourceTree = "<group>";
 		};
 		C116F8382B434A0E00E5C19E /* Screens */ = {
@@ -202,9 +202,9 @@
 		C14EE9182B55F165008E4888 /* GameDetails */ = {
 			isa = PBXGroup;
 			children = (
+				C1CA2A372B6184A20068D273 /* CustomCell */,
 				C145973D2B45DD50003D0262 /* GameDetailsVC.swift */,
 				C1DA92302B582D670043C262 /* GameDetailsVM.swift */,
-				C1DF2EC62B6145F90056BBD1 /* PlatformCollectionViewCell.swift */,
 			);
 			path = GameDetails;
 			sourceTree = "<group>";
@@ -235,7 +235,7 @@
 				C116F8342B43490C00E5C19E /* Models */,
 				C116F8382B434A0E00E5C19E /* Screens */,
 				C14597362B44421D003D0262 /* Network */,
-				C116F8372B43493600E5C19E /* Helper */,
+				C116F8372B43493600E5C19E /* SupportingFiles */,
 			);
 			path = GameListingApp;
 			sourceTree = "<group>";
@@ -256,6 +256,14 @@
 				C1DA92422B5C671D0043C262 /* ProfileVM.swift */,
 			);
 			path = Profile;
+			sourceTree = "<group>";
+		};
+		C1CA2A372B6184A20068D273 /* CustomCell */ = {
+			isa = PBXGroup;
+			children = (
+				C1DF2EC62B6145F90056BBD1 /* PlatformCollectionViewCell.swift */,
+			);
+			path = CustomCell;
 			sourceTree = "<group>";
 		};
 		C1DA922F2B581A110043C262 /* CustomCell */ = {
@@ -606,8 +614,8 @@
 				INFOPLIST_FILE = GameListingApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -634,8 +642,8 @@
 				INFOPLIST_FILE = GameListingApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
