@@ -10,11 +10,11 @@ import Kingfisher
 import SafariServices
 
 protocol GameDetailsProtocol: AnyObject {
-    func reloadScreenshotCollectionView()
     func reloadPlatformsCollectionView()
     func configureGameDetailUIElements(with arguments: GameDetailsArguments)
     func configureCoverBackground(with screenshotURL: String, isTranslucent: Bool)
     func presentSFSafariView(vc: SFSafariViewController)
+    func configureScreenshotCollectionView(with screenshots: [ScreenshotUIModel])
 }
 
 struct GameDetailsArguments {
@@ -29,6 +29,7 @@ struct GameDetailsArguments {
 
 final class GameDetailsVC: UIViewController {
     private lazy var viewModel: GameDetailsVMProtocol = GameDetailsVM()
+//    private var screenshotCollectionViewAdapter: ScreenshotCollectionViewAdapter?
     
     // MARK: - UI Element Declarations
     private let scrollView: UIScrollView = {
@@ -77,21 +78,23 @@ final class GameDetailsVC: UIViewController {
         return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
     
-    private let screenshotsSectionLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Screenshots"
-        label.textColor = .systemGray
-        label.font = UIFont.boldSystemFont(ofSize: 17.0)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let screenshotsView = ScreenshotsView()
     
-    private let screenshotsCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.sectionInset = .init(top: 0, left: 15, bottom: 0, right: 0)
-        return UICollectionView(frame: .zero, collectionViewLayout: layout)
-    }()
+//    private let screenshotsSectionLabel: UILabel = {
+//        let label = UILabel()
+//        label.text = "Screenshots"
+//        label.textColor = .systemGray
+//        label.font = UIFont.boldSystemFont(ofSize: 17.0)
+//        label.translatesAutoresizingMaskIntoConstraints = false
+//        return label
+//    }()
+//    
+//    private let screenshotsCollectionView: UICollectionView = {
+//        let layout = UICollectionViewFlowLayout()
+//        layout.scrollDirection = .horizontal
+//        layout.sectionInset = .init(top: 0, left: 15, bottom: 0, right: 0)
+//        return UICollectionView(frame: .zero, collectionViewLayout: layout)
+//    }()
     
     private let gameplayVideoSectionLabel: UILabel = {
         let label = UILabel()
@@ -136,8 +139,8 @@ final class GameDetailsVC: UIViewController {
     private func applyConstraints() {
         header.translatesAutoresizingMaskIntoConstraints = false
         gameDescriptionView.translatesAutoresizingMaskIntoConstraints = false
-        screenshotsCollectionView.translatesAutoresizingMaskIntoConstraints = false
         platformsCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        screenshotsView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -193,21 +196,15 @@ final class GameDetailsVC: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            screenshotsSectionLabel.topAnchor.constraint(equalTo: platformsCollectionView.bottomAnchor, constant: 15),
-            screenshotsSectionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            screenshotsSectionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            screenshotsView.topAnchor.constraint(equalTo: platformsCollectionView.bottomAnchor, constant: 15),
+            screenshotsView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            screenshotsView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            screenshotsView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            screenshotsView.heightAnchor.constraint(equalToConstant: 250)
         ])
         
         NSLayoutConstraint.activate([
-            screenshotsCollectionView.topAnchor.constraint(equalTo: screenshotsSectionLabel.bottomAnchor, constant: 15),
-            screenshotsCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            screenshotsCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            screenshotsCollectionView.widthAnchor.constraint(equalToConstant: 500),
-            screenshotsCollectionView.heightAnchor.constraint(equalToConstant: 200)
-        ])
-        
-        NSLayoutConstraint.activate([
-            gameplayVideoSectionLabel.topAnchor.constraint(equalTo: screenshotsCollectionView.bottomAnchor, constant: 15),
+            gameplayVideoSectionLabel.topAnchor.constraint(equalTo: screenshotsView.bottomAnchor, constant: 15),
             gameplayVideoSectionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             gameplayVideoSectionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
         ])
@@ -230,19 +227,9 @@ final class GameDetailsVC: UIViewController {
         contentView.addSubview(gameDescriptionView)
         contentView.addSubview(whereToPlaySectionLabel)
         contentView.addSubview(platformsCollectionView)
-        contentView.addSubview(screenshotsSectionLabel)
-        contentView.addSubview(screenshotsCollectionView)
+        contentView.addSubview(screenshotsView)
         contentView.addSubview(gameplayVideoSectionLabel)
         contentView.addSubview(videoThumbnailButton)
-    }
-    
-    private func prepareScreenshotCollectionView() {
-        screenshotsCollectionView.register(ScreenshotsCollectionViewCell.self, forCellWithReuseIdentifier: ScreenshotsCollectionViewCell.identifier)
-        screenshotsCollectionView.bounces = true
-        screenshotsCollectionView.dataSource = self
-        screenshotsCollectionView.delegate = self
-        
-        screenshotsCollectionView.showsHorizontalScrollIndicator = false
     }
     
     private func preparePlatformsCollectionView() {
@@ -257,11 +244,12 @@ final class GameDetailsVC: UIViewController {
     func prepareView() {
         view.backgroundColor = .systemBackground
         prepareContentView()
-        prepareScreenshotCollectionView()
         preparePlatformsCollectionView()
         
         favouriteButton.addTarget(self, action: #selector(favouriteButtonTapped(_:)), for: .touchUpInside)
         videoThumbnailButton.addTarget(self, action: #selector(videoThumbnailButtonTapped(_:)), for: .touchUpInside)
+        
+        screenshotsView.frame = view.bounds
         
         applyConstraints()
     }
@@ -271,53 +259,27 @@ final class GameDetailsVC: UIViewController {
 
 extension GameDetailsVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if(collectionView == screenshotsCollectionView) {
-            return viewModel.getScreenshotCount()
-        }
-        else {
-            return viewModel.getPlatformsCount()
-        }
+        return viewModel.getPlatformsCount()
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if(collectionView == screenshotsCollectionView) {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ScreenshotsCollectionViewCell.identifier, for: indexPath) as? ScreenshotsCollectionViewCell else {
-                return UICollectionViewCell()
-            }
-            
-            let screenshotURL = viewModel.getFormattedScreenshotURL(of: indexPath.item)
-            cell.configure(with: screenshotURL)
-            
-            return cell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PlatformCollectionViewCell.identifier, for: indexPath) as? PlatformCollectionViewCell else {
+            return UICollectionViewCell()
         }
-        else {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PlatformCollectionViewCell.identifier, for: indexPath) as? PlatformCollectionViewCell else {
-                return UICollectionViewCell()
-            }
-            
-            let platformName = viewModel.getPlatformName(of: indexPath.item)
-            cell.configure(with: platformName)
-            
-            return cell
-        }
+        
+        let platformName = viewModel.getPlatformName(of: indexPath.item)
+        cell.configure(with: platformName)
+        
+        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if(collectionView == screenshotsCollectionView) {
-            return viewModel.calculateScreenshotCellSize(using: view.frame.width)
-        }
-        else {
-            return viewModel.calculatePlatformCellSize(at: indexPath.item , using: view.frame.width)
-        }
+        return viewModel.calculatePlatformCellSize(at: indexPath.item , using: view.frame.width)
     }
 }
 
 // MARK: - GameDetailsProtocol
 extension GameDetailsVC: GameDetailsProtocol {
-    func reloadScreenshotCollectionView() {
-        screenshotsCollectionView.reloadData()
-    }
-    
     func reloadPlatformsCollectionView() {
         platformsCollectionView.reloadData()
     }
@@ -348,27 +310,17 @@ extension GameDetailsVC: GameDetailsProtocol {
     
     func configureCoverBackground(with screenshotURL: String, isTranslucent: Bool) {
         header.configureCoverBackground(with: screenshotURL, isTranslucent: isTranslucent)
-        
-//        if let url = URL(string: screenshotURL){
-//            coverBackgroundImage.kf.setImage(with: url)
-//        }
-//        
-//        if isTranslucent {
-//            let blurEffect = UIBlurEffect(style: .light)
-//            let blurView = UIVisualEffectView(effect: blurEffect)
-//            blurView.translatesAutoresizingMaskIntoConstraints = false
-//            contentView.insertSubview(blurView, at: 1)
-//            
-//            NSLayoutConstraint.activate([
-//                blurView.topAnchor.constraint(equalTo: contentView.topAnchor),
-//                blurView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-//                blurView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-//                blurView.heightAnchor.constraint(equalToConstant: 320)
-//            ])
-//        }
     }
     
     func presentSFSafariView(vc: SFSafariViewController) {
         present(vc, animated: true)
     }
+    
+    func configureScreenshotCollectionView(with screenshots: [ScreenshotUIModel]) {
+        screenshotsView.configureScreenshotCollectionView(with: screenshots)
+    }
+}
+
+extension GameDetailsVC: ScreenshotCollectionViewAdapterDelegate {
+    
 }

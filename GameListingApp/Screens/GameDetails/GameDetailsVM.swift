@@ -14,12 +14,12 @@ protocol GameDetailsVMProtocol {
     
     func favouriteButtonTapped()
     func videoThumbnailButtonTapped()
-    func getScreenshotCount() -> Int
+//    func getScreenshotCount() -> Int
     func getPlatformsCount() -> Int
-    func getFormattedScreenshotURL(of index: Int) -> String
+//    func getFormattedScreenshotURL(of index: Int) -> String
     func getPlatformName(of index: Int) -> String
     func calculatePlatformCellSize(at index: Int, using frameWidth: CGFloat) -> CGSize
-    func calculateScreenshotCellSize(using frameWidth: CGFloat) -> CGSize
+//    func calculateScreenshotCellSize(using frameWidth: CGFloat) -> CGSize
     func fetchGameDetails(with gameId: Int)
 }
 
@@ -35,9 +35,16 @@ class GameDetailsVM {
     func fetchScreenshots(of gameId: Int){
         ScreenshotManager.shared.fetchScreenshots(of: gameId) { [weak self] result in
             switch result {
-            case .success(let screenshots):
-                self?.screenshots.append(contentsOf: screenshots)
-                self?.view?.reloadScreenshotCollectionView()
+            case .success(let data):
+                let screenshotUIModel = data
+                            .compactMap { $0.screenshots }
+                            .flatMap { $0 }
+                            .compactMap { $0.url }
+                            .map { self?.formatScreenshotURL($0) ?? "" }
+                            .compactMap { ScreenshotUIModel(url: $0) }
+                
+                self?.screenshots.append(contentsOf: data)
+                self?.view?.configureScreenshotCollectionView(with: screenshotUIModel)
                 self?.decideCoverBackground()
             case.failure(let error):
                 print(error)
@@ -47,13 +54,18 @@ class GameDetailsVM {
     
     func decideCoverBackground() {
         if screenshots.count > 0 {
-            let screenshotURL = getFormattedScreenshotURL(of: 0)
+            // TODO: Fix here
+            let screenshotURL = formatScreenshotURL(screenshots[0].screenshots?[0].url ?? "")
             view?.configureCoverBackground(with: screenshotURL, isTranslucent: true)
         } else {
             if let coverURL = coverURL {
                 view?.configureCoverBackground(with: coverURL, isTranslucent: true)
             }
         }
+    }
+    
+    func formatScreenshotURL(_ screenshotURL: String) -> String {
+        return screenshotURL.convertIgdbPathToURLString(replaceOccurrencesOf: "t_thumb", replaceWith: "t_screenshot_med")
     }
 }
 
@@ -66,36 +78,26 @@ extension GameDetailsVM: GameDetailsVMProtocol {
         FavouriteGameManager.shared.addGameToFavourites(gameId: Int64(gameId), screenshotURL: coverURL)
     }
     
-    func getScreenshotCount() -> Int {
-        if let screenshotsCount = screenshots.first?.screenshots {
-            return screenshotsCount.count
-        }
-        
-        return 0
-    }
+//    func getScreenshotCount() -> Int {
+//        if let screenshotsCount = screenshots.first?.screenshots {
+//            return screenshotsCount.count
+//        }
+//        
+//        return 0
+//    }
     
     func getPlatformsCount() -> Int {
         return platforms.count
-    }
-    
-    func getFormattedScreenshotURL(of index: Int) -> String {
-        if let screenshotURLs = screenshots.first?.screenshots{
-            if let screenshotURL = screenshotURLs[index].url{
-                return screenshotURL.convertIgdbPathToURLString(replaceOccurrencesOf: "t_thumb", replaceWith: "t_screenshot_med")
-            }
-        }
-        
-        return ""
     }
     
     func getPlatformName(of index: Int) -> String {
         return platforms[index].name
     }
     
-    func calculateScreenshotCellSize(using frameWidth: CGFloat) -> CGSize {
-        let cellSize = CGSize(width: frameWidth - 75, height: 200)
-        return cellSize
-    }
+//    func calculateScreenshotCellSize(using frameWidth: CGFloat) -> CGSize {
+//        let cellSize = CGSize(width: frameWidth - 75, height: 200)
+//        return cellSize
+//    }
     
     func calculatePlatformCellSize(at index: Int, using frameWidth: CGFloat) -> CGSize {
         let size = CGSize(width: CGFloat.greatestFiniteMagnitude, height: 50)
@@ -138,7 +140,6 @@ extension GameDetailsVM: GameDetailsVMProtocol {
                 }
                 
                 if let platforms = game.platforms {
-                    print(platforms)
                     self?.platforms = platforms
                     self?.view?.reloadPlatformsCollectionView()
                 }
