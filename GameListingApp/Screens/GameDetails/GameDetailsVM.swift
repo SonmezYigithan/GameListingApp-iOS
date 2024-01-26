@@ -103,8 +103,6 @@ extension GameDetailsVM: GameDetailsVMProtocol {
         
         let estimatedFrame = NSString(string: platforms[index].name).boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
         
-        print("Frame With: \(estimatedFrame.width), for keyword: \(platforms[index].name)")
-        
         let cellSize = CGSize(width: estimatedFrame.width + 25, height: 50)
         return cellSize
     }

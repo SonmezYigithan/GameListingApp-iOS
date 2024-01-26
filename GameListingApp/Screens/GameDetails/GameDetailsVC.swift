@@ -7,7 +7,6 @@
 
 import UIKit
 import Kingfisher
-import WebKit
 import SafariServices
 
 protocol GameDetailsProtocol: AnyObject {
@@ -45,21 +44,7 @@ final class GameDetailsVC: UIViewController {
         return view
     }()
     
-    private let coverBackgroundImage: UIImageView = {
-        let image = UIImageView()
-        image.contentMode = .scaleAspectFill
-        image.translatesAutoresizingMaskIntoConstraints = false
-        return image
-    }()
-    
-    private let coverImage: UIImageView = {
-        let image = UIImageView()
-        image.contentMode = .scaleAspectFill
-        image.layer.cornerRadius = 8
-        image.layer.masksToBounds = true
-        image.translatesAutoresizingMaskIntoConstraints = false
-        return image
-    }()
+    private let header = GameDetailsHeaderView()
     
     private let favouriteButton: UIButton = {
         let button = UIButton()
@@ -74,35 +59,7 @@ final class GameDetailsVC: UIViewController {
         return button
     }()
     
-    private let gameNameLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 22.0)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private let gameDeveloperLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 17.0)
-        label.textColor = .tintColor
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private let releaseDateLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Release Date: "
-        label.font = UIFont.boldSystemFont(ofSize: 17.0)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private let gameDescriptionLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let gameDescriptionView = GameDescriptionView()
     
     private let whereToPlaySectionLabel: UILabel = {
         let label = UILabel()
@@ -147,7 +104,6 @@ final class GameDetailsVC: UIViewController {
     
     private let videoThumbnailButton: UIButton = {
         let button = UIButton(type: .custom)
-//        button.backgroundColor = .red
         button.translatesAutoresizingMaskIntoConstraints = false
         button.imageView?.contentMode = .scaleAspectFill
         button.imageView?.layer.cornerRadius = 20
@@ -178,6 +134,11 @@ final class GameDetailsVC: UIViewController {
     // MARK: - Constraints
     
     private func applyConstraints() {
+        header.translatesAutoresizingMaskIntoConstraints = false
+        gameDescriptionView.translatesAutoresizingMaskIntoConstraints = false
+        screenshotsCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        platformsCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -198,52 +159,27 @@ final class GameDetailsVC: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            coverBackgroundImage.topAnchor.constraint(equalTo: contentView.topAnchor),
-            coverBackgroundImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            coverBackgroundImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            coverBackgroundImage.heightAnchor.constraint(equalToConstant: 320)
+            header.topAnchor.constraint(equalTo: contentView.topAnchor),
+            header.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            header.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            header.heightAnchor.constraint(equalToConstant: 320)
         ])
         
         NSLayoutConstraint.activate([
-            coverImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            coverImage.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
-            coverImage.widthAnchor.constraint(equalToConstant: 220),
-            coverImage.heightAnchor.constraint(equalToConstant: 300)
-        ])
-        
-        NSLayoutConstraint.activate([
-            favouriteButton.topAnchor.constraint(equalTo: coverBackgroundImage.bottomAnchor, constant: 15),
+            favouriteButton.topAnchor.constraint(equalTo: header.bottomAnchor, constant: 15),
             favouriteButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 15),
             favouriteButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15),
             favouriteButton.heightAnchor.constraint(equalToConstant: 50)
         ])
         
         NSLayoutConstraint.activate([
-            gameNameLabel.topAnchor.constraint(equalTo: favouriteButton.bottomAnchor, constant: 15),
-            gameNameLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 15),
-            gameNameLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15),
+            gameDescriptionView.topAnchor.constraint(equalTo: favouriteButton.bottomAnchor, constant: 15),
+            gameDescriptionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 15),
+            gameDescriptionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15),
         ])
         
         NSLayoutConstraint.activate([
-            gameDeveloperLabel.topAnchor.constraint(equalTo: gameNameLabel.bottomAnchor, constant: 5),
-            gameDeveloperLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 15),
-            gameDeveloperLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15),
-        ])
-        
-        NSLayoutConstraint.activate([
-            releaseDateLabel.topAnchor.constraint(equalTo: gameDeveloperLabel.bottomAnchor, constant: 5),
-            releaseDateLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 15),
-            releaseDateLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15),
-        ])
-        
-        NSLayoutConstraint.activate([
-            gameDescriptionLabel.topAnchor.constraint(equalTo: releaseDateLabel.bottomAnchor, constant: 5),
-            gameDescriptionLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 15),
-            gameDescriptionLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15),
-        ])
-        
-        NSLayoutConstraint.activate([
-            whereToPlaySectionLabel.topAnchor.constraint(equalTo: gameDescriptionLabel.bottomAnchor, constant: 15),
+            whereToPlaySectionLabel.topAnchor.constraint(equalTo: gameDescriptionView.bottomAnchor, constant: 15),
             whereToPlaySectionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             whereToPlaySectionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
         ])
@@ -289,13 +225,9 @@ final class GameDetailsVC: UIViewController {
     private func prepareContentView() {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
-        contentView.addSubview(coverBackgroundImage)
-        contentView.addSubview(coverImage)
+        contentView.addSubview(header)
         contentView.addSubview(favouriteButton)
-        contentView.addSubview(gameNameLabel)
-        contentView.addSubview(gameDeveloperLabel)
-        contentView.addSubview(releaseDateLabel)
-        contentView.addSubview(gameDescriptionLabel)
+        contentView.addSubview(gameDescriptionView)
         contentView.addSubview(whereToPlaySectionLabel)
         contentView.addSubview(platformsCollectionView)
         contentView.addSubview(screenshotsSectionLabel)
@@ -305,7 +237,6 @@ final class GameDetailsVC: UIViewController {
     }
     
     private func prepareScreenshotCollectionView() {
-        screenshotsCollectionView.translatesAutoresizingMaskIntoConstraints = false
         screenshotsCollectionView.register(ScreenshotsCollectionViewCell.self, forCellWithReuseIdentifier: ScreenshotsCollectionViewCell.identifier)
         screenshotsCollectionView.bounces = true
         screenshotsCollectionView.dataSource = self
@@ -315,7 +246,6 @@ final class GameDetailsVC: UIViewController {
     }
     
     private func preparePlatformsCollectionView() {
-        platformsCollectionView.translatesAutoresizingMaskIntoConstraints = false
         platformsCollectionView.register(PlatformCollectionViewCell.self, forCellWithReuseIdentifier: PlatformCollectionViewCell.identifier)
         platformsCollectionView.bounces = true
         platformsCollectionView.dataSource = self
@@ -332,12 +262,13 @@ final class GameDetailsVC: UIViewController {
         
         favouriteButton.addTarget(self, action: #selector(favouriteButtonTapped(_:)), for: .touchUpInside)
         videoThumbnailButton.addTarget(self, action: #selector(videoThumbnailButtonTapped(_:)), for: .touchUpInside)
-
+        
         applyConstraints()
     }
 }
 
 // MARK: - Screenshots Collection View
+
 extension GameDetailsVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if(collectionView == screenshotsCollectionView) {
@@ -393,19 +324,14 @@ extension GameDetailsVC: GameDetailsProtocol {
     
     func configureGameDetailUIElements(with arguments: GameDetailsArguments) {
         title = arguments.name
+        header.configureCoverImage(with: arguments.coverURL)
         
-        if let url = URL(string: arguments.coverURL){
-            coverImage.kf.setImage(with: url)
-        }
-        
-        gameNameLabel.text = arguments.name
-        gameDescriptionLabel.text = arguments.description
-        
+        var developerName = ""
         if let developer = arguments.developers.first?.company {
-            gameDeveloperLabel.text = developer.name
+            developerName = developer.name ?? ""
         }
         
-        releaseDateLabel.text = "Release Date: \(arguments.releaseDate)"
+        gameDescriptionView.configure(name: arguments.name, description: arguments.description, developerName: developerName, releaseDate: arguments.releaseDate)
         
         if let videoThumbnail = arguments.videoThumbnail {
             if let url = URL(string: videoThumbnail) {
@@ -421,23 +347,25 @@ extension GameDetailsVC: GameDetailsProtocol {
     }
     
     func configureCoverBackground(with screenshotURL: String, isTranslucent: Bool) {
-        if let url = URL(string: screenshotURL){
-            coverBackgroundImage.kf.setImage(with: url)
-        }
+        header.configureCoverBackground(with: screenshotURL, isTranslucent: isTranslucent)
         
-        if isTranslucent {
-            let blurEffect = UIBlurEffect(style: .light)
-            let blurView = UIVisualEffectView(effect: blurEffect)
-            blurView.translatesAutoresizingMaskIntoConstraints = false
-            contentView.insertSubview(blurView, at: 1)
-            
-            NSLayoutConstraint.activate([
-                blurView.topAnchor.constraint(equalTo: contentView.topAnchor),
-                blurView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-                blurView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-                blurView.heightAnchor.constraint(equalToConstant: 320)
-            ])
-        }
+//        if let url = URL(string: screenshotURL){
+//            coverBackgroundImage.kf.setImage(with: url)
+//        }
+//        
+//        if isTranslucent {
+//            let blurEffect = UIBlurEffect(style: .light)
+//            let blurView = UIVisualEffectView(effect: blurEffect)
+//            blurView.translatesAutoresizingMaskIntoConstraints = false
+//            contentView.insertSubview(blurView, at: 1)
+//            
+//            NSLayoutConstraint.activate([
+//                blurView.topAnchor.constraint(equalTo: contentView.topAnchor),
+//                blurView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+//                blurView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+//                blurView.heightAnchor.constraint(equalToConstant: 320)
+//            ])
+//        }
     }
     
     func presentSFSafariView(vc: SFSafariViewController) {
