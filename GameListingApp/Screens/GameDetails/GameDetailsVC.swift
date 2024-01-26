@@ -8,12 +8,14 @@
 import UIKit
 import Kingfisher
 import WebKit
+import SafariServices
 
 protocol GameDetailsProtocol: AnyObject {
     func reloadScreenshotCollectionView()
     func reloadPlatformsCollectionView()
     func configureGameDetailUIElements(with arguments: GameDetailsArguments)
     func configureCoverBackground(with screenshotURL: String, isTranslucent: Bool)
+    func presentSFSafariView(vc: SFSafariViewController)
 }
 
 struct GameDetailsArguments {
@@ -379,6 +381,7 @@ extension GameDetailsVC: UICollectionViewDelegate, UICollectionViewDataSource, U
     }
 }
 
+// MARK: - GameDetailsProtocol
 extension GameDetailsVC: GameDetailsProtocol {
     func reloadScreenshotCollectionView() {
         screenshotsCollectionView.reloadData()
@@ -435,5 +438,9 @@ extension GameDetailsVC: GameDetailsProtocol {
                 blurView.heightAnchor.constraint(equalToConstant: 320)
             ])
         }
+    }
+    
+    func presentSFSafariView(vc: SFSafariViewController) {
+        present(vc, animated: true)
     }
 }

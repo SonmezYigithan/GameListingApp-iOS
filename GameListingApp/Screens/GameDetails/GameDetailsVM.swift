@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import SafariServices
 
 protocol GameDetailsVMProtocol {
     var view: GameDetailsProtocol? { get set }
@@ -169,10 +170,12 @@ extension GameDetailsVM: GameDetailsVMProtocol {
             return
         }
         
-        if let url = URL(string: videoURL), UIApplication.shared.canOpenURL(url) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        } else {
-            print("Invalid URL or unable to open the URL")
+        if let url = URL(string: videoURL) {
+            let config = SFSafariViewController.Configuration()
+            config.entersReaderIfAvailable = true
+            
+            let vc = SFSafariViewController(url: url, configuration: config)
+            view?.presentSFSafariView(vc: vc)
         }
     }
 }
