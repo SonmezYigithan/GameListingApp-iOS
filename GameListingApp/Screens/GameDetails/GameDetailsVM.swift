@@ -12,7 +12,7 @@ import SafariServices
 protocol GameDetailsVMProtocol {
     var view: GameDetailsProtocol? { get set }
     
-    func favouriteButtonTapped()
+    func addToListButtonTapped()
     func videoThumbnailButtonTapped()
     func fetchGameDetails(with gameId: Int)
 }
@@ -64,12 +64,19 @@ class GameDetailsVM {
 }
 
 extension GameDetailsVM: GameDetailsVMProtocol {
-    func favouriteButtonTapped() {
+    func addToListButtonTapped() {
         guard let gameId = gameId else { return }
         
         guard let coverURL = coverURL else { return }
         
-        FavouriteGameManager.shared.addGameToFavourites(gameId: Int64(gameId), screenshotURL: coverURL)
+        // TODO: Create AddToListVC present it modally
+        
+        let vc = AddToListVC()
+        vc.configure(gameId: gameId, screenshot: coverURL)
+        view?.presentAddToListView(vc: vc)
+        
+//        ListSaveManager.shared.createList(name: "Favourites")
+//        ListSaveManager.shared.addGameToList(gameId: Int64(gameId), screenshotURL: coverURL, listName: "Favourites")
     }
     
     func fetchGameDetails(with gameId: Int) {
@@ -117,8 +124,7 @@ extension GameDetailsVM: GameDetailsVMProtocol {
                     description: game.summary ?? "",
                     developers: game.developer ?? [],
                     releaseDate: releaseDateString,
-                    videoThumbnail: videoThumbnail,
-                    isFavourite: FavouriteGameManager.shared.checkIfGameIsFavourite(with: Int64(game.id))
+                    videoThumbnail: videoThumbnail
                 )
                 
                 self?.view?.configureGameDetailUIElements(with: gameDetailsArguments)

@@ -2,12 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/yigithansonmez/Desktop/Projects/Swift/GameListingApp/GameListingApp/SaveData/FavouriteGames+CoreDataClass.swift">
-   </FileRef>
-   <FileRef
-      location = "group:/Users/yigithansonmez/Desktop/Projects/Swift/GameListingApp/GameListingApp/SaveData/FavouriteGames+CoreDataProperties.swift">
-   </FileRef>
-   <FileRef
       location = "group:GameListingApp.xcodeproj">
    </FileRef>
    <FileRef

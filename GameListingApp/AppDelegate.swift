@@ -39,8 +39,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 fatalError("Unable to load persistent stores: \(error)")
             }
         }
-//        let path = NSPersistentContainer.defaultDirectoryURL()
-//        print(path)
+        let path = NSPersistentContainer.defaultDirectoryURL()
+        print(path)
         return container
     }()
 }

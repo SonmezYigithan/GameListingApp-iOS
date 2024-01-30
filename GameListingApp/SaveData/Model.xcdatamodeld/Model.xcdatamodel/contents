@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22522" systemVersion="23C71" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
-    <entity name="FavouriteGames" representedClassName=".FavouriteGame" syncable="YES">
-        <attribute name="gameId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+    <entity name="GameEntity" representedClassName="GameEntity" syncable="YES">
+        <attribute name="gameId" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="screenshotURL" optional="YES" attributeType="String"/>
+        <relationship name="list" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="ListEntity" inverseName="games" inverseEntity="ListEntity"/>
+    </entity>
+    <entity name="ListEntity" representedClassName="ListEntity" syncable="YES">
+        <attribute name="name" attributeType="String"/>
+        <relationship name="games" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="GameEntity" inverseName="list" inverseEntity="GameEntity"/>
     </entity>
 </model>

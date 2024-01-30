@@ -13,6 +13,7 @@ protocol GameDetailsProtocol: AnyObject {
     func configureGameDetailUIElements(with arguments: GameDetailsArguments)
     func configureCoverBackground(with screenshotURL: String, isTranslucent: Bool)
     func presentSFSafariView(vc: SFSafariViewController)
+    func presentAddToListView(vc: AddToListVC)
     func configureScreenshotCollectionView(with screenshots: [ScreenshotUIModel])
     func configurePlatformsCollectionView(with screenshots: [PlatformsUIModel])
 }
@@ -24,12 +25,10 @@ struct GameDetailsArguments {
     let developers: [Developer]
     let releaseDate: String
     let videoThumbnail: String?
-    let isFavourite: Bool
 }
 
 final class GameDetailsVC: UIViewController {
     private lazy var viewModel: GameDetailsVMProtocol = GameDetailsVM()
-//    private var screenshotCollectionViewAdapter: ScreenshotCollectionViewAdapter?
     
     // MARK: - UI Element Declarations
     private let scrollView: UIScrollView = {
@@ -47,13 +46,13 @@ final class GameDetailsVC: UIViewController {
     
     private let header = GameDetailsHeaderView()
     
-    private let favouriteButton: UIButton = {
+    private let addToListButton: UIButton = {
         let button = UIButton()
         button.layer.cornerRadius = 6
         button.configuration = .tinted()
         button.configuration?.baseBackgroundColor = .systemGray
-        button.configuration?.title = "Add To Favourites"
-        button.configuration?.image = UIImage(systemName: "heart")
+        button.configuration?.title = "Add to Lists"
+        button.configuration?.image = UIImage(systemName: "plus")
         button.configuration?.imagePlacement = .leading
         
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -95,9 +94,8 @@ final class GameDetailsVC: UIViewController {
         viewModel.fetchGameDetails(with: gameId)
     }
     
-    @objc private func favouriteButtonTapped(_ sender: UIButton) {
-        print("Button Pressed")
-        viewModel.favouriteButtonTapped()
+    @objc private func addToListButtonTapped(_ sender: UIButton) {
+        viewModel.addToListButtonTapped()
     }
     
     @objc private func videoThumbnailButtonTapped(_ sender: UIButton) {
@@ -139,14 +137,14 @@ final class GameDetailsVC: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            favouriteButton.topAnchor.constraint(equalTo: header.bottomAnchor, constant: 15),
-            favouriteButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 15),
-            favouriteButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15),
-            favouriteButton.heightAnchor.constraint(equalToConstant: 50)
+            addToListButton.topAnchor.constraint(equalTo: header.bottomAnchor, constant: 15),
+            addToListButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 15),
+            addToListButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15),
+            addToListButton.heightAnchor.constraint(equalToConstant: 50)
         ])
         
         NSLayoutConstraint.activate([
-            gameDescriptionView.topAnchor.constraint(equalTo: favouriteButton.bottomAnchor, constant: 15),
+            gameDescriptionView.topAnchor.constraint(equalTo: addToListButton.bottomAnchor, constant: 15),
             gameDescriptionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 15),
             gameDescriptionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15),
         ])
@@ -186,7 +184,7 @@ final class GameDetailsVC: UIViewController {
         view.backgroundColor = .systemBackground
         prepareContentView()
         
-        favouriteButton.addTarget(self, action: #selector(favouriteButtonTapped(_:)), for: .touchUpInside)
+        addToListButton.addTarget(self, action: #selector(addToListButtonTapped(_:)), for: .touchUpInside)
         videoThumbnailButton.addTarget(self, action: #selector(videoThumbnailButtonTapped(_:)), for: .touchUpInside)
         
         applyConstraints()
@@ -196,7 +194,7 @@ final class GameDetailsVC: UIViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         contentView.addSubview(header)
-        contentView.addSubview(favouriteButton)
+        contentView.addSubview(addToListButton)
         contentView.addSubview(gameDescriptionView)
         contentView.addSubview(whereToPlayView)
         contentView.addSubview(screenshotsView)
@@ -230,9 +228,6 @@ extension GameDetailsVC: GameDetailsProtocol {
         } else {
             gameplayVideoSectionLabel.isHidden = true
         }
-        
-        // handle FavouriteButton
-        //        favouriteButton.isEnabled = !arguments.isFavourite
     }
     
     func configureCoverBackground(with screenshotURL: String, isTranslucent: Bool) {
@@ -245,6 +240,11 @@ extension GameDetailsVC: GameDetailsProtocol {
     
     func configureScreenshotCollectionView(with screenshots: [ScreenshotUIModel]) {
         screenshotsView.configureScreenshotCollectionView(with: screenshots)
+    }
+    
+    func presentAddToListView(vc: AddToListVC) {
+        let navVC = UINavigationController(rootViewController: vc)
+        present(navVC, animated: true)
     }
 }
 

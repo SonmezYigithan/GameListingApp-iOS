@@ -9,7 +9,7 @@ import Foundation
 
 protocol ProfileVMProtocol {
     var view: ProfileVCProtocol? { get set }
-    var favouriteGames: [FavouriteGame] { get }
+    var favouriteGames: [GameEntity] { get }
     
     func viewDidLoad()
     func fetchFavourites()
@@ -20,7 +20,7 @@ protocol ProfileVMProtocol {
 
 class ProfileVM {
     weak var view: ProfileVCProtocol?
-    var favouriteGames = [FavouriteGame]()
+    var favouriteGames = [GameEntity]()
 }
 
 extension ProfileVM: ProfileVMProtocol {
@@ -29,12 +29,12 @@ extension ProfileVM: ProfileVMProtocol {
     }
     
     func fetchFavourites() {
-        guard let favourites = FavouriteGameManager.shared.getFavouriteGames() else {
-            return
-        }
-        
-        favouriteGames = favourites
-        view?.reloadCollectionView()
+//        guard let favourites = ListSaveManager.shared.getFavouriteGames() else {
+//            return
+//        }
+//        
+//        favouriteGames = favourites
+//        view?.reloadCollectionView()
     }
     
     func getFavouriteGamesCount() -> Int {
