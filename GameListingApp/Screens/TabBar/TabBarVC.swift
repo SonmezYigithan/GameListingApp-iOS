@@ -16,7 +16,7 @@ final class TabBarVC: UITabBarController {
         
         let homeVC = UINavigationController(rootViewController: HomeVC())
         let searchVC = UINavigationController(rootViewController: SearchVC())
-        let profileVC = UINavigationController(rootViewController: ProfileVC())
+        let profileVC = UINavigationController(rootViewController: MyListsVC())
         
         homeVC.tabBarItem.selectedImage = UIImage(systemName: "gamecontroller.fill")
         homeVC.tabBarItem.image = UIImage(systemName: "gamecontroller")

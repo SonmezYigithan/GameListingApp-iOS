@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ListSaveManager {
+final class ListSaveManager {
     static let shared = ListSaveManager()
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -50,6 +50,24 @@ class ListSaveManager {
         do {
             try context.save()
             print("Created new List")
+        }
+        catch let error as NSError{
+            print(error)
+        }
+    }
+    
+    func deleteList(listName: String) {
+        let predicate = NSPredicate(format: "name == %@", listName)
+        let fetchRequest = ListEntity.fetchRequest()
+        fetchRequest.predicate = predicate
+        
+        do {
+            let list = try context.fetch(fetchRequest)
+            if let firstList = list.first, list.count > 0 {
+                context.delete(firstList)
+                try context.save()
+                print("Deleted the list \(listName)")
+            }
         }
         catch let error as NSError{
             print(error)

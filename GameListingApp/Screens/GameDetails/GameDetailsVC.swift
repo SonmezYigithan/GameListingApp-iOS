@@ -30,7 +30,7 @@ struct GameDetailsArguments {
 final class GameDetailsVC: UIViewController {
     private lazy var viewModel: GameDetailsVMProtocol = GameDetailsVM()
     
-    // MARK: - UI Element Declarations
+    // MARK: - Properties
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.contentInset = .zero

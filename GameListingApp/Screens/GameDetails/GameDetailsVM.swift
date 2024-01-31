@@ -69,14 +69,9 @@ extension GameDetailsVM: GameDetailsVMProtocol {
         
         guard let coverURL = coverURL else { return }
         
-        // TODO: Create AddToListVC present it modally
-        
         let vc = AddToListVC()
         vc.configure(gameId: gameId, screenshot: coverURL)
         view?.presentAddToListView(vc: vc)
-        
-//        ListSaveManager.shared.createList(name: "Favourites")
-//        ListSaveManager.shared.addGameToList(gameId: Int64(gameId), screenshotURL: coverURL, listName: "Favourites")
     }
     
     func fetchGameDetails(with gameId: Int) {

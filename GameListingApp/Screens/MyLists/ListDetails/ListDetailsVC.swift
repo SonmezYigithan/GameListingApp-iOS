@@ -7,13 +7,13 @@
 
 import UIKit
 
-protocol ProfileVCProtocol: AnyObject {
-    func prepareProfileVC()
+protocol ListDetailsVCProtocol: AnyObject {
     func reloadCollectionView()
 }
 
-final class ProfileVC: UIViewController {
-    private lazy var viewModel: ProfileVMProtocol = ProfileVM()
+final class ListDetailsVC: UIViewController {
+    // MARK: - Properties
+    private lazy var viewModel: ListDetailsVMProtocol = ListDetailsVM()
     
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -23,17 +23,36 @@ final class ProfileVC: UIViewController {
         return view
     }()
     
+    // MARK: - Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.view = self
-        viewModel.viewDidLoad()
+        prepareView()
+    }
+    
+    func configure(with listEntity: ListEntity) {
+        title = listEntity.name
+        viewModel.configure(with: listEntity)
     }
     
     // TODO: Optimize
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.fetchFavourites()
+        viewModel.fetchGames()
     }
+    
+    func prepareView() {
+        view.backgroundColor = .systemBackground
+        
+        view.addSubview(collectionView)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        
+        applyConstraints()
+    }
+    
+    // MARK: - Constraints
     
     private func applyConstraints(){
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -47,7 +66,9 @@ final class ProfileVC: UIViewController {
     }
 }
 
-extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource{
+// MARK: - Collection View Protocols
+
+extension ListDetailsVC: UICollectionViewDelegate, UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         viewModel.getFavouriteGamesCount()
     }
@@ -62,26 +83,16 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource{
     }
 }
 
-extension ProfileVC: UICollectionViewDelegateFlowLayout {
+extension ListDetailsVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return viewModel.getCellSize(viewWidth: view.frame.width)
     }
 }
 
-extension ProfileVC: ProfileVCProtocol {
-    func prepareProfileVC() {
-        view.backgroundColor = .systemBackground
-        title = "My Lists"
-        
-        view.addSubview(collectionView)
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        
-        applyConstraints()
-    }
-    
+// MARK: - ListDetailsVCProtocol
+
+extension ListDetailsVC: ListDetailsVCProtocol {
     func reloadCollectionView() {
         collectionView.reloadData()
     }
-    
 }
