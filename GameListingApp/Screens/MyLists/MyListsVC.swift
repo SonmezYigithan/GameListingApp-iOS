@@ -24,6 +24,12 @@ final class MyListsVC: UIViewController {
         return tableView
     }()
     
+    private lazy var refreshControl: UIRefreshControl = {
+        let ref = UIRefreshControl()
+        ref.addTarget(self, action: #selector(handleRefresh(_:)), for: .valueChanged)
+        return ref
+    }()
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -46,6 +52,7 @@ final class MyListsVC: UIViewController {
         view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.addSubview(refreshControl)
         
         let addListNavItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addListButtonTapped))
         navigationItem.rightBarButtonItem = addListNavItem
@@ -55,6 +62,11 @@ final class MyListsVC: UIViewController {
     
     @objc func addListButtonTapped() {
         viewModel.addListButtonTapped()
+    }
+    
+    @objc func handleRefresh(_ control: UIRefreshControl) {
+        viewModel.fetchLists()
+        control.endRefreshing()
     }
     
     // MARK: - Constraints
