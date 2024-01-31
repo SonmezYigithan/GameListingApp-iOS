@@ -38,6 +38,9 @@
 		C1CA2A642B647B440068D273 /* ListEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CA2A602B647B440068D273 /* ListEntity+CoreDataProperties.swift */; };
 		C1CA2A652B647B440068D273 /* GameEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CA2A612B647B440068D273 /* GameEntity+CoreDataClass.swift */; };
 		C1CA2A662B647B440068D273 /* GameEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CA2A622B647B440068D273 /* GameEntity+CoreDataProperties.swift */; };
+		C1D15E182B698F9A003F5ABE /* CreateListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D15E172B698F9A003F5ABE /* CreateListVC.swift */; };
+		C1D15E1A2B698FB9003F5ABE /* CreateListVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D15E192B698FB9003F5ABE /* CreateListVM.swift */; };
+		C1D15E1C2B699DAD003F5ABE /* SeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D15E1B2B699DAD003F5ABE /* SeparatorView.swift */; };
 		C1DA92312B582D670043C262 /* GameDetailsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1DA92302B582D670043C262 /* GameDetailsVM.swift */; };
 		C1DA92332B5AF6E80043C262 /* IGDBNetworkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1DA92322B5AF6E80043C262 /* IGDBNetworkHelper.swift */; };
 		C1DA92352B5B05DE0043C262 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1DA92342B5B05DD0043C262 /* NetworkManager.swift */; };
@@ -92,6 +95,9 @@
 		C1CA2A602B647B440068D273 /* ListEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ListEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		C1CA2A612B647B440068D273 /* GameEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GameEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		C1CA2A622B647B440068D273 /* GameEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GameEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		C1D15E172B698F9A003F5ABE /* CreateListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateListVC.swift; sourceTree = "<group>"; };
+		C1D15E192B698FB9003F5ABE /* CreateListVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateListVM.swift; sourceTree = "<group>"; };
+		C1D15E1B2B699DAD003F5ABE /* SeparatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorView.swift; sourceTree = "<group>"; };
 		C1DA92302B582D670043C262 /* GameDetailsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDetailsVM.swift; sourceTree = "<group>"; };
 		C1DA92322B5AF6E80043C262 /* IGDBNetworkHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IGDBNetworkHelper.swift; sourceTree = "<group>"; };
 		C1DA92342B5B05DD0043C262 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -158,6 +164,7 @@
 				C14EE9182B55F165008E4888 /* GameDetails */,
 				C14EE9172B55F156008E4888 /* Search */,
 				C1FBB9292B65803C002DAAF6 /* AddToList */,
+				C1D15E162B698F58003F5ABE /* CreateList */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -328,6 +335,16 @@
 				C1CA2A4D2B6456DD0068D273 /* WhereToPlayView.swift */,
 			);
 			path = Platforms;
+			sourceTree = "<group>";
+		};
+		C1D15E162B698F58003F5ABE /* CreateList */ = {
+			isa = PBXGroup;
+			children = (
+				C1D15E172B698F9A003F5ABE /* CreateListVC.swift */,
+				C1D15E192B698FB9003F5ABE /* CreateListVM.swift */,
+				C1D15E1B2B699DAD003F5ABE /* SeparatorView.swift */,
+			);
+			path = CreateList;
 			sourceTree = "<group>";
 		};
 		C1DA922F2B581A110043C262 /* CustomCell */ = {
@@ -508,6 +525,7 @@
 			files = (
 				C1A1AAB32B518A7F00A7EB0E /* String+Extensions.swift in Sources */,
 				C1E649D92B56D51B00A46D6E /* HomeViewModel.swift in Sources */,
+				C1D15E1C2B699DAD003F5ABE /* SeparatorView.swift in Sources */,
 				C145973E2B45DD51003D0262 /* GameDetailsVC.swift in Sources */,
 				C1FBB92B2B6581F3002DAAF6 /* AddToListVC.swift in Sources */,
 				C1CA2A4E2B6456DE0068D273 /* WhereToPlayView.swift in Sources */,
@@ -517,6 +535,7 @@
 				C191411F2B41A529009BD99E /* ProfileVC.swift in Sources */,
 				C145974D2B5045A7003D0262 /* ListSaveManager.swift in Sources */,
 				C191410A2B41A2C5009BD99E /* TabBarVC.swift in Sources */,
+				C1D15E1A2B698FB9003F5ABE /* CreateListVM.swift in Sources */,
 				C1DA92432B5C671D0043C262 /* ProfileVM.swift in Sources */,
 				C1CA2A4B2B64541D0068D273 /* PlatformsUIModel.swift in Sources */,
 				C14597382B444235003D0262 /* APIKeys.swift in Sources */,
@@ -528,6 +547,7 @@
 				C1CA2A402B6425E70068D273 /* ScreenshotCollectionViewAdapter.swift in Sources */,
 				C1CA2A632B647B440068D273 /* ListEntity+CoreDataClass.swift in Sources */,
 				C1CA2A3A2B63F7F90068D273 /* GameDescriptionView.swift in Sources */,
+				C1D15E182B698F9A003F5ABE /* CreateListVC.swift in Sources */,
 				C116F8362B43491900E5C19E /* Game.swift in Sources */,
 				C1CA2A642B647B440068D273 /* ListEntity+CoreDataProperties.swift in Sources */,
 				C191411D2B41A512009BD99E /* SearchVC.swift in Sources */,

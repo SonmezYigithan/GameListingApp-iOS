@@ -16,6 +16,7 @@ protocol AddToListVMProtocol {
     func didUnselectList(at index: Int)
     func configureGameEntity(gameId: Int, screenshotURL: String?)
     func addGameToSelectedList()
+    func createListButtonClicked()
     func canCellClickable(at index: Int) -> Bool
 }
 
@@ -24,7 +25,7 @@ struct GameSaveDetails {
     let screenshotURL: String?
 }
 
-class AddToListVM {
+final class AddToListVM {
     internal weak var view: AddToListVCProtocol?
     
     var lists = [ListEntity]()
@@ -97,6 +98,11 @@ extension AddToListVM: AddToListVMProtocol {
         }
 
         view?.dismissView()
+    }
+    
+    func createListButtonClicked() {
+        let vc = CreateListVC()
+        view?.presentCreateListView(vc: vc)
     }
     
 }

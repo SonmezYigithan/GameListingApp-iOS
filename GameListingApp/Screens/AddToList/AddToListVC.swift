@@ -9,16 +9,17 @@ import UIKit
 
 protocol AddToListVCProtocol: AnyObject {
     func dismissView()
+    func presentCreateListView(vc: CreateListVC)
 }
 
-class AddToListVC: UIViewController {
+final class AddToListVC: UIViewController {
     private lazy var viewModel: AddToListVMProtocol = AddToListVM()
     
     var selectedCells = [Int]()
     
     var addButton: UIBarButtonItem? = nil
     
-    private let addListButton: UIButton = {
+    private let createListButton: UIButton = {
         let button = UIButton()
         button.configuration = .tinted()
         button.configuration?.title = "New List..."
@@ -53,28 +54,28 @@ class AddToListVC: UIViewController {
         title = "Add to Lists"
         view.backgroundColor = .systemBackground
         
-        view.addSubview(addListButton)
+        view.addSubview(createListButton)
         view.addSubview(tableView)
         
         tableView.delegate = self
         tableView.dataSource = self
         
-        
         addButton = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(addButtonClicked))
-        
         navigationItem.rightBarButtonItem = addButton
+        
+        createListButton.addTarget(self, action: #selector(createListButtonClicked), for: .touchUpInside)
     }
     
     func applyConstraints() {
         NSLayoutConstraint.activate([
-            addListButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            addListButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            addListButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            addListButton.heightAnchor.constraint(equalToConstant: 50)
+            createListButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            createListButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            createListButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            createListButton.heightAnchor.constraint(equalToConstant: 50)
         ])
         
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: addListButton.bottomAnchor, constant: 5),
+            tableView.topAnchor.constraint(equalTo: createListButton.bottomAnchor, constant: 5),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
@@ -83,6 +84,10 @@ class AddToListVC: UIViewController {
     
     @objc func addButtonClicked() {
         viewModel.addGameToSelectedList()
+    }
+    
+    @objc func createListButtonClicked() {
+        viewModel.createListButtonClicked()
     }
 }
 
@@ -143,7 +148,11 @@ extension AddToListVC: AddToListVCProtocol {
     }
     
     func disableEnableAddButton(isEnabled: Bool) {
-        addListButton.isEnabled = isEnabled
+        createListButton.isEnabled = isEnabled
+    }
+    
+    func presentCreateListView(vc: CreateListVC) {
+        navigationController?.pushViewController(vc, animated: true)
     }
     
 }

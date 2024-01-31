@@ -35,7 +35,7 @@ class ListSaveManager {
             if let firstList = list.first, list.count > 0 {
                 firstList.addToGames(gameEntity)
                 try context.save()
-                print("Saved Data")
+                print("Added the game to the list")
             }
         }
         catch let error as NSError{
@@ -49,31 +49,31 @@ class ListSaveManager {
         
         do {
             try context.save()
-            print("Saved Data")
+            print("Created new List")
         }
         catch let error as NSError{
             print(error)
         }
     }
     
-    func getGamesFromList(with listName: String) -> [GameEntity]? {
-        do {
-            let predicate = NSPredicate(format: "name == %@", listName)
-            let fetchRequest = ListEntity.fetchRequest()
-            fetchRequest.predicate = predicate
-            
-            let gameList = try context.fetch(fetchRequest)
-            print(gameList.count)
-            if let gameList = gameList.first {
-                print(gameList.name!)
-            }
-            return nil
-        }
-        catch let error as NSError {
-            print(error)
-            return nil
-        }
-    }
+//    func getGamesFromList(with listName: String) -> [GameEntity]? {
+//        do {
+//            let predicate = NSPredicate(format: "name == %@", listName)
+//            let fetchRequest = ListEntity.fetchRequest()
+//            fetchRequest.predicate = predicate
+//            
+//            let gameList = try context.fetch(fetchRequest)
+//            print(gameList.count)
+//            if let gameList = gameList.first {
+//                print(gameList.name!)
+//            }
+//            return nil
+//        }
+//        catch let error as NSError {
+//            print(error)
+//            return nil
+//        }
+//    }
     
     func getAllLists() -> [ListEntity]? {
         do {
@@ -95,8 +95,6 @@ class ListSaveManager {
         return game.list
     }
     
-    // Burada gamein içindeki listlerin referansını falan tutmak yerine
-    // gameId ile game al ama game'in içindeki
     func getGame(gameId: Int) -> GameEntity? {
         do {
             let predicate = NSPredicate(format: "gameId == %ld", gameId)
@@ -114,45 +112,7 @@ class ListSaveManager {
             return nil
         }
     }
-    
-    //    func getFavouriteGames() -> [FavouriteGame]? {
-    //        do {
-    //            let favouriteGames = try context.fetch(FavouriteGame.fetchRequest())
-    //            return favouriteGames
-    //        }
-    //        catch let error as NSError{
-    //            print(error)
-    //            return nil
-    //        }
-    //    }
-    //
-    //    func addGameToFavourites(gameId: Int64, screenshotURL: String) {
-    //        let newGame = FavouriteGame(context: context)
-    //        newGame.gameId = gameId
-    //        newGame.screenshotURL = screenshotURL
-    //
-    //        do {
-    //            try context.save()
-    //            print("Saved Data")
-    //        }
-    //        catch let error as NSError{
-    //            print(error)
-    //        }
-    //    }
-    //
-    //    func checkIfGameIsFavourite(with gameId: Int64) -> Bool {
-    //        do {
-    //            let fetchRequest = FavouriteGame.fetchRequest()
-    //            fetchRequest.predicate = NSPredicate(format: "gameId == \(gameId)")
-    //            let count = try context.count(for: fetchRequest)
-    //            return count > 0
-    //        }
-    //        catch let error as NSError{
-    //            print(error)
-    //            return false
-    //        }
-    //    }
-    //
+
     //    func removeGameFromFavourites(game: FavouriteGame) {
     //        context.delete(game)
     //
