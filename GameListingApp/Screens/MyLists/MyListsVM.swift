@@ -53,7 +53,7 @@ extension MyListsVM: MyListsVMProtocol {
     func didSelectRow(at index: Int) {
         let vc = ListDetailsVC()
         vc.configure(with: lists[index])
-        view?.navigateToView(vc: vc)
+        view?.navigateToListDetailsView(vc: vc)
     }
     
     func deleteList(at index: Int) -> Bool {

@@ -9,7 +9,7 @@ import UIKit
 
 protocol MyListsVCProtocol: AnyObject {
     func reloadTableView()
-    func navigateToView(vc: ListDetailsVC)
+    func navigateToListDetailsView(vc: ListDetailsVC)
     func presentCreateListView(vc: CreateListVC)
 }
 
@@ -136,7 +136,7 @@ extension MyListsVC: MyListsVCProtocol {
         tableView.reloadData()
     }
     
-    func navigateToView(vc: ListDetailsVC) {
+    func navigateToListDetailsView(vc: ListDetailsVC) {
         navigationController?.pushViewController(vc, animated: true)
     }
     

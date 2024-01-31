@@ -15,6 +15,7 @@ protocol ListDetailsVMProtocol {
     func getFavouriteGamesCount() -> Int
     func getCoverArtURLString(of index: Int) -> String
     func getCellSize(viewWidth: CGFloat) -> CGSize
+    func didSelectItem(at index: Int)
 }
 
 final class ListDetailsVM {
@@ -50,5 +51,10 @@ extension ListDetailsVM: ListDetailsVMProtocol {
         return cellSize
     }
     
-    
+    func didSelectItem(at index: Int) {
+        guard let gameId = list?.games?[index].gameId else { return }
+        let gameDetailsVC = GameDetailsVC()
+        gameDetailsVC.configure(with: Int(gameId))
+        view?.navigateToGameDetails(vc: gameDetailsVC)
+    }
 }

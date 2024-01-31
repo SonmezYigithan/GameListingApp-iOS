@@ -9,6 +9,7 @@ import UIKit
 
 protocol ListDetailsVCProtocol: AnyObject {
     func reloadCollectionView()
+    func navigateToGameDetails(vc: GameDetailsVC)
 }
 
 final class ListDetailsVC: UIViewController {
@@ -81,6 +82,10 @@ extension ListDetailsVC: UICollectionViewDelegate, UICollectionViewDataSource{
         
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        viewModel.didSelectItem(at: indexPath.item)
+    }
 }
 
 extension ListDetailsVC: UICollectionViewDelegateFlowLayout {
@@ -94,5 +99,9 @@ extension ListDetailsVC: UICollectionViewDelegateFlowLayout {
 extension ListDetailsVC: ListDetailsVCProtocol {
     func reloadCollectionView() {
         collectionView.reloadData()
+    }
+    
+    func navigateToGameDetails(vc: GameDetailsVC) {
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
