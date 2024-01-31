@@ -94,6 +94,8 @@ final class GameDetailsVC: UIViewController {
         viewModel.fetchGameDetails(with: gameId)
     }
     
+    // MARK: Actions
+    
     @objc private func addToListButtonTapped(_ sender: UIButton) {
         viewModel.addToListButtonTapped()
     }
@@ -204,6 +206,7 @@ final class GameDetailsVC: UIViewController {
 }
 
 // MARK: - GameDetailsProtocol
+
 extension GameDetailsVC: GameDetailsProtocol {
     func configurePlatformsCollectionView(with screenshots: [PlatformsUIModel]) {
         whereToPlayView.configureScreenshotCollectionView(with: screenshots)

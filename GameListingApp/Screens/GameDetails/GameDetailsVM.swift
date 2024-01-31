@@ -17,7 +17,9 @@ protocol GameDetailsVMProtocol {
     func fetchGameDetails(with gameId: Int)
 }
 
-class GameDetailsVM {
+final class GameDetailsVM {
+    // MARK: Properties
+    
     internal weak var view: GameDetailsProtocol?
     internal var screenshots = [Screenshot]()
     internal var platforms = [Platform]()
@@ -48,7 +50,6 @@ class GameDetailsVM {
     
     func decideCoverBackground() {
         if screenshots.count > 0 {
-            // TODO: Fix here
             let screenshotURL = formatScreenshotURL(screenshots[0].screenshots?[0].url ?? "")
             view?.configureCoverBackground(with: screenshotURL, isTranslucent: true)
         } else {
@@ -62,6 +63,8 @@ class GameDetailsVM {
         return screenshotURL.convertIgdbPathToURLString(replaceOccurrencesOf: "t_thumb", replaceWith: "t_screenshot_med")
     }
 }
+
+// MARK: - GameDetailsVMProtocol
 
 extension GameDetailsVM: GameDetailsVMProtocol {
     func addToListButtonTapped() {

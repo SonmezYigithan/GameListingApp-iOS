@@ -7,7 +7,9 @@
 
 import UIKit
 
-class GameDescriptionView: UIView {
+final class GameDescriptionView: UIView {
+    // MARK: Properties
+    
     let stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -46,6 +48,8 @@ class GameDescriptionView: UIView {
         return label
     }()
     
+    // MARK: Life Cycle
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         prepareView()
@@ -73,6 +77,8 @@ class GameDescriptionView: UIView {
         stackView.setCustomSpacing(10, after: releaseDateLabel)
     }
     
+    // MARK: Constraints
+    
     func applyConstraints() {
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: topAnchor),
@@ -81,5 +87,4 @@ class GameDescriptionView: UIView {
             stackView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
-    
 }

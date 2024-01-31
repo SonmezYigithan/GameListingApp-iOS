@@ -8,7 +8,9 @@
 import UIKit
 import Kingfisher
 
-class GameDetailsHeaderView: UIView {
+final class GameDetailsHeaderView: UIView {
+    // MARK: - Properties
+    
     private let coverBackgroundImage: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
@@ -24,6 +26,8 @@ class GameDetailsHeaderView: UIView {
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
+    
+    // MARK: Life Cycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -62,6 +66,8 @@ class GameDetailsHeaderView: UIView {
         }
     }
     
+    // MARK: Constraints
+    
     func applyConstraints() {
         NSLayoutConstraint.activate([
             coverBackgroundImage.topAnchor.constraint(equalTo: topAnchor),
@@ -77,6 +83,4 @@ class GameDetailsHeaderView: UIView {
             coverImage.heightAnchor.constraint(equalToConstant: 300)
         ])
     }
-    
-    
 }

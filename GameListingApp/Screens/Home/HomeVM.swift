@@ -21,6 +21,8 @@ protocol HomeVMProtocol {
 }
 
 final class HomeVM {
+    // MARK: - Properties
+    
     internal weak var view: HomeVCProtocol?
     var games = [Game]()
     
@@ -37,6 +39,8 @@ final class HomeVM {
     }
 }
 
+// MARK: - HomeVMProtocol
+
 extension HomeVM: HomeVMProtocol {
     func viewDidLoad() {
         fetchUpcomingGames()
@@ -46,7 +50,6 @@ extension HomeVM: HomeVMProtocol {
     func didSelectItem(at indexPath: IndexPath) {
         let gameDetailsVC = GameDetailsVC()
         gameDetailsVC.configure(with: games[indexPath.item].id)
-        
         view?.navigateToGameDetails(with: gameDetailsVC)
     }
     

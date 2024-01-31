@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ScreenshotsCollectionViewCell: UICollectionViewCell {
+final class ScreenshotsCollectionViewCell: UICollectionViewCell {
     static let identifier = "ScreenshotsCollectionViewCell"
     
     private let imageView = UIImageView()

@@ -13,7 +13,8 @@ struct SearchTabTableViewCellArguments {
     let coverURL: String
 }
 
-class SearchTabTableViewCell: UITableViewCell {
+final class SearchTabTableViewCell: UITableViewCell {
+    // MARK: - Properties
     
     static let identifier = "SearchTabTableViewCell"
     
@@ -31,6 +32,8 @@ class SearchTabTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    
+    // MARK: - Life Cycle
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -52,6 +55,8 @@ class SearchTabTableViewCell: UITableViewCell {
             coverImage.kf.setImage(with: url)
         }
     }
+    
+    // MARK: - Constraints
     
     func applyConstraints(){
         NSLayoutConstraint.activate([

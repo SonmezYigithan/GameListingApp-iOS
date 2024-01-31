@@ -19,10 +19,14 @@ protocol SearchResultsVMProtocol {
     func getCellHeightForRow() -> CGFloat
 }
 
-class SearchResultsVM {
+final class SearchResultsVM {
+    // MARK: - Properties
+    
     weak var view: SearchResultsVCProtocol?
     var games = [Game]()
 }
+
+// MARK: - SearchResultsVMProtocol
 
 extension SearchResultsVM: SearchResultsVMProtocol {
     func viewDidLoad() {

@@ -8,7 +8,6 @@
 import UIKit
 
 final class TabBarVC: UITabBarController {
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -32,7 +31,5 @@ final class TabBarVC: UITabBarController {
         
         setViewControllers([homeVC, searchVC, profileVC], animated: true)
     }
-
-
 }
 

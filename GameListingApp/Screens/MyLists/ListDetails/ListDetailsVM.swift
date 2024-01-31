@@ -10,7 +10,6 @@ import Foundation
 protocol ListDetailsVMProtocol {
     var view: ListDetailsVCProtocol? { get set }
     
-    func fetchGames()
     func configure(with listEntity: ListEntity)
     func getFavouriteGamesCount() -> Int
     func getCoverArtURLString(of index: Int) -> String
@@ -19,16 +18,15 @@ protocol ListDetailsVMProtocol {
 }
 
 final class ListDetailsVM {
+    // MARK: - Properties
+    
     weak var view: ListDetailsVCProtocol?
     var list: ListEntity?
 }
 
+// MARK: - ListDetailsVMProtocol
+
 extension ListDetailsVM: ListDetailsVMProtocol {
-    
-    func fetchGames() {
-        
-    }
-    
     func configure(with listEntity: ListEntity) {
         list = listEntity
     }

@@ -32,15 +32,11 @@ final class ListDetailsVC: UIViewController {
         prepareView()
     }
     
+    // MARK: - Methods
+    
     func configure(with listEntity: ListEntity) {
         title = listEntity.name
         viewModel.configure(with: listEntity)
-    }
-    
-    // TODO: Optimize
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        viewModel.fetchGames()
     }
     
     func prepareView() {
@@ -67,7 +63,7 @@ final class ListDetailsVC: UIViewController {
     }
 }
 
-// MARK: - Collection View Protocols
+// MARK: - UICollectionViewDelegate
 
 extension ListDetailsVC: UICollectionViewDelegate, UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

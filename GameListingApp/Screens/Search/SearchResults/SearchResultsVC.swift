@@ -19,6 +19,8 @@ protocol SearchResultsVCProtocol: AnyObject {
 }
 
 final class SearchResultsVC: UIViewController {
+    //MARK: - Properties
+    
     private lazy var viewModel: SearchResultsVMProtocol = SearchResultsVM()
     
     public weak var delegate: SearchResultsVCDelegate?
@@ -70,6 +72,8 @@ final class SearchResultsVC: UIViewController {
         
         return view
     }()
+    
+    // MARK: - Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,6 +93,8 @@ final class SearchResultsVC: UIViewController {
         view.isHidden = true
     }
     
+    // MARK: - Constraints
+    
     private func applyConstraints(){
         NSLayoutConstraint.activate([
             searchResultsTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -105,6 +111,8 @@ final class SearchResultsVC: UIViewController {
         ])
     }
 }
+
+// MARK: - UITableViewDelegate
 
 extension SearchResultsVC: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -125,6 +133,8 @@ extension SearchResultsVC: UITableViewDelegate, UITableViewDataSource{
         viewModel.getCellHeightForRow()
     }
 }
+
+// MARK: - SearchResultsVCProtocol
 
 extension SearchResultsVC: SearchResultsVCProtocol {
     func prepareSearchResultsTableView() {

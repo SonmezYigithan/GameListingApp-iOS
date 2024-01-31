@@ -15,10 +15,14 @@ protocol SearchVMProtocol {
     func updateSearchResults(for searchController: UISearchController)
 }
 
-class SearchVM {
+final class SearchVM {
+    // MARK: Properties
+    
     internal weak var view: SearchVCProtocol?
     var searchTimer: Timer?
 }
+
+// MARK: SearchVMProtocol
 
 extension SearchVM: SearchVMProtocol {
     func viewDidLoad() {

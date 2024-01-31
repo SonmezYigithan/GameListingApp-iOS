@@ -39,7 +39,6 @@ final class MyListsVC: UIViewController {
         prepareView()
     }
     
-    // TODO: Optimize (add refresh functionality)
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.fetchLists()
@@ -59,6 +58,8 @@ final class MyListsVC: UIViewController {
         
         applyConstraints()
     }
+    
+    // MARK: - Actions
     
     @objc func addListButtonTapped() {
         viewModel.addListButtonTapped()

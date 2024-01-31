@@ -13,6 +13,8 @@ protocol AddToListVCProtocol: AnyObject {
 }
 
 final class AddToListVC: UIViewController {
+    // MARK: - Properties
+    
     private lazy var viewModel: AddToListVMProtocol = AddToListVM()
     
     var selectedCells = [Int]()
@@ -34,6 +36,8 @@ final class AddToListVC: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
+    
+    // MARK: - Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,6 +67,8 @@ final class AddToListVC: UIViewController {
         createListButton.addTarget(self, action: #selector(createListButtonClicked), for: .touchUpInside)
     }
     
+    // MARK: - Constraints
+    
     func applyConstraints() {
         NSLayoutConstraint.activate([
             createListButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -79,6 +85,8 @@ final class AddToListVC: UIViewController {
         ])
     }
     
+    // MARK: - Actions
+    
     @objc func addButtonClicked() {
         viewModel.addGameToSelectedList()
     }
@@ -87,6 +95,8 @@ final class AddToListVC: UIViewController {
         viewModel.createListButtonClicked()
     }
 }
+
+// MARK: - UITableViewDelegate
 
 extension AddToListVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -137,6 +147,8 @@ extension AddToListVC: UITableViewDelegate, UITableViewDataSource {
         return indexPath
     }
 }
+
+// MARK: - AddToListVCProtocol
 
 extension AddToListVC: AddToListVCProtocol {
     func dismissView() {

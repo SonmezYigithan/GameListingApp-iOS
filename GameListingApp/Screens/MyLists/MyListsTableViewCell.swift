@@ -7,7 +7,9 @@
 
 import UIKit
 
-class MyListsTableViewCell: UITableViewCell {
+final class MyListsTableViewCell: UITableViewCell {
+    // MARK: - Properties
+    
     static let identifier = "MyListsTableViewCell"
     
     private let listName: UILabel = {
@@ -23,6 +25,8 @@ class MyListsTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    
+    // MARK: - Life Cycle
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -44,6 +48,8 @@ class MyListsTableViewCell: UITableViewCell {
         addSubview(numberOfGames)
     }
     
+    // MARK: - Constraints
+    
     func applyConstraints() {
         NSLayoutConstraint.activate([
             listName.topAnchor.constraint(equalTo: topAnchor),
@@ -55,7 +61,6 @@ class MyListsTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate([
             numberOfGames.topAnchor.constraint(equalTo: topAnchor),
             numberOfGames.bottomAnchor.constraint(equalTo: bottomAnchor),
-//            numberOfGames.leadingAnchor.constraint(equalTo: listName.trailingAnchor),
             numberOfGames.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10)
         ])
     }

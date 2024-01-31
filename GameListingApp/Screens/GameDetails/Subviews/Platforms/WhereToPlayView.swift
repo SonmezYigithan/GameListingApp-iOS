@@ -7,7 +7,9 @@
 
 import UIKit
 
-class WhereToPlayView: UIView {
+final class WhereToPlayView: UIView {
+    // MARK: - Properties
+    
     private var collectionViewAdapter: PlatformCollectionViewAdapter?
     
     private let sectionLabel: UILabel = {
@@ -25,6 +27,8 @@ class WhereToPlayView: UIView {
         layout.sectionInset = .init(top: 0, left: 15, bottom: 0, right: 0)
         return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
+    
+    // MARK: - Life Cycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -51,6 +55,8 @@ class WhereToPlayView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Constraints
     
     private func applyConstraints() {
         NSLayoutConstraint.activate([

@@ -14,6 +14,8 @@ protocol CreateListVCProtocol: AnyObject {
 }
 
 final class CreateListVC: UIViewController {
+    // MARK: - Properties
+    
     private lazy var viewModel: CreateListVMProtocol = CreateListVM()
     
     private let listNameTextField: UITextField = {
@@ -35,6 +37,8 @@ final class CreateListVC: UIViewController {
     private let separatorView2 = SeparatorView()
     
     var createButton: UIBarButtonItem? = nil
+    
+    // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,6 +66,8 @@ final class CreateListVC: UIViewController {
         navigationItem.rightBarButtonItem = createButton
     }
     
+    // MARK: - Actions
+    
     @objc func createButtonClicked() {
         guard let listName = listNameTextField.text else { return }
         
@@ -73,6 +79,8 @@ final class CreateListVC: UIViewController {
         guard let listName = listNameTextField.text else { return }
         viewModel.listNameFieldEdited(listName: listName)
     }
+    
+    // MARK: - Constraints
     
     func applyConstraints() {
         separatorView1.translatesAutoresizingMaskIntoConstraints = false
@@ -106,6 +114,8 @@ final class CreateListVC: UIViewController {
     }
 }
 
+// MARK: - CreateListVCProtocol
+
 extension CreateListVC: CreateListVCProtocol {
     func dismissView() {
         navigationController?.popViewController(animated: true)
@@ -119,5 +129,4 @@ extension CreateListVC: CreateListVCProtocol {
     func disableAddButton() {
         createButton?.isEnabled = false
     }
-    
 }

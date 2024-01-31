@@ -7,7 +7,7 @@
 
 import Alamofire
 
-class NetworkManager {
+final class NetworkManager {
     static let shared = NetworkManager()
     
     func request<T: Codable>(_ type: T.Type, url: String, body: String, method: HTTPMethod, completion: @escaping((Result<T,Error>)->())){

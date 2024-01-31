@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PlatformCollectionViewCell: UICollectionViewCell {
+final class PlatformCollectionViewCell: UICollectionViewCell {
     static let identifier = "PlatformCollectionViewCell"
     
     private let label: UILabel = {
@@ -15,6 +15,7 @@ class PlatformCollectionViewCell: UICollectionViewCell {
         label.numberOfLines = 0
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 17.0)
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -24,15 +25,7 @@ class PlatformCollectionViewCell: UICollectionViewCell {
         layer.cornerRadius = 8
         
         addSubview(label)
-        
-        label.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            label.topAnchor.constraint(equalTo: topAnchor),
-            label.bottomAnchor.constraint(equalTo: bottomAnchor),
-            label.leadingAnchor.constraint(equalTo: leadingAnchor),
-            label.trailingAnchor.constraint(equalTo: trailingAnchor),
-        ])
+        applyConstraints()
     }
     
     func configure(with platformName: String) {
@@ -43,4 +36,12 @@ class PlatformCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func applyConstraints() {
+        NSLayoutConstraint.activate([
+            label.topAnchor.constraint(equalTo: topAnchor),
+            label.bottomAnchor.constraint(equalTo: bottomAnchor),
+            label.leadingAnchor.constraint(equalTo: leadingAnchor),
+            label.trailingAnchor.constraint(equalTo: trailingAnchor),
+        ])
+    }
 }

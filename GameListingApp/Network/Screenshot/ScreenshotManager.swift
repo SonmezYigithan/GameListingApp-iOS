@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ScreenshotManager {
+final class ScreenshotManager {
     static let shared = ScreenshotManager()
     
     func fetchScreenshots(of gameId: Int, completion: @escaping (Result<[Screenshot],Error>)->()){

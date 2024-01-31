@@ -74,25 +74,6 @@ final class ListSaveManager {
         }
     }
     
-//    func getGamesFromList(with listName: String) -> [GameEntity]? {
-//        do {
-//            let predicate = NSPredicate(format: "name == %@", listName)
-//            let fetchRequest = ListEntity.fetchRequest()
-//            fetchRequest.predicate = predicate
-//            
-//            let gameList = try context.fetch(fetchRequest)
-//            print(gameList.count)
-//            if let gameList = gameList.first {
-//                print(gameList.name!)
-//            }
-//            return nil
-//        }
-//        catch let error as NSError {
-//            print(error)
-//            return nil
-//        }
-//    }
-    
     func getAllLists() -> [ListEntity]? {
         do {
             let lists = try context.fetch(ListEntity.fetchRequest())
@@ -130,15 +111,4 @@ final class ListSaveManager {
             return nil
         }
     }
-
-    //    func removeGameFromFavourites(game: FavouriteGame) {
-    //        context.delete(game)
-    //
-    //        do {
-    //            try context.save()
-    //        }
-    //        catch let error as NSError{
-    //            print(error)
-    //        }
-    //    }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class GameVideoManager {
+final class GameVideoManager {
     static let shared = GameVideoManager()
     
     func getYoutubeUrl(with youtubeVideoId: String) -> String {

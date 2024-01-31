@@ -7,7 +7,7 @@
 
 import Alamofire
 
-class IGDBNetworkHelper {
+final class IGDBNetworkHelper {
     static let shared = IGDBNetworkHelper()
     
     let baseURL = "https://api.igdb.com/v4/"

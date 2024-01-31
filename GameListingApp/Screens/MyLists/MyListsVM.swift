@@ -20,6 +20,8 @@ protocol MyListsVMProtocol {
 }
 
 final class MyListsVM {
+    // MARK: - Properties
+    
     weak var view: MyListsVCProtocol?
     var lists = [ListEntity]()
 }

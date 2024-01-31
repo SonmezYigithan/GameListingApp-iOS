@@ -26,6 +26,8 @@ struct GameSaveDetails {
 }
 
 final class AddToListVM {
+    // MARK: - Properties
+    
     internal weak var view: AddToListVCProtocol?
     
     var lists = [ListEntity]()
@@ -55,6 +57,8 @@ final class AddToListVM {
     }
     
 }
+
+// MARK: - AddToListVMProtocol
 
 extension AddToListVM: AddToListVMProtocol {
     func configureGameEntity(gameId: Int, screenshotURL: String?) {

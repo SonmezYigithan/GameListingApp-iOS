@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 
-class CoverArtCollectionViewCell: UICollectionViewCell {
+final class CoverArtCollectionViewCell: UICollectionViewCell {
     static let identifier = "CoverArtCollectionViewCell"
     
     private let imageView = UIImageView()

@@ -11,7 +11,7 @@ protocol PlatformCollectionViewAdapterDelegate: AnyObject {
     
 }
 
-class PlatformCollectionViewAdapter: NSObject {
+final class PlatformCollectionViewAdapter: NSObject {
     // MARK: - Typealias
     
     typealias Cell = PlatformCollectionViewCell
@@ -55,6 +55,8 @@ class PlatformCollectionViewAdapter: NSObject {
         return cellSize
     }
 }
+
+// MARK: UICollectionViewDelegate
 
 extension PlatformCollectionViewAdapter: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

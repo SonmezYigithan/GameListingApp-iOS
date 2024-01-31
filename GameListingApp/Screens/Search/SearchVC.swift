@@ -16,6 +16,8 @@ protocol SearchVCProtocol: AnyObject {
 }
 
 final class SearchVC: UIViewController {
+    // MARK: - Properties
+    
     private lazy var viewModel: SearchVMProtocol = SearchVM()
     
     private let searchController: UISearchController = {
@@ -31,6 +33,8 @@ final class SearchVC: UIViewController {
         return spinner
     }()
     
+    // MARK: Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Search Games"
@@ -38,6 +42,8 @@ final class SearchVC: UIViewController {
         viewModel.view = self
         viewModel.viewDidLoad()
     }
+    
+    // MARK: - Constraints
     
     private func applyConstraints(){
         NSLayoutConstraint.activate([
@@ -47,19 +53,21 @@ final class SearchVC: UIViewController {
     }
 }
 
-// MARK: - Search Results
+// MARK: - UISearchResultsUpdating
 extension SearchVC: UISearchResultsUpdating{
     func updateSearchResults(for searchController: UISearchController) {
         viewModel.updateSearchResults(for: searchController)
     }
 }
 
-// MARK: - Navigate to Game Details Screen
+// MARK: - SearchResultsVCDelegate
 extension SearchVC: SearchResultsVCDelegate{
     func searchResultsViewControllerDidTapCellItem(_ gameId: Int) {
         viewModel.searchResultsViewControllerDidTapCellItem(gameId)
     }
 }
+
+// MARK: - SearchVCProtocol
 
 extension SearchVC: SearchVCProtocol {
     func prepareSearchController() {

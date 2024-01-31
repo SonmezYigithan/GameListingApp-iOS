@@ -14,6 +14,7 @@ protocol HomeVCProtocol: AnyObject {
 }
 
 final class HomeVC: UIViewController {
+    // MARK: - Properties
     private lazy var viewModel: HomeVMProtocol = HomeVM()
     
     private let collectionView: UICollectionView = {
@@ -24,14 +25,18 @@ final class HomeVC: UIViewController {
         return collectionView
     }()
     
+    // MARK: - Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         title = "Upcoming Games"
-
+        
         viewModel.view = self
         viewModel.viewDidLoad()
     }
+    
+    // MARK: - Constraints
     
     func applyConstraints(){
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -44,6 +49,8 @@ final class HomeVC: UIViewController {
         ])
     }
 }
+
+// MARK: - CollectionView Protocols
 
 extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -67,6 +74,8 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
         return viewModel.getCellSize(viewWidth: view.frame.width)
     }
 }
+
+// MARK: - HomeVCProtocol
 
 extension HomeVC: HomeVCProtocol {
     func prepareCollectionView(){
