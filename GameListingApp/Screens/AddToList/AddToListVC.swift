@@ -37,9 +37,6 @@ final class AddToListVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        ListSaveManager.shared.createList(name: "Favourites")
-//        ListSaveManager.shared.createList(name: "Backlog")
-        
         viewModel.view = self
         
         prepareView()

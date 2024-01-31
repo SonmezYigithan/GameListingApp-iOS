@@ -21,12 +21,12 @@ final class TabBarVC: UITabBarController {
         homeVC.tabBarItem.selectedImage = UIImage(systemName: "gamecontroller.fill")
         homeVC.tabBarItem.image = UIImage(systemName: "gamecontroller")
         searchVC.tabBarItem.image = UIImage(systemName: "magnifyingglass")
-        profileVC.tabBarItem.selectedImage = UIImage(systemName: "heart.fill")
-        profileVC.tabBarItem.image = UIImage(systemName: "heart")
+        profileVC.tabBarItem.selectedImage = UIImage(systemName: "list.bullet.rectangle.fill")
+        profileVC.tabBarItem.image = UIImage(systemName: "list.bullet.rectangle")
         
         homeVC.title = "Games"
         searchVC.title = "Search"
-        profileVC.title = "Favorites"
+        profileVC.title = "My Lists"
         
         tabBar.tintColor = .label
         

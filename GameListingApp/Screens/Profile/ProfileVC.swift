@@ -71,7 +71,7 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout {
 extension ProfileVC: ProfileVCProtocol {
     func prepareProfileVC() {
         view.backgroundColor = .systemBackground
-        title = "Favourites"
+        title = "My Lists"
         
         view.addSubview(collectionView)
         collectionView.delegate = self
