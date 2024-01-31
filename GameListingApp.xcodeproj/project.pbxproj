@@ -55,7 +55,6 @@
 		C1DA924B2B606E7A0043C262 /* GameVideoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1DA924A2B606E7A0043C262 /* GameVideoManager.swift */; };
 		C1DF2EC72B6145F90056BBD1 /* PlatformCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1DF2EC62B6145F90056BBD1 /* PlatformCollectionViewCell.swift */; };
 		C1E649D92B56D51B00A46D6E /* HomeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E649D82B56D51B00A46D6E /* HomeVM.swift */; };
-		C1E649DB2B57316100A46D6E /* GameService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E649DA2B57316100A46D6E /* GameService.swift */; };
 		C1FBB92B2B6581F3002DAAF6 /* AddToListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FBB92A2B6581F3002DAAF6 /* AddToListVC.swift */; };
 		C1FBB92D2B658248002DAAF6 /* AddToListVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FBB92C2B658248002DAAF6 /* AddToListVM.swift */; };
 		DA1AABDBCE209235742A65B1 /* Pods_GameListingApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F21283FD84C6C55AF584A8F /* Pods_GameListingApp.framework */; };
@@ -115,7 +114,6 @@
 		C1DA924A2B606E7A0043C262 /* GameVideoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameVideoManager.swift; sourceTree = "<group>"; };
 		C1DF2EC62B6145F90056BBD1 /* PlatformCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformCollectionViewCell.swift; sourceTree = "<group>"; };
 		C1E649D82B56D51B00A46D6E /* HomeVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVM.swift; sourceTree = "<group>"; };
-		C1E649DA2B57316100A46D6E /* GameService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameService.swift; sourceTree = "<group>"; };
 		C1FBB92A2B6581F3002DAAF6 /* AddToListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToListVC.swift; sourceTree = "<group>"; };
 		C1FBB92C2B658248002DAAF6 /* AddToListVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToListVM.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -182,7 +180,6 @@
 				C1DA92362B5B09140043C262 /* Game */,
 				C1DA923A2B5B10E50043C262 /* Screenshot */,
 				C14597372B444235003D0262 /* APIKeys.swift */,
-				C1E649DA2B57316100A46D6E /* GameService.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -561,7 +558,6 @@
 				C1DA92412B5C4B5F0043C262 /* SearchResultsVM.swift in Sources */,
 				C14597462B4DE0D7003D0262 /* SearchResultsVC.swift in Sources */,
 				C1DF2EC72B6145F90056BBD1 /* PlatformCollectionViewCell.swift in Sources */,
-				C1E649DB2B57316100A46D6E /* GameService.swift in Sources */,
 				C1CA2A402B6425E70068D273 /* ScreenshotCollectionViewAdapter.swift in Sources */,
 				C1D957992B6A6B43003ABC85 /* MyListsTableViewCell.swift in Sources */,
 				C1CA2A632B647B440068D273 /* ListEntity+CoreDataClass.swift in Sources */,
