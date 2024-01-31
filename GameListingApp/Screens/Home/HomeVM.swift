@@ -7,8 +7,8 @@
 
 import Foundation
 
-protocol HomeViewModelProtocol {
-    var view: HomeViewProtocol? { get set }
+protocol HomeVMProtocol {
+    var view: HomeVCProtocol? { get set }
     var games: [Game] { get }
     
     func viewDidLoad()
@@ -20,8 +20,8 @@ protocol HomeViewModelProtocol {
     func getFormattedImageURL(from gameAtIndex: IndexPath.Index) -> String
 }
 
-final class HomeViewModel {
-    internal weak var view: HomeViewProtocol?
+final class HomeVM {
+    internal weak var view: HomeVCProtocol?
     var games = [Game]()
     
     func fetchUpcomingGames() {
@@ -37,7 +37,7 @@ final class HomeViewModel {
     }
 }
 
-extension HomeViewModel: HomeViewModelProtocol {
+extension HomeVM: HomeVMProtocol {
     func viewDidLoad() {
         fetchUpcomingGames()
         view?.prepareCollectionView()

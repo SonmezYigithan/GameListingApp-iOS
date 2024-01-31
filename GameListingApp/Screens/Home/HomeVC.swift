@@ -7,14 +7,14 @@
 
 import UIKit
 
-protocol HomeViewProtocol: AnyObject {
+protocol HomeVCProtocol: AnyObject {
     func refreshCollectionView()
     func prepareCollectionView()
     func navigateToGameDetails(with gameDetailsVC: GameDetailsVC)
 }
 
 final class HomeVC: UIViewController {
-    private lazy var viewModel: HomeViewModelProtocol = HomeViewModel()
+    private lazy var viewModel: HomeVMProtocol = HomeVM()
     
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -68,7 +68,7 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
     }
 }
 
-extension HomeVC: HomeViewProtocol {
+extension HomeVC: HomeVCProtocol {
     func prepareCollectionView(){
         view.addSubview(collectionView)
         collectionView.dataSource = self
