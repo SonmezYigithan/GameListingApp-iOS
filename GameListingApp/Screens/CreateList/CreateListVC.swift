@@ -9,6 +9,8 @@ import UIKit
 
 protocol CreateListVCProtocol: AnyObject {
     func dismissView()
+    func enableAddButton()
+    func disableAddButton()
 }
 
 final class CreateListVC: UIViewController {
@@ -40,6 +42,9 @@ final class CreateListVC: UIViewController {
         
         prepareView()
         applyConstraints()
+        
+        guard let listName = listNameTextField.text else { return }
+        viewModel.listNameFieldEdited(listName: listName)
     }
     
     func prepareView() {
@@ -51,6 +56,8 @@ final class CreateListVC: UIViewController {
         view.backgroundColor = .systemBackground
         title = "Create List"
         
+        listNameTextField.addTarget(self, action: #selector(listNameFieldEdited), for: .editingChanged)
+        
         createButton = UIBarButtonItem(title: "Create", style: .plain, target: self, action: #selector(createButtonClicked))
         navigationItem.rightBarButtonItem = createButton
     }
@@ -60,6 +67,11 @@ final class CreateListVC: UIViewController {
         
         // listDescription is optional to have but listName is needed
         viewModel.createButtonClicked(listName: listName, listDescription: listDescriptionTextField.text)
+    }
+    
+    @objc func listNameFieldEdited() {
+        guard let listName = listNameTextField.text else { return }
+        viewModel.listNameFieldEdited(listName: listName)
     }
     
     func applyConstraints() {
@@ -98,6 +110,14 @@ extension CreateListVC: CreateListVCProtocol {
     func dismissView() {
         navigationController?.popViewController(animated: true)
         dismiss(animated: true, completion: nil)
+    }
+    
+    func enableAddButton() {
+        createButton?.isEnabled = true
+    }
+    
+    func disableAddButton() {
+        createButton?.isEnabled = false
     }
     
 }

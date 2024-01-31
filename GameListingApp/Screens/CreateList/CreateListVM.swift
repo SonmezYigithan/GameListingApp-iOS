@@ -11,11 +11,11 @@ protocol CreateListVMProtocol {
     var view: CreateListVCProtocol? { get set }
     
     func createButtonClicked(listName: String, listDescription: String?)
+    func listNameFieldEdited(listName: String)
 }
 
 final class CreateListVM {
     weak var view: CreateListVCProtocol?
-    
 }
 
 extension CreateListVM: CreateListVMProtocol {
@@ -24,6 +24,12 @@ extension CreateListVM: CreateListVMProtocol {
         view?.dismissView()
     }
     
-    
-    
+    func listNameFieldEdited(listName: String) {
+        if listName.count > 0 {
+            view?.enableAddButton()
+        }
+        else {
+            view?.disableAddButton()
+        }
+    }
 }
