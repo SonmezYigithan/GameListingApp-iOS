@@ -10,13 +10,16 @@ import UIKit
 final class ScreenshotsCollectionViewCell: UICollectionViewCell {
     static let identifier = "ScreenshotsCollectionViewCell"
     
-    private let imageView = UIImageView()
+    private let imageView: UIImageView = {
+        let image = UIImageView()
+        image.contentMode = .scaleAspectFill
+        return image
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(imageView)
         
-        imageView.contentMode = .scaleAspectFill
         layer.cornerRadius = 20
         layer.masksToBounds = true
         

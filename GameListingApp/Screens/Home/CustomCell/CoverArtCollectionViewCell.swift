@@ -11,7 +11,15 @@ import Kingfisher
 final class CoverArtCollectionViewCell: UICollectionViewCell {
     static let identifier = "CoverArtCollectionViewCell"
     
-    private let imageView = UIImageView()
+    private let imageView: UIImageView = {
+        let image = UIImageView()
+        image.layer.borderWidth = 0.5
+        image.layer.borderColor = UIColor.lightGray.cgColor
+        image.layer.cornerRadius = 8
+        image.layer.masksToBounds = true
+        image.translatesAutoresizingMaskIntoConstraints = false
+        return image
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -35,8 +43,6 @@ final class CoverArtCollectionViewCell: UICollectionViewCell {
     }
     
     private func applyConstraints(){
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        
         let gameImageViewConstraints = [
             imageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             imageView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
