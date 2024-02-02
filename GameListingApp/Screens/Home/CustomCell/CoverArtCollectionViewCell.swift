@@ -36,7 +36,6 @@ final class CoverArtCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(with imageUrl:String){
-        backgroundColor = .red
         if let url = URL(string: imageUrl){
             imageView.kf.setImage(with: url)
         }

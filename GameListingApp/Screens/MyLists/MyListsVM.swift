@@ -15,6 +15,7 @@ protocol MyListsVMProtocol {
     func getListsCount() -> Int
     func getListName(by index: Int) -> String
     func getNumberOfGamesInList(by listIndex: Int) -> Int
+    func getScreenshotURLs(by listIndex: Int) -> [String]
     func didSelectRow(at index: Int)
     func deleteList(at index: Int) -> Bool
 }
@@ -50,6 +51,27 @@ extension MyListsVM: MyListsVMProtocol {
     func getNumberOfGamesInList(by listIndex: Int) -> Int {
         guard let gameCount = lists[listIndex].games?.count else { return 0 }
         return gameCount
+    }
+    
+    func getScreenshotURLs(by listIndex: Int) -> [String] {
+        var screenshotURLs = [String]()
+        
+        if lists.count == 0 { return [] }
+        let list = lists[listIndex]
+        
+        guard let games = list.games else { return [] }
+        if games.count == 0 { return [] }
+        
+        for i in 0...4 {
+            if games.indices.contains(i) {
+                guard let screenshot = games[i].screenshotURL else { continue }
+                screenshotURLs.append(screenshot)
+            }
+        }
+        
+        // lists[IndexPath].games[0].screenshotURL
+        
+        return screenshotURLs
     }
     
     func didSelectRow(at index: Int) {

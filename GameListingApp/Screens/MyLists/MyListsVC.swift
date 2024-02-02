@@ -94,15 +94,16 @@ extension MyListsVC: UITableViewDelegate, UITableViewDataSource{
         
         let listName = viewModel.getListName(by: indexPath.row)
         let gameCount = viewModel.getNumberOfGamesInList(by: indexPath.row)
+        let screenshotURL = viewModel.getScreenshotURLs(by: indexPath.row)
         
         cell.selectionStyle = .none
-        cell.configure(listName: listName, gameCount: String(gameCount))
+        cell.configure(listName: listName, gameCount: String(gameCount), gameScreenshotURLs: screenshotURL)
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
+        return 200
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -122,7 +123,6 @@ extension MyListsVC: UITableViewDelegate, UITableViewDataSource{
             tableView.endUpdates()
         }
     }
-    
 }
 
 // MARK: - MyListsVCProtocol
