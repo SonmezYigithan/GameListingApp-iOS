@@ -53,10 +53,18 @@ final class MyListsTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        screenshotURLs = nil
+        listName.text = nil
+        numberOfGames.text = nil
+    }
+    
     func configure(listName: String, gameCount: String, gameScreenshotURLs: [String]) {
         self.listName.text = listName
         self.numberOfGames.text = "\(gameCount) games"
         screenshotURLs = gameScreenshotURLs
+        
+        collectionView.reloadData()
     }
     
     func prepareView() {
@@ -95,6 +103,8 @@ final class MyListsTableViewCell: UITableViewCell {
     }
 }
 
+// MARK: - UICollectionViewDelegate
+
 extension MyListsTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 1
@@ -112,23 +122,6 @@ extension MyListsTableViewCell: UICollectionViewDelegate, UICollectionViewDataSo
         guard let screenshotURL = screenshotURLs?[indexPath.section] else { return cell }
         
         cell.configure(with: screenshotURL)
-        
-//        if indexPath.section == 0 {
-//            cell.configure(with: "1234", color: .systemRed)
-//        }
-//        else if indexPath.section == 1 {
-//            cell.configure(with: "1234", color: .systemBlue)
-//        }
-//        else if indexPath.section == 2 {
-//            cell.configure(with: "1234", color: .systemYellow)
-//        }
-//        else if indexPath.section == 3 {
-//            cell.configure(with: "1234", color: .systemGreen)
-//        }
-//        else if indexPath.section == 4 {
-//            cell.configure(with: "1234", color: .systemCyan)
-//        }
-        
         return cell
     }
     
