@@ -8,6 +8,7 @@
 import UIKit
 
 protocol ListDetailsVCProtocol: AnyObject {
+    func changeTitle(to listName: String)
     func reloadCollectionView()
     func navigateToGameDetails(vc: GameDetailsVC)
     func presentEditListView(vc: EditListVC)
@@ -33,8 +34,11 @@ final class ListDetailsVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.view = self
         prepareView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        print("view Appeared ListDetailsVC")
     }
     
     // MARK: - Methods
@@ -46,6 +50,7 @@ final class ListDetailsVC: UIViewController {
     
     func prepareView() {
         view.backgroundColor = .systemBackground
+        viewModel.view = self
         
         view.addSubview(collectionView)
         collectionView.delegate = self
@@ -107,6 +112,10 @@ extension ListDetailsVC: UICollectionViewDelegateFlowLayout {
 extension ListDetailsVC: ListDetailsVCProtocol {
     func reloadCollectionView() {
         collectionView.reloadData()
+    }
+    
+    func changeTitle(to listName: String) {
+        title = listName
     }
     
     func navigateToGameDetails(vc: GameDetailsVC) {

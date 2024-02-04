@@ -59,7 +59,7 @@ extension MyListsVM: MyListsVMProtocol {
         if lists.count == 0 { return [] }
         let list = lists[listIndex]
         
-        guard let games = list.games else { return [] }
+        guard let games = list.gameEntities else { return [] }
         if games.count == 0 { return [] }
         
         for i in 0...4 {

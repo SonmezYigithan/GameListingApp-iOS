@@ -38,7 +38,7 @@ extension ListDetailsVM: ListDetailsVMProtocol {
     }
     
     func getCoverArtURLString(of index: Int) -> String {
-        if let urlString = list?.games?[index].screenshotURL {
+        if let urlString = list?.gameEntities?[index].screenshotURL {
             return urlString
         }
         
@@ -51,7 +51,7 @@ extension ListDetailsVM: ListDetailsVMProtocol {
     }
     
     func didSelectItem(at index: Int) {
-        guard let gameId = list?.games?[index].gameId else { return }
+        guard let gameId = list?.gameEntities?[index].gameId else { return }
         let gameDetailsVC = GameDetailsVC()
         gameDetailsVC.configure(with: Int(gameId))
         view?.navigateToGameDetails(vc: gameDetailsVC)
@@ -61,6 +61,14 @@ extension ListDetailsVM: ListDetailsVMProtocol {
         let vc = EditListVC()
         guard let list = list else { return }
         vc.configure(listEntity: list)
+        vc.delegate = self
         view?.presentEditListView(vc: vc)
+    }
+}
+
+extension ListDetailsVM: EditListDelegate {
+    func didEditSaved() {
+        view?.reloadCollectionView()
+        view?.changeTitle(to: list?.name ?? "")
     }
 }

@@ -88,6 +88,16 @@ final class ListSaveManager {
         }
     }
     
+    func changeListName(list: ListEntity, to listName: String) {
+        list.name = listName
+        
+        do {
+            try context.save()
+        } catch let error as NSError {
+            print(error)
+        }
+    }
+    
     // MARK: - Game Operations
     
     func getGame(gameId: Int) -> GameEntity? {
@@ -130,11 +140,11 @@ final class ListSaveManager {
     
     /// changes game position in list
     func moveGame(list: ListEntity, from sourceIndex: Int, to destinationIndex: Int) {
-        guard var games = list.games else { return }
-        games.map { $0.gameId }.forEach { print($0)}
-        games.swapAt(sourceIndex, destinationIndex)
-        print("\n")
-        games.map { $0.gameId }.forEach { print($0)}
+        guard let games = list.games?.mutableCopy() as? NSMutableOrderedSet else { return }
+        
+        games.exchangeObject(at: sourceIndex, withObjectAt: destinationIndex)
+        
+        list.games = games.copy() as? NSOrderedSet
         
         do {
             try context.save()

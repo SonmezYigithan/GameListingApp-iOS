@@ -9,6 +9,12 @@ import UIKit
 
 protocol EditListVCProtocol: AnyObject {
     func dismissView()
+    func enableSaveButton()
+    func disableSaveButton()
+}
+
+protocol EditListDelegate: AnyObject {
+    func didEditSaved()
 }
 
 class EditListVC: UIViewController {
@@ -44,6 +50,10 @@ class EditListVC: UIViewController {
     
     private let separatorView2 = SeparatorView()
     
+    private lazy var saveNavButton: UIBarButtonItem? = nil
+    
+    weak var delegate: EditListDelegate?
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -64,11 +74,12 @@ class EditListVC: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-        //        tableView.allowsSelection = false
         tableView.isEditing = true
         
-        let saveNavItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveButtonTapped))
-        navigationItem.rightBarButtonItem = saveNavItem
+        saveNavButton = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveButtonTapped))
+        navigationItem.rightBarButtonItem = saveNavButton
+        
+        listNameTextField.addTarget(self, action: #selector(onListNameFieldEdited), for: .editingChanged)
         
         applyConstraints()
     }
@@ -81,13 +92,19 @@ class EditListVC: UIViewController {
     
     // MARK: - Actions
     
-    @objc func saveButtonTapped() {
-        viewModel.saveButtonTapped()
+    @objc private func onListNameFieldEdited() {
+        guard let listName = listNameTextField.text else { return }
+        viewModel.listNameFieldEdited(listName: listName)
+    }
+    
+    @objc private func saveButtonTapped() {
+        guard let listName = listNameTextField.text else { return }
+        viewModel.saveButtonTapped(changedListName: listName)
     }
     
     // MARK: - Constraints
     
-    func applyConstraints() {
+    private func applyConstraints() {
         separatorView1.translatesAutoresizingMaskIntoConstraints = false
         separatorView2.translatesAutoresizingMaskIntoConstraints = false
         
@@ -124,7 +141,6 @@ class EditListVC: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
     }
-    
 }
 
 // MARK: - UITableViewDelegate
@@ -155,7 +171,6 @@ extension EditListVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        // tasks.swapAt(sourceIndexPath.row, destinationIndexPath.row)
         viewModel.moveCell(from: sourceIndexPath.row, to: destinationIndexPath.row)
     }
     
@@ -175,5 +190,14 @@ extension EditListVC: UITableViewDelegate, UITableViewDataSource {
 extension EditListVC: EditListVCProtocol {
     func dismissView() {
         dismiss(animated: true)
+        delegate?.didEditSaved()
+    }
+    
+    func enableSaveButton() {
+        saveNavButton?.isEnabled = true
+    }
+    
+    func disableSaveButton() {
+        saveNavButton?.isEnabled = false
     }
 }

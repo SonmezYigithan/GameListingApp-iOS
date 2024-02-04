@@ -36,7 +36,7 @@ final class CreateListVC: UIViewController {
     
     private let separatorView2 = SeparatorView()
     
-    var createButton: UIBarButtonItem? = nil
+    private var createButton: UIBarButtonItem?
     
     // MARK: - Life Cycle
     

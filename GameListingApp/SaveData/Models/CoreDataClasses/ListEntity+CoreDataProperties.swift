@@ -18,8 +18,11 @@ extension ListEntity {
 
     @NSManaged public var name: String?
     @NSManaged public var listId: Int64
-    @NSManaged public var games: [GameEntity]?
-
+    @NSManaged public var games: NSOrderedSet?
+    
+    var gameEntities: [GameEntity]? {
+        return games?.array as? [GameEntity]
+    }
 }
 
 // MARK: Generated accessors for games
