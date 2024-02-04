@@ -2,6 +2,7 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22522" systemVersion="23C71" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
     <entity name="GameEntity" representedClassName="GameEntity" syncable="YES">
         <attribute name="gameId" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="gameName" optional="YES" attributeType="String"/>
         <attribute name="screenshotURL" optional="YES" attributeType="String"/>
         <relationship name="list" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="ListEntity" inverseName="games" inverseEntity="ListEntity"/>
     </entity>

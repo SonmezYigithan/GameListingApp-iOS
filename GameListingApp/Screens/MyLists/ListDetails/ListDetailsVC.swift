@@ -10,9 +10,14 @@ import UIKit
 protocol ListDetailsVCProtocol: AnyObject {
     func reloadCollectionView()
     func navigateToGameDetails(vc: GameDetailsVC)
+    func presentEditListView(vc: EditListVC)
 }
 
 final class ListDetailsVC: UIViewController {
+    // MARK: - Typealias
+    
+    typealias Cell = CoverArtCollectionViewCell
+    
     // MARK: - Properties
     private lazy var viewModel: ListDetailsVMProtocol = ListDetailsVM()
     
@@ -20,7 +25,7 @@ final class ListDetailsVC: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        view.register(CoverArtCollectionViewCell.self, forCellWithReuseIdentifier: CoverArtCollectionViewCell.identifier)
+        view.register(Cell.self, forCellWithReuseIdentifier: Cell.identifier)
         return view
     }()
     
@@ -46,6 +51,9 @@ final class ListDetailsVC: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         
+        let editListNavItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editListButtonTapped))
+        navigationItem.rightBarButtonItem = editListNavItem
+        
         applyConstraints()
     }
     
@@ -61,17 +69,21 @@ final class ListDetailsVC: UIViewController {
             collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10)
         ])
     }
+    
+    @objc func editListButtonTapped() {
+        viewModel.editListButtonTapped()
+    }
 }
 
 // MARK: - UICollectionViewDelegate
 
 extension ListDetailsVC: UICollectionViewDelegate, UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel.getFavouriteGamesCount()
+        viewModel.getGamesCount()
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoverArtCollectionViewCell.identifier, for: indexPath) as! CoverArtCollectionViewCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Cell.identifier, for: indexPath) as? Cell else { return UICollectionViewCell() }
         
         let urlString = viewModel.getCoverArtURLString(of: indexPath.item)
         cell.configure(with: urlString)
@@ -99,5 +111,10 @@ extension ListDetailsVC: ListDetailsVCProtocol {
     
     func navigateToGameDetails(vc: GameDetailsVC) {
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func presentEditListView(vc: EditListVC) {
+        let navVC = UINavigationController(rootViewController: vc)
+        present(navVC, animated: true)
     }
 }

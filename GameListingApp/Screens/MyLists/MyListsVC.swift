@@ -140,5 +140,4 @@ extension MyListsVC: MyListsVCProtocol {
     func navigateToListDetailsView(vc: ListDetailsVC) {
         navigationController?.pushViewController(vc, animated: true)
     }
-    
 }

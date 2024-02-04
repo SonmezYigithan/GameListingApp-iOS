@@ -23,15 +23,15 @@ final class GameDetailsVM {
     internal weak var view: GameDetailsProtocol?
     internal var screenshots = [Screenshot]()
     internal var platforms = [Platform]()
+    internal var gameSaveDetails: GameSaveDetails?
     
-    var gameId: Int?
-    var coverURL: String?
     var videoURL: String?
     
     func fetchScreenshots(of gameId: Int){
         ScreenshotManager.shared.fetchScreenshots(of: gameId) { [weak self] result in
             switch result {
             case .success(let data):
+                // format Screenshot URLs for better quality image and get rid of unnecessary arrays
                 let screenshotUIModel = data
                             .compactMap { $0.screenshots }
                             .flatMap { $0 }
@@ -50,10 +50,11 @@ final class GameDetailsVM {
     
     func decideCoverBackground() {
         if screenshots.count > 0 {
+            // TODO: Fix this screenshots[0].screenshots?[0]
             let screenshotURL = formatScreenshotURL(screenshots[0].screenshots?[0].url ?? "")
             view?.configureCoverBackground(with: screenshotURL, isTranslucent: true)
         } else {
-            if let coverURL = coverURL {
+            if let coverURL = gameSaveDetails?.screenshotURL {
                 view?.configureCoverBackground(with: coverURL, isTranslucent: true)
             }
         }
@@ -68,26 +69,26 @@ final class GameDetailsVM {
 
 extension GameDetailsVM: GameDetailsVMProtocol {
     func addToListButtonTapped() {
-        guard let gameId = gameId else { return }
-        
-        guard let coverURL = coverURL else { return }
+        guard let gameSaveDetails = gameSaveDetails else { return }
         
         let vc = AddToListVC()
-        vc.configure(gameId: gameId, screenshot: coverURL)
+        vc.configure(gameSaveDetails: gameSaveDetails)
         view?.presentAddToListView(vc: vc)
     }
     
     func fetchGameDetails(with gameId: Int) {
-        self.gameId = gameId
-        
         GameDetailsManager.shared.searchGame(by: gameId) { [weak self] result in
             switch result {
             case.success(let game):
                 var coverURL = ""
                 if let originalURL = game.cover?.url {
                     coverURL = originalURL.convertIgdbPathToURLString(replaceOccurrencesOf: "t_thumb", replaceWith: "t_cover_big")
-                    self?.coverURL = coverURL
                 }
+                
+                self?.gameSaveDetails = GameSaveDetails(
+                    gameId: game.id,
+                    gameName: game.name ?? "",
+                    screenshotURL: coverURL)
                 
                 var releaseDateString = ""
                 if let releaseDateEpoch = game.firstReleaseDate {

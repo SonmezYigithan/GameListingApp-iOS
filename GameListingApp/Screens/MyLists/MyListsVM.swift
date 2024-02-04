@@ -69,8 +69,6 @@ extension MyListsVM: MyListsVMProtocol {
             }
         }
         
-        // lists[IndexPath].games[0].screenshotURL
-        
         return screenshotURLs
     }
     

@@ -10,36 +10,18 @@ import UIKit
 final class ListSaveManager {
     static let shared = ListSaveManager()
     
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    func addGameToList(gameId: Int, screenshotURL: String?, listName: String) {
-        if let gameEntity = getGame(gameId: gameId) {
-            addGameWithGameEntity(gameEntity: gameEntity, to: listName)
-        }
-        else {
-            let gameEntity = GameEntity(context: context)
-            gameEntity.gameId = Int64(gameId)
-            gameEntity.screenshotURL = screenshotURL
-            
-            addGameWithGameEntity(gameEntity: gameEntity, to: listName)
-        }
-    }
+    // MARK: - List Operations
     
-    private func addGameWithGameEntity(gameEntity: GameEntity, to ListName: String) {
-        let predicate = NSPredicate(format: "name == %@", ListName)
-        let fetchRequest = ListEntity.fetchRequest()
-        fetchRequest.predicate = predicate
-        
+    func getAllLists() -> [ListEntity]? {
         do {
-            let list = try context.fetch(fetchRequest)
-            if let firstList = list.first, list.count > 0 {
-                firstList.addToGames(gameEntity)
-                try context.save()
-                print("Added the game to the list")
-            }
+            let lists = try context.fetch(ListEntity.fetchRequest())
+            return lists
         }
-        catch let error as NSError{
+        catch let error as NSError {
             print(error)
+            return nil
         }
     }
     
@@ -49,7 +31,7 @@ final class ListSaveManager {
         
         do {
             try context.save()
-            print("Created new List")
+            print("CoreData: Created new List")
         }
         catch let error as NSError{
             print(error)
@@ -66,7 +48,39 @@ final class ListSaveManager {
             if let firstList = list.first, list.count > 0 {
                 context.delete(firstList)
                 try context.save()
-                print("Deleted the list \(listName)")
+                print("CoreData: Deleted the list \(listName)")
+            }
+        }
+        catch let error as NSError {
+            print(error)
+        }
+    }
+    
+    func addGameToList(listName: String, gameSaveDetails: GameSaveDetails) {
+        if let gameEntity = getGame(gameId: gameSaveDetails.gameId) {
+            addGameWithGameEntity(gameEntity: gameEntity, to: listName)
+        }
+        else {
+            let gameEntity = GameEntity(context: context)
+            gameEntity.gameId = Int64(gameSaveDetails.gameId)
+            gameEntity.gameName = gameSaveDetails.gameName
+            gameEntity.screenshotURL = gameSaveDetails.screenshotURL
+            
+            addGameWithGameEntity(gameEntity: gameEntity, to: listName)
+        }
+    }
+    
+    private func addGameWithGameEntity(gameEntity: GameEntity, to ListName: String) {
+        let predicate = NSPredicate(format: "name == %@", ListName)
+        let fetchRequest = ListEntity.fetchRequest()
+        fetchRequest.predicate = predicate
+        
+        do {
+            let list = try context.fetch(fetchRequest)
+            if let firstList = list.first, list.count > 0 {
+                firstList.addToGames(gameEntity)
+                try context.save()
+                print("CoreData: Game added to the list \(ListName)")
             }
         }
         catch let error as NSError{
@@ -74,25 +88,7 @@ final class ListSaveManager {
         }
     }
     
-    func getAllLists() -> [ListEntity]? {
-        do {
-            let lists = try context.fetch(ListEntity.fetchRequest())
-            return lists
-        }
-        catch let error as NSError {
-            print(error)
-            return nil
-        }
-    }
-    
-    func getListsofGameAddedTo(gameId: Int) -> [ListEntity]? {
-        guard let game = getGame(gameId: gameId) else {
-            print("Game Could Not Found with Game Id")
-            return nil
-        }
-        
-        return game.list
-    }
+    // MARK: - Game Operations
     
     func getGame(gameId: Int) -> GameEntity? {
         do {
@@ -109,6 +105,41 @@ final class ListSaveManager {
         catch let error as NSError {
             print(error)
             return nil
+        }
+    }
+    
+    func deleteGame(game: GameEntity, from list: ListEntity) {
+        list.removeFromGames(game)
+        do {
+            try context.save()
+            print("CoreData: Game deleted from the list \(list.name ?? "")")
+        } catch let error as NSError {
+            print(error)
+        }
+    }
+    
+    /// returns array of ListEntity where game with an gameId added to
+    func getListsofGameAddedTo(gameId: Int) -> [ListEntity]? {
+        guard let game = getGame(gameId: gameId) else {
+            print("CoreData: Game Could Not Found with Game Id")
+            return nil
+        }
+        
+        return game.list
+    }
+    
+    /// changes game position in list
+    func moveGame(list: ListEntity, from sourceIndex: Int, to destinationIndex: Int) {
+        guard var games = list.games else { return }
+        games.map { $0.gameId }.forEach { print($0)}
+        games.swapAt(sourceIndex, destinationIndex)
+        print("\n")
+        games.map { $0.gameId }.forEach { print($0)}
+        
+        do {
+            try context.save()
+        } catch let error as NSError {
+            print(error)
         }
     }
 }

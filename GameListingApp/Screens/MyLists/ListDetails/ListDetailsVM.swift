@@ -11,10 +11,11 @@ protocol ListDetailsVMProtocol {
     var view: ListDetailsVCProtocol? { get set }
     
     func configure(with listEntity: ListEntity)
-    func getFavouriteGamesCount() -> Int
+    func getGamesCount() -> Int
     func getCoverArtURLString(of index: Int) -> String
     func getCellSize(viewWidth: CGFloat) -> CGSize
     func didSelectItem(at index: Int)
+    func editListButtonTapped()
 }
 
 final class ListDetailsVM {
@@ -31,7 +32,7 @@ extension ListDetailsVM: ListDetailsVMProtocol {
         list = listEntity
     }
     
-    func getFavouriteGamesCount() -> Int {
+    func getGamesCount() -> Int {
         guard let games = list?.games?.count else { return 0 }
         return games
     }
@@ -54,5 +55,12 @@ extension ListDetailsVM: ListDetailsVMProtocol {
         let gameDetailsVC = GameDetailsVC()
         gameDetailsVC.configure(with: Int(gameId))
         view?.navigateToGameDetails(vc: gameDetailsVC)
+    }
+    
+    func editListButtonTapped() {
+        let vc = EditListVC()
+        guard let list = list else { return }
+        vc.configure(listEntity: list)
+        view?.presentEditListView(vc: vc)
     }
 }

@@ -14,15 +14,10 @@ protocol AddToListVMProtocol {
     func getListName(by index: Int) -> String
     func didSelectList(at index: Int)
     func didUnselectList(at index: Int)
-    func configureGameEntity(gameId: Int, screenshotURL: String?)
+    func configureGameEntity(gameSaveDetails: GameSaveDetails)
     func addGameToSelectedList()
     func createListButtonClicked()
     func canCellClickable(at index: Int) -> Bool
-}
-
-struct GameSaveDetails {
-    let gameId: Int
-    let screenshotURL: String?
 }
 
 final class AddToListVM {
@@ -61,9 +56,8 @@ final class AddToListVM {
 // MARK: - AddToListVMProtocol
 
 extension AddToListVM: AddToListVMProtocol {
-    func configureGameEntity(gameId: Int, screenshotURL: String?) {
-        let gameEntity = GameSaveDetails(gameId: gameId, screenshotURL: screenshotURL)
-        gameSaveDetails = gameEntity
+    func configureGameEntity(gameSaveDetails: GameSaveDetails) {
+        self.gameSaveDetails = gameSaveDetails
         fetchAllLists()
     }
     
@@ -97,7 +91,7 @@ extension AddToListVM: AddToListVMProtocol {
         
         for index in selectedIndex {
             if let listName = lists[index].name {
-                ListSaveManager.shared.addGameToList(gameId: gameSaveDetails.gameId, screenshotURL: gameSaveDetails.screenshotURL, listName: listName)
+                ListSaveManager.shared.addGameToList(listName: listName, gameSaveDetails: gameSaveDetails)
             }
         }
 

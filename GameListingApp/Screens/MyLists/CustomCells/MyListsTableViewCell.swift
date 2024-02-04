@@ -67,7 +67,7 @@ final class MyListsTableViewCell: UITableViewCell {
         collectionView.reloadData()
     }
     
-    func prepareView() {
+    private func prepareView() {
         addSubview(listName)
         addSubview(numberOfGames)
         addSubview(collectionView)
@@ -78,7 +78,7 @@ final class MyListsTableViewCell: UITableViewCell {
     
     // MARK: - Constraints
     
-    func applyConstraints() {
+    private func applyConstraints() {
         NSLayoutConstraint.activate([
             listName.topAnchor.constraint(equalTo: topAnchor, constant: 15),
             listName.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),

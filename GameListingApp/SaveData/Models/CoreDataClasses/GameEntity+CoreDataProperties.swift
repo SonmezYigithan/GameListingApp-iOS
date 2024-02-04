@@ -17,6 +17,7 @@ extension GameEntity {
     }
 
     @NSManaged public var gameId: Int64
+    @NSManaged public var gameName: String?
     @NSManaged public var screenshotURL: String?
     @NSManaged public var list: [ListEntity]?
 

@@ -47,8 +47,8 @@ final class AddToListVC: UIViewController {
         applyConstraints()
     }
     
-    func configure(gameId: Int, screenshot: String?) {
-        viewModel.configureGameEntity(gameId: gameId, screenshotURL: screenshot)
+    func configure(gameSaveDetails: GameSaveDetails) {
+        viewModel.configureGameEntity(gameSaveDetails: gameSaveDetails)
     }
     
     func prepareView() {
