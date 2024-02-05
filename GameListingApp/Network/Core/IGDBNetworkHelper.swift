@@ -10,16 +10,14 @@ import Alamofire
 final class IGDBNetworkHelper {
     static let shared = IGDBNetworkHelper()
     
+    private let apiKeys = APIKeys(resourceName: "API-Keys")
+    
     let baseURL = "https://api.igdb.com/v4/"
     
     func headers() -> HTTPHeaders{
-        ["Client-ID": APIKeys.IGDBClientId,
-         "Authorization": APIKeys.IGDBAuthorization,
+        ["Client-ID": apiKeys.IGDBClientId,
+         "Authorization": apiKeys.IGDBAuthorization,
          "Accept": "application/json"
         ]
-    }
-    
-    func checkHeaderDetails() {
-        
     }
 }

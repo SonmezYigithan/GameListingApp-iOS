@@ -7,7 +7,22 @@
 
 import Foundation
 
-enum APIKeys {
-    static let IGDBClientId = ""
-    static let IGDBAuthorization = ""
+class APIKeys {
+    let dictionary: NSDictionary
+    
+    init(resourceName: String) {
+        guard let filePath = Bundle.main.path(forResource: resourceName, ofType: "plist"), 
+                let plist = NSDictionary(contentsOfFile: filePath) else {
+            fatalError("Could not find the file '\(resourceName)' plist")
+        }
+        dictionary = plist
+    }
+    
+    var IGDBClientId: String {
+        dictionary.object(forKey: "IGDB_CLIENT_ID") as? String ?? ""
+    }
+    
+    var IGDBAuthorization: String {
+        dictionary.object(forKey: "IGDB_AUTHORIZATION") as? String ?? ""
+    }
 }
