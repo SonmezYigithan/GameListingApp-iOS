@@ -152,7 +152,7 @@ final class GameDetailsVC: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            whereToPlayView.topAnchor.constraint(equalTo: gameDescriptionView.bottomAnchor, constant: 15),
+            whereToPlayView.topAnchor.constraint(equalTo: gameDescriptionView.bottomAnchor, constant: 5),
             whereToPlayView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             whereToPlayView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             whereToPlayView.heightAnchor.constraint(equalToConstant: 100)
