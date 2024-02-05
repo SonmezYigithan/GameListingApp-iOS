@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 protocol HomeVMProtocol {
     var view: HomeVCProtocol? { get set }
@@ -70,7 +71,19 @@ extension HomeVM: HomeVMProtocol {
     }
     
     func getCellSize(viewWidth: CGFloat) -> CGSize{
-        let cellSize = CGSize(width: viewWidth/3 - 20, height: 150)
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            let width = viewWidth/3 - 20
+            let cellSize = CGSize(width: width, height: (width / 264) * 352)
+            return cellSize
+        }
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            let width = viewWidth/3 - 20
+            let cellSize = CGSize(width: width, height: (width / 264) * 352)
+            return cellSize
+        }
+        
+        let width = viewWidth/3 - 20
+        let cellSize = CGSize(width: width, height: (width / 264) * 352)
         return cellSize
     }
 }

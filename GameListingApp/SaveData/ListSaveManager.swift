@@ -118,11 +118,26 @@ final class ListSaveManager {
         }
     }
     
-    func deleteGame(game: GameEntity, from list: ListEntity) {
+    func removeGame(game: GameEntity, from list: ListEntity) {
         list.removeFromGames(game)
+        
+        // check if game have any other lists
+        if game.list?.count == 0 || game.list == nil {
+            deleteGame(game: game)
+        }
+        
         do {
             try context.save()
             print("CoreData: Game deleted from the list \(list.name ?? "")")
+        } catch let error as NSError {
+            print(error)
+        }
+    }
+    
+    func deleteGame(game: GameEntity) {
+        do {
+            context.delete(game)
+            try context.save()
         } catch let error as NSError {
             print(error)
         }

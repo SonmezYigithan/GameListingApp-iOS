@@ -175,9 +175,10 @@ extension EditListVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let delete = UIContextualAction(style: .destructive, title: "Delete") { (action, view, success) in
-            self.viewModel.deleteGame(at: indexPath.row)
-            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+        let delete = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (action, view, success) in
+            self?.viewModel.deleteGame(at: indexPath.row)
+            self?.tableView.deleteRows(at: [indexPath], with: .automatic)
+            self?.delegate?.didEditSaved()
         }
         
         let swipeActions = UISwipeActionsConfiguration(actions: [delete])

@@ -50,7 +50,7 @@ extension EditListVM: EditListVMProtocol {
     func deleteGame(at index: Int) {
         guard let listEntity = listEntity else { return }
         guard let gameEntity = listEntity.gameEntities?[index] else { return }
-        ListSaveManager.shared.deleteGame(game: gameEntity, from: listEntity)
+        ListSaveManager.shared.removeGame(game: gameEntity, from: listEntity)
     }
     
     func moveCell(from sourceIndex: Int, to destinationIndex: Int) {

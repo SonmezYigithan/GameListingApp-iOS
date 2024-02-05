@@ -38,6 +38,7 @@ final class ListDetailsVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         print("view Appeared ListDetailsVC")
     }
     

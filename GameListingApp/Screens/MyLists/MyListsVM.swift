@@ -30,6 +30,7 @@ final class MyListsVM {
 extension MyListsVM: MyListsVMProtocol {
     func fetchLists() {
         guard let lists = ListSaveManager.shared.getAllLists() else { return }
+        let games = lists.first?.gameEntities
         self.lists = lists
         view?.reloadTableView()
     }
