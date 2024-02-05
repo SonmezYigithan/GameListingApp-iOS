@@ -4,7 +4,7 @@
 [![Swift 5](https://img.shields.io/badge/Swift-5-orange.svg?style=flat)](https://developer.apple.com/swift/)
 
 - This is a game listing app similar to IMDb or Letterboxd but for video games.
-- This app has been written with `UIkit` using `IGDB API` and utilizes `MVVM architecture`
+- This app has been written with `UIkit` using [`IGDB API`](https://www.igdb.com/api) and utilizes `MVVM architecture`
 
 ### Technologies and Libraries
 - MVVM
