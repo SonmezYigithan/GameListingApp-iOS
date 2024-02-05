@@ -14,6 +14,7 @@ class EditListTableViewCell: UITableViewCell {
     
     private let gameNameLabel: UILabel = {
         let label = UILabel()
+        label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -56,7 +57,7 @@ class EditListTableViewCell: UITableViewCell {
         }
     }
     
-    // MARK: - COnstraints
+    // MARK: - Constraints
     
     func applyConstraints() {
         NSLayoutConstraint.activate([
@@ -70,7 +71,7 @@ class EditListTableViewCell: UITableViewCell {
             gameNameLabel.topAnchor.constraint(equalTo: topAnchor),
             gameNameLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
             gameNameLabel.leadingAnchor.constraint(equalTo: coverImage.trailingAnchor, constant: 20),
-            gameNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            gameNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -55),
         ])
     }
 }
