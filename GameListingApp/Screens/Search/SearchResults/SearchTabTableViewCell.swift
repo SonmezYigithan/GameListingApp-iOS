@@ -20,8 +20,9 @@ final class SearchTabTableViewCell: UITableViewCell {
     
     private let coverImage: UIImageView = {
         let image = UIImageView()
-        image.contentMode = .scaleAspectFill
-        image.layer.cornerRadius = 20
+        image.layer.borderWidth = 0.5
+        image.layer.borderColor = UIColor.lightGray.cgColor
+        image.layer.cornerRadius = 8
         image.layer.masksToBounds = true
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
@@ -29,6 +30,7 @@ final class SearchTabTableViewCell: UITableViewCell {
     
     private let gameNameLabel: UILabel = {
         let label = UILabel()
+        label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -60,18 +62,18 @@ final class SearchTabTableViewCell: UITableViewCell {
     
     func applyConstraints(){
         NSLayoutConstraint.activate([
-            coverImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            coverImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 10),
-            coverImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            coverImage.widthAnchor.constraint(equalToConstant: 125),
-            coverImage.heightAnchor.constraint(equalToConstant: 125)
+            coverImage.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            coverImage.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
+            coverImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            coverImage.widthAnchor.constraint(equalToConstant: 88),
+            coverImage.heightAnchor.constraint(equalToConstant: 118)
         ])
         
         NSLayoutConstraint.activate([
+            gameNameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            gameNameLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
             gameNameLabel.leadingAnchor.constraint(equalTo: coverImage.trailingAnchor, constant: 10),
-            gameNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            gameNameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 10),
-            gameNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 10),
+            gameNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
         ])
     }
 }

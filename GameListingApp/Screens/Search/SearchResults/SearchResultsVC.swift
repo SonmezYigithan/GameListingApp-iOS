@@ -19,7 +19,11 @@ protocol SearchResultsVCProtocol: AnyObject {
 }
 
 final class SearchResultsVC: UIViewController {
-    //MARK: - Properties
+    // MARK: - Typealias
+    
+    typealias Cell = SearchTabTableViewCell
+    
+    // MARK: - Properties
     
     private lazy var viewModel: SearchResultsVMProtocol = SearchResultsVM()
     
@@ -28,7 +32,7 @@ final class SearchResultsVC: UIViewController {
     private let searchResultsTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(SearchTabTableViewCell.self, forCellReuseIdentifier: SearchTabTableViewCell.identifier)
+        tableView.register(Cell.self, forCellReuseIdentifier: Cell.identifier)
         return tableView
     }()
     
@@ -124,7 +128,7 @@ extension SearchResultsVC: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: SearchTabTableViewCell.identifier, for: indexPath) as! SearchTabTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: Cell.identifier, for: indexPath) as! Cell
         cell.configure(with: viewModel.configureCell(with: indexPath.row))
         return cell
     }
