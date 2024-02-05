@@ -4,7 +4,7 @@
 [![Swift 5](https://img.shields.io/badge/Swift-5-orange.svg?style=flat)](https://developer.apple.com/swift/)
 
 - This is a game listing app similar to IMDb or Letterboxd but for video games.
-- This app has written with UIkit using IGDB API and uses MVVM architecture
+- This app has been written with `UIkit` using `IGDB API` and utilizes `MVVM architecture`
 
 ### Technologies and Libraries
 - MVVM
@@ -27,16 +27,25 @@
 
 ## How to run
 
-### Requirements
-
-1. Xcode 14.0+
-2. Cocoapods 1.9.0+
-
-### Getting started
+### Getting Started
 
 1. Clone this repository.
-2. go to the root folder of the project where Podfile is located and run `pod install`.
+   ```sh
+   git clone https://github.com/SonmezYigithan/GameListingApp-iOS.git
+   ```
+2. navigate to the root folder of the project where Podfile is located and run.
+   ```sh
+   pod install
+   ```
 3. Open the workspace file.
-4. Create IGDB credentials with following this link 
+
+### Create API Keys
+
+4. Create IGDB account by following this [link](https://api-docs.igdb.com/#account-creation)
+5. Generate access token with your Client ID and Client Secret [(more info)](https://api-docs.igdb.com/#authentication) (You may use this [Postman example](https://www.postman.com/descent-module-saganist-58166226/workspace/igdb-game-listing-app/request/25876325-35210f2c-9366-4693-8cf9-446287e09f3b?tab=params) for generate your access token)
 5. Create a new API-Keys.plist using API-Keys-Template.plist and fill empty key values.
+   ```
+    IGDB_CLIENT_ID = YOUR_CLIENT_ID
+    IGDB_AUTHORIZATION = YOUR_ACCESS_TOKEN
+   ```
 
