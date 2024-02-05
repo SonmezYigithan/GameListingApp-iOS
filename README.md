@@ -10,21 +10,15 @@
 
 ### Dark Mode
 
-<img src="Screenshots/UpcomingGamesDark.png" width=200 height=433> 
-<img src="Screenshots/GameDetailsDark.png" width=200 height=433>
-<img src="Screenshots/GameDetailsDark2.png" width=200 height=433>
-<img src="Screenshots/SearchDark.png" width=200 height=433>
-<img src="Screenshots/MyListsDark.png" width=200 height=433>
-<img src="Screenshots/ListDetailsDark.png" width=200 height=433>
-<img src="Screenshots/EditListDark.png" width=200 height=433>
-<img src="Screenshots/AddToList.png" width=200 height=433>
+<img src="Screenshots/UpcomingGamesDark.png" width=200 height=433> <img src="Screenshots/GameDetailsDark.png" width=200 height=433>
+<img src="Screenshots/GameDetailsDark2.png" width=200 height=433> <img src="Screenshots/SearchDark.png" width=200 height=433>
+<img src="Screenshots/MyListsDark.png" width=200 height=433> <img src="Screenshots/ListDetailsDark.png" width=200 height=433>
+<img src="Screenshots/EditListDark.png" width=200 height=433> <img src="Screenshots/AddToList.png" width=200 height=433>
 
 ### Light Mode
 
-<img src="Screenshots/UpcomingGamesLight.png" width=200 height=433>
-<img src="Screenshots/GameDetailsLight.png" width=200 height=433>
-<img src="Screenshots/GameDetailsLight2.png" width=200 height=433>
-<img src="Screenshots/EditListLight.png" width=200 height=433>
+<img src="Screenshots/UpcomingGamesLight.png" width=200 height=433> <img src="Screenshots/GameDetailsLight.png" width=200 height=433>
+<img src="Screenshots/GameDetailsLight2.png" width=200 height=433> <img src="Screenshots/EditListLight.png" width=200 height=433>
 
 ## How to run
 
