@@ -6,6 +6,11 @@
 - This is a game listing app similar to IMDb or Letterboxd but for video games.
 - This app has written with UIkit using IGDB API and uses MVVM architecture
 
+### Technologies and Libraries
+- MVVM
+- Alamofire
+- Kingfisher
+
 ## Screenshots
 
 ### Dark Mode
