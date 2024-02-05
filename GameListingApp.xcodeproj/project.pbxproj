@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C10AB5802B7130C900C4ADEE /* API-Keys-Template.plist in Resources */ = {isa = PBXBuildFile; fileRef = C10AB57F2B712F1000C4ADEE /* API-Keys-Template.plist */; };
+		C10AB5802B7130C900C4ADEE /* API-Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = C10AB57F2B712F1000C4ADEE /* API-Keys.plist */; };
+		C10AB5842B71446300C4ADEE /* API-Keys-Template.plist in Resources */ = {isa = PBXBuildFile; fileRef = C10AB5832B71446300C4ADEE /* API-Keys-Template.plist */; };
 		C116F8362B43491900E5C19E /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = C116F8352B43491900E5C19E /* Game.swift */; };
 		C116F83A2B434A3A00E5C19E /* CoverArtCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C116F8392B434A3A00E5C19E /* CoverArtCollectionViewCell.swift */; };
 		C14597382B444235003D0262 /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14597372B444235003D0262 /* APIKeys.swift */; };
@@ -70,7 +71,8 @@
 		2F21283FD84C6C55AF584A8F /* Pods_GameListingApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GameListingApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3104C20B98B5906B763E1008 /* Pods-GameListingApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GameListingApp.debug.xcconfig"; path = "Target Support Files/Pods-GameListingApp/Pods-GameListingApp.debug.xcconfig"; sourceTree = "<group>"; };
 		5F600FEF3073B23649FF9DE2 /* Pods-GameListingApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GameListingApp.release.xcconfig"; path = "Target Support Files/Pods-GameListingApp/Pods-GameListingApp.release.xcconfig"; sourceTree = "<group>"; };
-		C10AB57F2B712F1000C4ADEE /* API-Keys-Template.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "API-Keys-Template.plist"; sourceTree = "<group>"; };
+		C10AB57F2B712F1000C4ADEE /* API-Keys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "API-Keys.plist"; sourceTree = "<group>"; };
+		C10AB5832B71446300C4ADEE /* API-Keys-Template.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "API-Keys-Template.plist"; sourceTree = "<group>"; };
 		C116F8352B43491900E5C19E /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		C116F8392B434A3A00E5C19E /* CoverArtCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoverArtCollectionViewCell.swift; sourceTree = "<group>"; };
 		C14597372B444235003D0262 /* APIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeys.swift; sourceTree = "<group>"; };
@@ -167,7 +169,8 @@
 				C191410E2B41A2C7009BD99E /* Assets.xcassets */,
 				C19141102B41A2C7009BD99E /* LaunchScreen.storyboard */,
 				C19141132B41A2C7009BD99E /* Info.plist */,
-				C10AB57F2B712F1000C4ADEE /* API-Keys-Template.plist */,
+				C10AB57F2B712F1000C4ADEE /* API-Keys.plist */,
+				C10AB5832B71446300C4ADEE /* API-Keys-Template.plist */,
 			);
 			name = SupportingFiles;
 			sourceTree = "<group>";
@@ -526,7 +529,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C19141122B41A2C7009BD99E /* LaunchScreen.storyboard in Resources */,
-				C10AB5802B7130C900C4ADEE /* API-Keys-Template.plist in Resources */,
+				C10AB5842B71446300C4ADEE /* API-Keys-Template.plist in Resources */,
+				C10AB5802B7130C900C4ADEE /* API-Keys.plist in Resources */,
 				C191410F2B41A2C7009BD99E /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
