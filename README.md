@@ -5,6 +5,7 @@
 
 - This is a game listing app similar to IMDb or Letterboxd but for video games.
 - This app has been written with `UIkit` using [IGDB API](https://www.igdb.com/api) and utilizes `MVVM architecture`
+- All UI elements are created programmatically. No storyboard is used.
 
 ### Technologies and Libraries
 - MVVM
