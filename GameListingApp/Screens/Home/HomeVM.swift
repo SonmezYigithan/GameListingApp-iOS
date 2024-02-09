@@ -14,6 +14,7 @@ protocol HomeVMProtocol {
     
     func viewDidLoad()
     func fetchUpcomingGames()
+    func paginateUpcomingGames()
     func didSelectItem(at indexPath: IndexPath)
     func getGamesCount() -> Int
     func getGame(at index: IndexPath.Index) -> Game
@@ -23,6 +24,8 @@ protocol HomeVMProtocol {
 
 final class HomeVM {
     // MARK: - Properties
+    
+    var isPaginating = false
     
     internal weak var view: HomeVCProtocol?
     var games = [Game]()
@@ -36,6 +39,26 @@ final class HomeVM {
             case.failure(let error):
                 print(error)
             }
+        }
+    }
+    
+    func paginateUpcomingGames() {
+        if isPaginating {
+            return
+        }
+        
+        isPaginating = true
+        let paginationOffset = games.count
+        
+        GameDetailsManager.shared.fetchUpcomingGamesWith(paginationOffset: paginationOffset) { [weak self] result in
+            switch result {
+            case .success(let games):
+                self?.games.append(contentsOf: games)
+                self?.view?.refreshCollectionView()
+            case.failure(let error):
+                print(error)
+            }
+            self?.isPaginating = false
         }
     }
 }

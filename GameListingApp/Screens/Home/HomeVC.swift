@@ -73,12 +73,18 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return viewModel.getCellSize(viewWidth: view.frame.width)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.item == viewModel.getGamesCount() - 9{
+            viewModel.paginateUpcomingGames()
+        }
+    }
 }
 
 // MARK: - HomeVCProtocol
 
 extension HomeVC: HomeVCProtocol {
-    func prepareCollectionView(){
+    func prepareCollectionView() {
         view.addSubview(collectionView)
         collectionView.dataSource = self
         collectionView.delegate = self
