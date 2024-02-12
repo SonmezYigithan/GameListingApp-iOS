@@ -42,9 +42,9 @@
 
 ### Create API Keys
 
-1. Create IGDB account by following this [link](https://api-docs.igdb.com/#account-creation)
-2. Generate access token with your Client ID and Client Secret [(more info)](https://api-docs.igdb.com/#authentication) (You may use this [Postman example](https://www.postman.com/descent-module-saganist-58166226/workspace/igdb-game-listing-app/request/25876325-35210f2c-9366-4693-8cf9-446287e09f3b?tab=params) for generate your access token)
-3. Create a new API-Keys.plist using API-Keys-Template.plist and fill empty key values.
+1. Create an IGDB account by following this [link](https://api-docs.igdb.com/#account-creation)
+2. Generate access token with your Client ID and Client Secret [(more info)](https://api-docs.igdb.com/#authentication) (You may use this [Postman example](https://www.postman.com/descent-module-saganist-58166226/workspace/igdb-game-listing-app/request/25876325-35210f2c-9366-4693-8cf9-446287e09f3b?tab=params) to generate your access token)
+3. Create a new API-Keys.plist file using API-Keys-Template.plist and fill the empty key values.
    ```
     IGDB_CLIENT_ID = YOUR_CLIENT_ID
     IGDB_AUTHORIZATION = YOUR_ACCESS_TOKEN
