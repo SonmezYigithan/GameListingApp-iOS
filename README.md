@@ -12,6 +12,7 @@
 - MVVM
 - Alamofire
 - Kingfisher
+- CoreData
 
 ## Screenshots
 
