@@ -10,9 +10,9 @@
 
 ### Technologies and Libraries
 - MVVM
+- CoreData
 - Alamofire
 - Kingfisher
-- CoreData
 
 ## Screenshots
 
