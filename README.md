@@ -9,6 +9,7 @@
 - I used Adaptor Pattern to separate multiple CollectionViews
 
 ### Technologies and Libraries
+
 - MVVM
 - CoreData
 - Alamofire
