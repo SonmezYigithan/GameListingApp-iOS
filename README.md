@@ -15,6 +15,10 @@
 - Alamofire
 - Kingfisher
 
+## App Demo
+
+https://github.com/SonmezYigithan/GameListingApp-iOS/assets/30535277/70ada1d7-9d11-4ac6-9b34-e2785c55f33b
+
 ## Screenshots
 
 ### Dark Mode
