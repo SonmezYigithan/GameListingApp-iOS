@@ -16,6 +16,8 @@ protocol GameDetailsProtocol: AnyObject {
     func presentAddToListView(vc: AddToListVC)
     func configureScreenshotCollectionView(with screenshots: [ScreenshotUIModel])
     func configurePlatformsCollectionView(with screenshots: [PlatformsUIModel])
+    func showLoadingIndicator()
+    func hideLoadingIndicator()
 }
 
 struct GameDetailsArguments {
@@ -29,6 +31,7 @@ struct GameDetailsArguments {
 
 final class GameDetailsVC: UIViewController {
     private lazy var viewModel: GameDetailsVMProtocol = GameDetailsVM()
+    private var gameId: Int?
     
     // MARK: - Properties
     private let scrollView: UIScrollView = {
@@ -40,6 +43,13 @@ final class GameDetailsVC: UIViewController {
     
     private let contentView: UIView = {
         let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private let loadingIndicator: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView()
+        view.style = .large
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -87,11 +97,14 @@ final class GameDetailsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.view = self
+        if let gameId = gameId {
+            viewModel.fetchGameDetails(with: gameId)
+        }
         prepareView()
     }
     
     func configure(with gameId: Int){
-        viewModel.fetchGameDetails(with: gameId)
+        self.gameId = gameId
     }
     
     // MARK: Actions
@@ -178,6 +191,13 @@ final class GameDetailsVC: UIViewController {
             videoThumbnailButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
             videoThumbnailButton.heightAnchor.constraint(equalToConstant: 200)
         ])
+        
+        NSLayoutConstraint.activate([
+            loadingIndicator.topAnchor.constraint(equalTo: view.topAnchor),
+            loadingIndicator.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            loadingIndicator.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            loadingIndicator.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+        ])
     }
     
     // MARK: - Prepare View
@@ -194,6 +214,7 @@ final class GameDetailsVC: UIViewController {
     
     private func prepareContentView() {
         view.addSubview(scrollView)
+        view.addSubview(loadingIndicator)
         scrollView.addSubview(contentView)
         contentView.addSubview(header)
         contentView.addSubview(addToListButton)
@@ -208,6 +229,18 @@ final class GameDetailsVC: UIViewController {
 // MARK: - GameDetailsProtocol
 
 extension GameDetailsVC: GameDetailsProtocol {
+    func showLoadingIndicator() {
+        loadingIndicator.startAnimating()
+        scrollView.isHidden = true
+        contentView.isHidden = true
+    }
+    
+    func hideLoadingIndicator() {
+        loadingIndicator.stopAnimating()
+        scrollView.isHidden = false
+        contentView.isHidden = false
+    }
+    
     func configurePlatformsCollectionView(with screenshots: [PlatformsUIModel]) {
         whereToPlayView.configureScreenshotCollectionView(with: screenshots)
     }

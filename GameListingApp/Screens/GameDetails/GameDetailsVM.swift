@@ -77,6 +77,7 @@ extension GameDetailsVM: GameDetailsVMProtocol {
     }
     
     func fetchGameDetails(with gameId: Int) {
+        view?.showLoadingIndicator()
         GameDetailsManager.shared.searchGame(by: gameId) { [weak self] result in
             switch result {
             case.success(let game):
@@ -127,6 +128,7 @@ extension GameDetailsVM: GameDetailsVMProtocol {
                 )
                 
                 self?.view?.configureGameDetailUIElements(with: gameDetailsArguments)
+                self?.view?.hideLoadingIndicator()
             case .failure(let error):
                 print(error)
             }
