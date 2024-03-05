@@ -77,6 +77,14 @@ extension GameDetailsVM: GameDetailsVMProtocol {
     }
     
     func fetchGameDetails(with gameId: Int) {
+        if NetworkMonitor.shared.isConnected {
+            view?.hideNetworkErrorView()
+        } else {
+            print("Not connected to internet")
+            view?.showNetworkErrorView()
+            return
+        }
+        
         view?.showLoadingIndicator()
         GameDetailsManager.shared.searchGame(by: gameId) { [weak self] result in
             switch result {
@@ -135,7 +143,6 @@ extension GameDetailsVM: GameDetailsVMProtocol {
         }
         
         fetchScreenshots(of: gameId)
-        
     }
     
     func videoThumbnailButtonTapped() {

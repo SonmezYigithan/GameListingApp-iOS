@@ -31,6 +31,14 @@ final class HomeVM {
     var games = [Game]()
     
     func fetchUpcomingGames() {
+        if NetworkMonitor.shared.isConnected {
+            view?.hideNetworkErrorView()
+        } else {
+            print("Not connected to internet")
+            view?.showNetworkErrorView()
+            return
+        }
+        
         view?.showLoadingIndicator()
         GameDetailsManager.shared.fetchUpcomingGames { [weak self] result in
             switch result {
@@ -70,7 +78,6 @@ final class HomeVM {
 extension HomeVM: HomeVMProtocol {
     func viewDidLoad() {
         fetchUpcomingGames()
-        view?.prepareCollectionView()
     }
     
     func didSelectItem(at indexPath: IndexPath) {

@@ -18,6 +18,8 @@ protocol GameDetailsProtocol: AnyObject {
     func configurePlatformsCollectionView(with screenshots: [PlatformsUIModel])
     func showLoadingIndicator()
     func hideLoadingIndicator()
+    func showNetworkErrorView()
+    func hideNetworkErrorView()
 }
 
 struct GameDetailsArguments {
@@ -91,6 +93,13 @@ final class GameDetailsVC: UIViewController {
         button.imageView?.layer.cornerRadius = 20
         button.imageView?.layer.masksToBounds = true
         return button
+    }()
+    
+    private let networkErrorView: NetworkErrorView = {
+        let view = NetworkErrorView()
+        view.isHidden = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     // MARK: - Life Cycle
@@ -198,6 +207,13 @@ final class GameDetailsVC: UIViewController {
             loadingIndicator.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             loadingIndicator.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
+        
+        NSLayoutConstraint.activate([
+            networkErrorView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            networkErrorView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            networkErrorView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            networkErrorView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+        ])
     }
     
     // MARK: - Prepare View
@@ -215,6 +231,7 @@ final class GameDetailsVC: UIViewController {
     private func prepareContentView() {
         view.addSubview(scrollView)
         view.addSubview(loadingIndicator)
+        view.addSubview(networkErrorView)
         scrollView.addSubview(contentView)
         contentView.addSubview(header)
         contentView.addSubview(addToListButton)
@@ -232,13 +249,11 @@ extension GameDetailsVC: GameDetailsProtocol {
     func showLoadingIndicator() {
         loadingIndicator.startAnimating()
         scrollView.isHidden = true
-        contentView.isHidden = true
     }
     
     func hideLoadingIndicator() {
         loadingIndicator.stopAnimating()
         scrollView.isHidden = false
-        contentView.isHidden = false
     }
     
     func configurePlatformsCollectionView(with screenshots: [PlatformsUIModel]) {
@@ -281,6 +296,16 @@ extension GameDetailsVC: GameDetailsProtocol {
     func presentAddToListView(vc: AddToListVC) {
         let navVC = UINavigationController(rootViewController: vc)
         present(navVC, animated: true)
+    }
+    
+    func showNetworkErrorView() {
+        scrollView.isHidden = true
+        networkErrorView.isHidden = false
+    }
+    
+    func hideNetworkErrorView() {
+        scrollView.isHidden = false
+        networkErrorView.isHidden = true
     }
 }
 

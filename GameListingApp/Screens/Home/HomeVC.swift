@@ -9,10 +9,11 @@ import UIKit
 
 protocol HomeVCProtocol: AnyObject {
     func refreshCollectionView()
-    func prepareCollectionView()
     func navigateToGameDetails(with gameDetailsVC: GameDetailsVC)
     func showLoadingIndicator()
     func hideLoadingIndicator()
+    func showNetworkErrorView()
+    func hideNetworkErrorView()
 }
 
 final class HomeVC: UIViewController {
@@ -35,6 +36,13 @@ final class HomeVC: UIViewController {
         return view
     }()
     
+    private let networkErrorView: NetworkErrorView = {
+        let view = NetworkErrorView()
+        view.isHidden = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -42,8 +50,23 @@ final class HomeVC: UIViewController {
         view.backgroundColor = .systemBackground
         title = "Upcoming Games"
         
+        networkErrorView.delegate = self
+        
         viewModel.view = self
         viewModel.viewDidLoad()
+        
+        prepareView()
+    }
+    
+    private func prepareView() {
+        view.addSubview(collectionView)
+        view.addSubview(loadingIndicator)
+        view.addSubview(networkErrorView)
+        
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        
+        applyConstraints()
     }
     
     // MARK: - Constraints
@@ -63,6 +86,13 @@ final class HomeVC: UIViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 10),
             collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10)
+        ])
+        
+        NSLayoutConstraint.activate([
+            networkErrorView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            networkErrorView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            networkErrorView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            networkErrorView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
     }
 }
@@ -101,16 +131,6 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
 // MARK: - HomeVCProtocol
 
 extension HomeVC: HomeVCProtocol {
-    func prepareCollectionView() {
-        view.addSubview(collectionView)
-        view.addSubview(loadingIndicator)
-        
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        
-        applyConstraints()
-    }
-    
     func refreshCollectionView() {
         collectionView.reloadData()
     }
@@ -127,5 +147,21 @@ extension HomeVC: HomeVCProtocol {
     func hideLoadingIndicator() {
         loadingIndicator.stopAnimating()
         collectionView.isHidden = false
+    }
+    
+    func showNetworkErrorView() {
+        collectionView.isHidden = true
+        networkErrorView.isHidden = false
+    }
+    
+    func hideNetworkErrorView() {
+        collectionView.isHidden = false
+        networkErrorView.isHidden = true
+    }
+}
+
+extension HomeVC: NetworkErrorViewDelegate {
+    func retryNetworkRequest() {
+        viewModel.fetchUpcomingGames()
     }
 }
