@@ -37,11 +37,6 @@ final class ListDetailsVC: UIViewController {
         prepareView()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        print("view Appeared ListDetailsVC")
-    }
-    
     // MARK: - Methods
     
     func configure(with listEntity: ListEntity) {

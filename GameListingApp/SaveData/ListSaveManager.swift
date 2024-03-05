@@ -146,7 +146,7 @@ final class ListSaveManager {
     /// returns array of ListEntity where game with an gameId added to
     func getListsofGameAddedTo(gameId: Int) -> [ListEntity]? {
         guard let game = getGame(gameId: gameId) else {
-            print("CoreData: Game Could Not Found with Game Id")
+            print("CoreData: No game found in any list with given gameid")
             return nil
         }
         
