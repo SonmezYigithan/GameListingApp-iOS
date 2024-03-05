@@ -11,6 +11,8 @@ protocol HomeVCProtocol: AnyObject {
     func refreshCollectionView()
     func prepareCollectionView()
     func navigateToGameDetails(with gameDetailsVC: GameDetailsVC)
+    func showLoadingIndicator()
+    func hideLoadingIndicator()
 }
 
 final class HomeVC: UIViewController {
@@ -23,6 +25,14 @@ final class HomeVC: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(CoverArtCollectionViewCell.self, forCellWithReuseIdentifier: CoverArtCollectionViewCell.identifier)
         return collectionView
+    }()
+    
+    private let loadingIndicator: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView()
+        view.isHidden = true
+        view.style = .large
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     // MARK: - Life Cycle
@@ -40,6 +50,13 @@ final class HomeVC: UIViewController {
     
     func applyConstraints(){
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            loadingIndicator.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            loadingIndicator.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            loadingIndicator.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            loadingIndicator.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+        ])
         
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -86,8 +103,11 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
 extension HomeVC: HomeVCProtocol {
     func prepareCollectionView() {
         view.addSubview(collectionView)
+        view.addSubview(loadingIndicator)
+        
         collectionView.dataSource = self
         collectionView.delegate = self
+        
         applyConstraints()
     }
     
@@ -97,5 +117,15 @@ extension HomeVC: HomeVCProtocol {
     
     func navigateToGameDetails(with gameDetailsVC: GameDetailsVC) {
         navigationController?.pushViewController(gameDetailsVC, animated: true)
+    }
+    
+    func showLoadingIndicator() {
+        loadingIndicator.startAnimating()
+        collectionView.isHidden = true
+    }
+    
+    func hideLoadingIndicator() {
+        loadingIndicator.stopAnimating()
+        collectionView.isHidden = false
     }
 }

@@ -31,11 +31,13 @@ final class HomeVM {
     var games = [Game]()
     
     func fetchUpcomingGames() {
+        view?.showLoadingIndicator()
         GameDetailsManager.shared.fetchUpcomingGames { [weak self] result in
             switch result {
             case .success(let games):
                 self?.games.append(contentsOf: games)
                 self?.view?.refreshCollectionView()
+                self?.view?.hideLoadingIndicator()
             case.failure(let error):
                 print(error)
             }
