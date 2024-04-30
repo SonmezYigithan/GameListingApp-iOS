@@ -3,7 +3,7 @@
 [![Platform](https://img.shields.io/cocoapods/p/DLAutoSlidePageViewController.svg?style=flat)]()
 [![Swift 5](https://img.shields.io/badge/Swift-5-orange.svg?style=flat)](https://developer.apple.com/swift/)
 
-- This is a game listing app inspired by IMDb or Letterboxd.
+- This is a game listing app inspired by IMDb and Letterboxd.
 - This app has been written with `UIkit` using [IGDB API](https://www.igdb.com/api) and utilizes `MVVM architecture`
 - All UI elements are created programmatically. No storyboard is used.
 - I used Adaptor Pattern to separate multiple CollectionViews
