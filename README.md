@@ -7,6 +7,7 @@
 - This app has been written with `UIkit` using [IGDB API](https://www.igdb.com/api) and utilizes `MVVM architecture`
 - All UI elements are created programmatically. No storyboard is used.
 - I used Adaptor Pattern to separate multiple CollectionViews
+- iOS Version +12.0
 
 ### Technologies and Libraries
 
