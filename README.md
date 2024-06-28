@@ -3,7 +3,8 @@
 [![Platform](https://img.shields.io/cocoapods/p/DLAutoSlidePageViewController.svg?style=flat)]()
 [![Swift 5](https://img.shields.io/badge/Swift-5-orange.svg?style=flat)](https://developer.apple.com/swift/)
 
-## Check out the released app on App Store: https://apps.apple.com/tr/app/game-ludens-backlog-manager/id6502086355
+## Check out the released app on App Store:
+https://apps.apple.com/tr/app/game-ludens-backlog-manager/id6502086355
 
 - This is a game listing app inspired by IMDb and Letterboxd.
 - This app has been written with `UIkit` using [IGDB API](https://www.igdb.com/api) and utilizes `MVVM architecture`
